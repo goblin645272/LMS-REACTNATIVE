@@ -1,7 +1,7 @@
 import { VStack, Input, Button, HStack, Toast } from "native-base";
 import React, { useState, useEffect } from "react";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   KeyboardAvoidingView,
   Keyboard,
@@ -18,22 +18,20 @@ const index = () => {
   const styles = StyleSheet.create(css);
   const [change, setChange] = useState(false);
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
-  const [data, setData] = useState({});
+  const data = useSelector((state) => state.auth.profile);
   const [state, setState] = useState({
     telegram_id: "",
     gst_number: "",
     tradingview_id: "",
   });
+  console.log(data);
   const dispatch = useDispatch();
   useEffect(() => {
     const getData = async () => {
-      const res = await getProfile(dispatch);
-
-      setData(res);
+      await getProfile(dispatch);
     };
     getData();
-  }, [dispatch, setData]);
-
+  }, [dispatch]);
   useEffect(() => {
     if (
       (state.gst_number !== "" && state.gst_number.length === 15) ||
@@ -81,11 +79,7 @@ const index = () => {
         : null),
       ...(state.telegram_id !== "" ? { telegram_id: state.telegram_id } : null),
     };
-    dispatch(
-      updateProfile(req, setData, () =>
-        setState({ telegram_id: "", gst_number: "", tradingview_id: "" })
-      )
-    );
+    dispatch(updateProfile(req));
   };
   return (
     <ScrollView scrollEnabled={!isKeyboardVisible} style={styles.scroll}>

@@ -15,10 +15,11 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { ScrollView } from "react-native-gesture-handler";
-
+import { useDispatch } from "react-redux";
 import css from "./styles";
 import { countryCode as countryList } from "../../assets/country";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { generateVerifyOTP, signUp, emailVerifyOTP } from "../../action/auth";
 const styles = StyleSheet.create(css);
 const statesIndia = [
   "Andaman and Nicobar Island",
@@ -62,8 +63,10 @@ const statesIndia = [
 ];
 
 const index = ({ navigation }) => {
+  const dispatch = useDispatch();
   const [keyboard, setKeyboard] = useState(false);
-  // const [otp, setOtp] = useState ('')
+  const [genOTP, setGenOTP] = useState(true);
+  const [otp, setOtp] = useState("");
   const [data, setData] = useState({
     first_name: "",
     last_name: "",
@@ -80,6 +83,7 @@ const index = ({ navigation }) => {
     password: false,
     phone_number: false,
     state: false,
+    otp: false,
   });
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
@@ -95,6 +99,30 @@ const index = ({ navigation }) => {
     };
   }, []);
   console.log(data);
+
+  const handleOTPSubmit = () => {
+    if (otp === "") {
+      setErrors((prev) => {
+        return { ...prev, otp: true };
+      });
+      return Toast.show({ title: "OTP cannot be empty" });
+    } else {
+    }
+    dispatch(
+      emailVerifyOTP({ otp: otp }, () => {
+        dispatch(
+          signUp({
+            first_name: data.first_name,
+            last_name: data.last_name,
+            email_id: data.email_id,
+            password: data.password,
+            phone_number: `${data.countryCode}-${data.phone_number}`,
+            state: data.state,
+          })
+        );
+      })
+    );
+  };
 
   const emailRegex =
     /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -153,16 +181,11 @@ const index = ({ navigation }) => {
         title: "Please Choose a State",
       });
     } else {
-      const sub = {
-      first_name: data.first_name,
-      last_name: data.last_name,
-      email_id: data.email_id,
-      password: data.password,
-      phone_number: `${data.countryCode}-${data.phone_number}`,
-      state: data.state,
-      }
-      console.log(sub)
-      // Enter Submission Code Here
+      dispatch(
+        generateVerifyOTP({ email: data.email_id }, () => {
+          setGenOTP(false);
+        })
+      );
     }
   };
 
@@ -179,190 +202,242 @@ const index = ({ navigation }) => {
               style={styles.logo}
             />
             <View style={styles.login_box}>
-              <Text style={styles.header}>Signup</Text>
+              <Text style={styles.header}>
+                {genOTP ? "Signup" : "Verify OTP"}
+              </Text>
               <VStack
                 space={3}
                 w="100%"
                 alignItems="center"
                 justifyContent="center"
               >
-                <FormControl style={styles.formControl}>
-                  <Input
-                    value={data.first_name}
-                    onChangeText={(text) => {
-                      setData((prev) => {
-                        return { ...prev, first_name: text };
-                      });
-                      setErrors((prev) => {
-                        return { ...prev, first_name: false };
-                      });
-                    }}
-                    variant="filled"
-                    isFullWidth={true}
-                    placeholder="First Name"
-                    style={errors.first_name ? styles.inputError : styles.input}
-                  />
-                </FormControl>
-                <FormControl style={styles.formControl}>
-                  <Input
-                    value={data.last_name}
-                    style={errors.last_name ? styles.inputError : styles.input}
-                    onChangeText={(text) => {
-                      setData((prev) => {
-                        return { ...prev, last_name: text };
-                      });
-                      setErrors((prev) => {
-                        return { ...prev, last_name: false };
-                      });
-                    }}
-                    variant="filled"
-                    isFullWidth={true}
-                    placeholder="Last Name"
-                  />
-                </FormControl>
-                <FormControl style={styles.formControl}>
-                  <Input
-                    variant="filled"
-                    isFullWidth={true}
-                    placeholder="Email"
-                    style={errors.email_id ? styles.inputError : styles.input}
-                    onChangeText={(text) => {
-                      setData((prev) => {
-                        return { ...prev, email_id: text };
-                      });
-                      setErrors((prev) => {
-                        return { ...prev, email_id: false };
-                      });
-                    }}
-                  />
-                </FormControl>
-                <FormControl style={styles.formControl}>
-                  <Input
-                    value={data.password}
-                    style={errors.password ? styles.inputError : styles.input}
-                    onChangeText={(text) => {
-                      setData((prev) => {
-                        return { ...prev, password: text };
-                      });
-                      setErrors((prev) => {
-                        return { ...prev, password: false };
-                      });
-                    }}
-                    variant="filled"
-                    isFullWidth={true}
-                    placeholder="Password"
-                    type="password"
-                  />
-                </FormControl>
-                <FormControl
-                  style={
-                    errors.countryCode
-                      ? {
-                          backgroundColor: "transparent",
-                          borderWidth: 1,
-                          borderColor: "#3F51B5",
-                          borderRadius: 4,
-                          width: wp("70%"),
-                        }
-                      : {
-                          backgroundColor: "transparent",
-                          borderWidth: 1,
-                          borderColor: "#3F51B5",
-                          borderRadius: 4,
-                          width: wp("70%"),
-                        }
-                  }
-                >
-                  <Select
-                    minWidth={wp("70%")}
-                    placeholder="Country Code"
-                    variant="unstyled"
-                    onValueChange={(value) => {
-                      setData((prev) => {
-                        return { ...prev, countryCode: value };
-                      });
-                      setErrors((prev) => {
-                        return { ...prev, countryCode: false };
-                      });
-                    }}
-                    selectedValue={data.countryCode}
-                  >
-                    {countryList.map((item, index) => {
-                      return (
-                        <Select.Item
-                          key={index * 0.357}
-                          label={`${item.name} ${item.dial_code}`}
-                          value={item.dial_code}
-                        />
-                      );
-                    })}
-                  </Select>
-                </FormControl>
-                <FormControl style={styles.formControl}>
-                  <Input
+                {genOTP && (
+                  <FormControl style={styles.formControl}>
+                    <Input
+                      value={data.first_name}
+                      onChangeText={(text) => {
+                        setData((prev) => {
+                          return { ...prev, first_name: text };
+                        });
+                        setErrors((prev) => {
+                          return { ...prev, first_name: false };
+                        });
+                      }}
+                      variant="filled"
+                      isFullWidth={true}
+                      placeholder="First Name"
+                      style={
+                        errors.first_name ? styles.inputError : styles.input
+                      }
+                    />
+                  </FormControl>
+                )}
+                {genOTP && (
+                  <FormControl style={styles.formControl}>
+                    <Input
+                      value={data.last_name}
+                      style={
+                        errors.last_name ? styles.inputError : styles.input
+                      }
+                      onChangeText={(text) => {
+                        setData((prev) => {
+                          return { ...prev, last_name: text };
+                        });
+                        setErrors((prev) => {
+                          return { ...prev, last_name: false };
+                        });
+                      }}
+                      variant="filled"
+                      isFullWidth={true}
+                      placeholder="Last Name"
+                    />
+                  </FormControl>
+                )}
+                {!genOTP && (
+                  <FormControl style={styles.formControl}>
+                    <Input
+                      value={otp}
+                      style={errors.otp ? styles.inputError : styles.input}
+                      onChangeText={(text) => {
+                        setOtp(text);
+                        setErrors((prev) => {
+                          return { ...prev, otp: false };
+                        });
+                      }}
+                      variant="filled"
+                      isFullWidth={true}
+                      placeholder="OTP"
+                    />
+                  </FormControl>
+                )}
+                {genOTP && (
+                  <FormControl style={styles.formControl}>
+                    <Input
+                      variant="filled"
+                      isFullWidth={true}
+                      placeholder="Email"
+                      style={errors.email_id ? styles.inputError : styles.input}
+                      onChangeText={(text) => {
+                        setData((prev) => {
+                          return { ...prev, email_id: text };
+                        });
+                        setErrors((prev) => {
+                          return { ...prev, email_id: false };
+                        });
+                      }}
+                    />
+                  </FormControl>
+                )}
+                {genOTP && (
+                  <FormControl style={styles.formControl}>
+                    <Input
+                      value={data.password}
+                      style={errors.password ? styles.inputError : styles.input}
+                      onChangeText={(text) => {
+                        setData((prev) => {
+                          return { ...prev, password: text };
+                        });
+                        setErrors((prev) => {
+                          return { ...prev, password: false };
+                        });
+                      }}
+                      variant="filled"
+                      isFullWidth={true}
+                      placeholder="Password"
+                      type="password"
+                    />
+                  </FormControl>
+                )}
+                {genOTP && (
+                  <FormControl
                     style={
-                      errors.phone_number ? styles.inputError : styles.input
+                      errors.countryCode
+                        ? {
+                            backgroundColor: "transparent",
+                            borderWidth: 1,
+                            borderColor: "#3F51B5",
+                            borderRadius: 4,
+                            width: wp("70%"),
+                          }
+                        : {
+                            backgroundColor: "transparent",
+                            borderWidth: 1,
+                            borderColor: "#3F51B5",
+                            borderRadius: 4,
+                            width: wp("70%"),
+                          }
                     }
-                    onChangeText={(text) => {
-                      setData((prev) => {
-                        return { ...prev, phone_number: text };
-                      });
-                      setErrors((prev) => {
-                        return { ...prev, phone_number: false };
-                      });
-                    }}
-                    placeholder="Phone Number"
-                  />
-                </FormControl>
-                <FormControl
-                  style={
-                    errors.state
-                      ? {
-                          backgroundColor: "transparent",
-                          borderWidth: 1,
-                          borderColor: "#3F51B5",
-                          borderRadius: 4,
-                          width: wp("70%"),
-                        }
-                      : {
-                          backgroundColor: "transparent",
-                          borderWidth: 1,
-                          borderColor: "#3F51B5",
-                          borderRadius: 4,
-                          width: wp("70%"),
-                        }
-                  }
-                >
-                  <Select
-                    minWidth={wp("70%")}
-                    placeholder="State"
-                    variant="unstyled"
-                    onValueChange={(value) => {
-                      setData((prev) => {
-                        return { ...prev, state: value };
-                      });
-                      setErrors((prev) => {
-                        return { ...prev, state: false };
-                      });
-                    }}
-                    selectedValue={data.state}
                   >
-                    {statesIndia.map((item, index) => {
-                      return (
-                        <Select.Item
-                          key={index * 0.357}
-                          label={item}
-                          value={item}
-                        />
-                      );
-                    })}
-                  </Select>
-                </FormControl>
+                    <Select
+                      minWidth={wp("70%")}
+                      placeholder="Country Code"
+                      variant="unstyled"
+                      onValueChange={(value) => {
+                        setData((prev) => {
+                          return { ...prev, countryCode: value };
+                        });
+                        setErrors((prev) => {
+                          return { ...prev, countryCode: false };
+                        });
+                      }}
+                      selectedValue={data.countryCode}
+                    >
+                      {countryList.map((item, index) => {
+                        return (
+                          <Select.Item
+                            key={index * 0.357}
+                            label={`${item.name} ${item.dial_code}`}
+                            value={item.dial_code}
+                          />
+                        );
+                      })}
+                    </Select>
+                  </FormControl>
+                )}
+                {genOTP && (
+                  <FormControl style={styles.formControl}>
+                    <Input
+                      style={
+                        errors.phone_number ? styles.inputError : styles.input
+                      }
+                      onChangeText={(text) => {
+                        setData((prev) => {
+                          return { ...prev, phone_number: text };
+                        });
+                        setErrors((prev) => {
+                          return { ...prev, phone_number: false };
+                        });
+                      }}
+                      placeholder="Phone Number"
+                    />
+                  </FormControl>
+                )}
+                {genOTP && (
+                  <FormControl
+                    style={
+                      errors.state
+                        ? {
+                            backgroundColor: "transparent",
+                            borderWidth: 1,
+                            borderColor: "#3F51B5",
+                            borderRadius: 4,
+                            width: wp("70%"),
+                          }
+                        : {
+                            backgroundColor: "transparent",
+                            borderWidth: 1,
+                            borderColor: "#3F51B5",
+                            borderRadius: 4,
+                            width: wp("70%"),
+                          }
+                    }
+                  >
+                    <Select
+                      minWidth={wp("70%")}
+                      placeholder="State"
+                      variant="unstyled"
+                      onValueChange={(value) => {
+                        setData((prev) => {
+                          return { ...prev, state: value };
+                        });
+                        setErrors((prev) => {
+                          return { ...prev, state: false };
+                        });
+                      }}
+                      selectedValue={data.state}
+                    >
+                      {statesIndia.map((item, index) => {
+                        return (
+                          <Select.Item
+                            key={index * 0.357}
+                            label={item}
+                            value={item}
+                          />
+                        );
+                      })}
+                    </Select>
+                  </FormControl>
+                )}
 
-                {/* <Button style={styles.button} onPress={() => { if(genOTP){handleSubmit()} else{handleOTPSubmit()}
-              }}>
-                  <Text style={styles.button_text}>{genOTP ? 'Generate OTP': 'Verify' }</Text>
-                </Button> */}
+                {genOTP ? (
+                  <Button
+                    style={styles.button}
+                    onPress={() => {
+                      handleSubmit();
+                    }}
+                  >
+                    <Text style={styles.button_text}>Generate OTP</Text>
+                  </Button>
+                ) : (
+                  <Button
+                    style={styles.button}
+                    onPress={() => {
+                      handleOTPSubmit();
+                    }}
+                  >
+                    <Text style={styles.button_text}>Verify OTP</Text>
+                  </Button>
+                )}
               </VStack>
               <Text
                 style={styles.register}

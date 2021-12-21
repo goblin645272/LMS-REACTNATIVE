@@ -7,7 +7,7 @@ const css = {
     width: "100%",
   },
   label: {
-    fontSize: 35,
+    fontSize: 20,
     color: "#022460",
   },
   button: {

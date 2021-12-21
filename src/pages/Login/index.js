@@ -77,7 +77,7 @@ const index = ({ navigation }) => {
     dispatch({ type: "LOAD" });
     dispatch(signIn(data));
   };
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(false);
   return (
     <SafeAreaView>
       <ScrollView style={styles.scroll}>
@@ -146,7 +146,7 @@ const index = ({ navigation }) => {
                             borderWidth: 1,
                           }}
                         >
-                          {show ? (
+                          {!show ? (
                             <FontAwesomeIcon
                               icon={faEye}
                               style={{

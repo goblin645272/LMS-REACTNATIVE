@@ -18,7 +18,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import LinearGradient from 'react-native-linear-gradient';;
+import LinearGradient from 'react-native-linear-gradient';
 import css from "./styles";
 import { countryCode } from "../../assets/country";
 import { ScrollView } from "react-native-gesture-handler";

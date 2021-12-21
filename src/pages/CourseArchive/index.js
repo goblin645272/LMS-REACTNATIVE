@@ -1,122 +1,35 @@
-import React, { useState, useRef } from "react";
-import { StyleSheet, Text, View, Dimensions } from "react-native";
-import { Accordion, VStack, HStack } from "native-base";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, Text, View, Dimensions, Linking } from "react-native";
+import { Accordion, VStack, HStack, Toast } from "native-base";
 import moment from "moment";
-import { ScrollView } from "react-native-gesture-handler";
+import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import { Vimeo } from "react-native-vimeo-iframe";
-import LinearGradient from 'react-native-linear-gradient';;
-
+import LinearGradient from 'react-native-linear-gradient';
+import { getEvents } from "../../action/events";
+import { useDispatch, useSelector } from "react-redux";
 import css from "./styles";
 const styles = StyleSheet.create(css);
 const deviceWindow = Dimensions.get("window");
 
-const upcomingData = [
-  {
-    _id: "6198c33339668598789a8f49",
-    courseId: "612ccd6b9f192c86faa26f49",
-    sessionType: "live",
-    from: "2021-12-14T19:00:00.000Z",
-    to: "2021-12-14T20:30:00.000Z",
-    title: "Skill UP Session",
-    __v: 0,
-  },
-  {
-    _id: "6194d73139668598789a7f13",
-    courseId: "612ccd3c9f192c86faa26f48",
-    sessionType: "qna",
-    from: "2021-12-15T19:00:00.000Z",
-    to: "2021-12-15T20:00:00.000Z",
-    title: "Q&A Session",
-    __v: 0,
-  },
-  {
-    _id: "6198f0dc39668598789a901b",
-    courseId: "612ccd6b9f192c86faa26f49",
-    sessionType: "live",
-    from: "2021-12-16T19:00:00.000Z",
-    to: "2021-12-16T20:30:00.000Z",
-    title: "Skill UP Session",
-    __v: 0,
-  },
-  {
-    _id: "6199dde839668598789a91f8",
-    courseId: "612ccd3c9f192c86faa26f48",
-    sessionType: "qna",
-    from: "2021-12-20T19:00:00.000Z",
-    to: "2021-12-20T20:00:00.000Z",
-    title: "Q&A Session",
-    __v: 0,
-  },
-  {
-    _id: "619a046239668598789a9303",
-    courseId: "612ccd6b9f192c86faa26f49",
-    sessionType: "live",
-    from: "2021-12-21T19:00:00.000Z",
-    to: "2021-12-21T20:30:00.000Z",
-    title: "Skill UP Session",
-    __v: 0,
-  },
-  {
-    _id: "619a6ece39668598789a9484",
-    courseId: "612ccd6b9f192c86faa26f49",
-    sessionType: "live",
-    from: "2021-12-23T19:00:00.000Z",
-    to: "2021-12-23T20:30:00.000Z",
-    title: "Skill UP Session",
-    __v: 0,
-  },
-  {
-    _id: "619a6f0239668598789a948a",
-    courseId: "612ccd6b9f192c86faa26f49",
-    sessionType: "live",
-    from: "2021-12-29T19:00:00.000Z",
-    to: "2021-12-29T20:30:00.000Z",
-    title: "Skill UP Session",
-    __v: 0,
-  },
-];
+function addHoursToDate(date, hours, minutes) {
+  const dat = new Date(date);
+  dat.setMinutes(dat.getMinutes() + minutes);
+  dat.setHours(dat.getHours() + hours);
+  return dat;
+}
 
-const pastData = [
-  {
-    title: "Skill Up Session 21st Oct 2021",
-    link: "hekki",
-    date: "2021-10-21",
-    desc: "Educational Trading Ideas Discussed : Escorts , Heromotocorp , Hdfcbank, Ubl,Tcs ",
-  },
-  {
-    title: "Skill Up Session 27st Oct 2021",
-    link: "https://vimeo.com/639228272",
-    date: "2021-10-27",
-    desc: "Educational Ideas : Glenmark , Nestleind, Ambujacem, Bergerpaints, Gujratgas",
-  },
-  {
-    title: "Skill Up Session 28st Oct 2021",
-    link: "https://vimeo.com/640058404",
-    date: "2021-10-28",
-    desc: "Educational Trading Ideas :NIFTY , BANKNIFTY , EXIDEIND , ITC",
-  },
-  {
-    title: "Skill Up Session 2nd Nov 2021",
-    link: "https://vimeo.com/641623967",
-    date: "2021-11-02",
-    desc: "Educational Trading Ideas : pneumonoultramicroscopicsilicovolcanoconiosis",
-  },
-  {
-    title: "Skill Up Session 9th Nov 2021",
-    link: "https://vimeo.com/644032400",
-    date: "2021-11-09",
-    desc: "Educational Trading Ideas : Colpal ,Colgate ,Hinduilvr,Tcs ",
-  },
-  {
-    title: "Skill Up Session 11th Nov 2021",
-    link: "https://vimeo.com/644888694",
-    date: "2021-11-11",
-    desc: "Educational Trading Ideas: Jindalsteel , lt , mcdowelln , cholafin , coforce , mothersonsumi",
-  },
-];
-
-const index = () => {
+const index = ({ route, navigation }) => {
   const [past, setPast] = useState(false);
+  const events = useSelector((state) => state.events);
+  const [loading, setLoading] = useState(true);
+  const params = route.params;
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const getData = async () => {
+      await getEvents(dispatch);
+    };
+    getData();
+  }, [dispatch]);
 
   return (
     <ScrollView>
@@ -131,14 +44,14 @@ const index = () => {
               onPress={() => setPast(false)}
               style={!past ? styles.sliderActive : styles.slider}
             >
-              Upcoming{" "}
+              Upcoming
             </Text>
 
             <Text
               onPress={() => setPast(true)}
               style={past ? styles.sliderActive : styles.slider}
             >
-              Past{" "}
+              Past
             </Text>
           </HStack>
         </VStack>
@@ -151,25 +64,55 @@ const index = () => {
             }}
             space={3}
           >
-            {upcomingData.map((data, index) => {
-              return (
-                <LinearGradient
-                  key={index}
-                  colors={["#1963D5", "#77DDEC"]}
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 0.5, y: 1.5 }}
-                  style={styles.content}
-                >
-                  <Text style={styles.contentTextDate}>
-                    {`${moment(data.from).format("dddd").slice(0, 3)}, ${moment(
-                      data.from
-                    ).format("Do MMMM")}`}
-                  </Text>
-                  <Text style={styles.contentTextCourse}>{data.title}</Text>
-                  <Text style={styles.contentTextLink}>Click here to join</Text>
-                </LinearGradient>
-              );
-            })}
+            {events
+              .filter((item) => item.courseId === route.params.id)
+              .map((data, index) => {
+                return (
+                  <TouchableOpacity
+                    key={index}
+                    onPress={() => {
+                      const diff =
+                        new Date(data.from).getTime() -
+                        new Date().getTime() -
+                        19800000;
+                      if (diff < 900000) {
+                        Linking.openURL(data.zoomLink);
+                      } else {
+                        return Toast.show({
+                          title:
+                            "You can join this session 15 minutes before the session starts .",
+                          isClosable: true,
+                        });
+                      }
+                    }}
+                  >
+                    <LinearGradient
+                      colors={["#1963D5", "#77DDEC"]}
+                      start={{ x: 0, y: 0 }}
+                      end={{ x: 0.5, y: 1.5 }}
+                      style={styles.content}
+                    >
+                      <Text style={styles.contentTextDate}>
+                        {`${moment(data.from.slice(0, 10))
+                          .format("dddd")
+                          .slice(0, 3)}, ${moment(
+                          data.from.slice(0, 10)
+                        ).format("Do MMMM")}`}
+                      </Text>
+                      <Text style={styles.contentTextCourse}>
+                        {`${data.from.slice(11, 16)} - ${data.to.slice(
+                          11,
+                          16
+                        )}`}
+                      </Text>
+                      <Text style={styles.contentTextCourse}>{data.title}</Text>
+                      <Text style={styles.contentTextLink}>
+                        Click here to join
+                      </Text>
+                    </LinearGradient>
+                  </TouchableOpacity>
+                );
+              })}
           </VStack>
         </View>
       ) : (
@@ -188,7 +131,7 @@ const index = () => {
             }}
             space={3}
           >
-            {pastData.map((data, index2) => {
+            {params?.archives?.map((data, index2) => {
               return (
                 <Accordion key={index2}>
                   <Accordion.Item>
@@ -221,12 +164,13 @@ const index = () => {
                       >
                         <Text
                           style={{
-                            font: deviceWindow.width * 0.08,
+                            fontSize: deviceWindow.height * 0.02,
+                            marginBottom: deviceWindow.height * 0.03,
                             color: "#000260",
                             fontFamily: "Barlow_500Medium",
                           }}
                         >
-                          {data.title}
+                          {data.desc}
                         </Text>
                         <Vimeo
                           videoId={data.link.slice(-9)} //Change ID here
@@ -253,19 +197,6 @@ const index = () => {
               );
             })}
           </VStack>
-
-          {/* <Vimeo
-            videoId={"605513128"} //Change ID here
-            onReady={() => console.log("Video is ready")}
-            onPlay={() => console.log("Video is playing")}
-            onPlayProgress={(data) => console.log("Video progress data:", data)}
-            onFinish={() => console.log("Video is finished")}
-            loop={false}
-            autoPlay={false}
-            controls={true}
-            speed={false}
-            time={"0m0s"}
-          /> */}
         </View>
       )}
     </ScrollView>

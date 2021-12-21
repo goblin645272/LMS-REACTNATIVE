@@ -7,10 +7,14 @@ Promise.all(
     if (await AsyncStorage.getItem("token")) {
       req.headers.Authorization = await AsyncStorage.getItem("token");
     }
-
     return req;
   })
 );
 
 export const getcourses = () => API.get("/");
 export const getcoursebyid = (formdata) => API.get("/" + formdata);
+export const getsingleboughtcourse = (id) =>
+  API.get("/getUserSingleCourseInfo/" + id);
+export const changewatchstatus = (courseId, videoId) =>
+  API.get(`/${courseId}/${videoId}`);
+export const getvideodetails = (id) => API.get(`/vdoCipher/${id}`);

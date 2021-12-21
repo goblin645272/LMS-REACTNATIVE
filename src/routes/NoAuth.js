@@ -8,8 +8,8 @@ import TnC from "../pages/TnC";
 import RefundPolicy from "../pages/RefundPolicy";
 import Privacy from "../pages/Privacy";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import AntDesign from "react-native-vector-icons/AntDesign";
 
+import AntDesign from "react-native-vector-icons/AntDesign";
 const index = ({ navigation }) => {
   const Stack = createNativeStackNavigator();
   return (

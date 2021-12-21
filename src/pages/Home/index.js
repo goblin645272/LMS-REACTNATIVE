@@ -12,7 +12,7 @@ import {
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import { getCourses } from "../../action/courses";
 import { useDispatch, useSelector } from "react-redux";
-import LinearGradient from 'react-native-linear-gradient';;
+import LinearGradient from 'react-native-linear-gradient';
 import home1 from "../../assets/images/home-banner1.jpg";
 import home2 from "../../assets/images/home-banner2.jpg";
 import css from "./styles";
@@ -80,6 +80,7 @@ const index = ({ navigation }) => {
         <LinearGradient
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 2 }}
+          c
           colors={["#ffffff", "#6fbef9"]}
           style={styles.background}
           resizeMode="cover"
@@ -100,12 +101,28 @@ const index = ({ navigation }) => {
           <ScrollView horizontal={true} style={styles.horizontal}>
             {courses.map((obj) => {
               return (
-                <View key={obj._id} style={styles.courseCard}>
+                <TouchableOpacity
+                  key={obj._id}
+                  style={styles.courseCard}
+                  onPress={() =>
+                    navigation.navigate("Course Internal", { id: obj._id })
+                  }
+                >
                   <Image style={styles.courseImage} source={images[obj._id]} />
                   <View style={styles.courseContainer}>
                     <Text style={styles.courseName}>{obj.name} </Text>
                   </View>
-                  <HStack style={styles.courseButtons}>
+                  <View
+                    style={{
+                      alignItems: "center",
+                      backgroundColor: "white",
+                      paddingLeft: 10,
+                      paddingRight: 10,
+                      borderBottomLeftRadius: 20,
+                      borderBottomRightRadius: 20,
+                      height: deviceWindow.height * 0.06,
+                    }}
+                  >
                     <Button
                       style={styles.courseButton}
                       onPress={() =>
@@ -114,45 +131,29 @@ const index = ({ navigation }) => {
                     >
                       <Text style={styles.courseButtonText}>Enroll</Text>
                     </Button>
-                    <Button style={styles.courseButton}>
-                      <Text style={styles.courseButtonText}>Share</Text>
-                    </Button>
-                  </HStack>
-                </View>
+                  </View>
+                </TouchableOpacity>
               );
             })}
           </ScrollView>
           <Text style={styles.header}>Your Courses</Text>
           <ScrollView horizontal={true} style={styles.horizontal}>
-            {bought.length > 0
-              ? bought.map((obj) => {
-                  return (
-                    <TouchableOpacity
-                      style={styles.courseCard}
-                      key={obj._id}
-                      onPress={() => {
-                        navigation.navigate("Course Details");
-                      }}
-                    >
-                      <Image
-                        style={styles.courseImage}
-                        source={images[obj._id]}
-                      />
-                      <View style={styles.courseContainer}>
-                        <Text style={styles.courseName}>{obj.name}</Text>
-                      </View>
-                      <HStack style={styles.courseButtons}>
-                        <Button style={styles.courseButton}>
-                          <Text style={styles.courseButtonText}>Enroll</Text>
-                        </Button>
-                        <Button style={styles.courseButton}>
-                          <Text style={styles.courseButtonText}>Share</Text>
-                        </Button>
-                      </HStack>
-                    </TouchableOpacity>
-                  );
-                })
-              : null}
+            {bought?.map((obj) => {
+              return (
+                <TouchableOpacity
+                  style={styles.courseCard}
+                  key={obj._id}
+                  onPress={() => {
+                    navigation.navigate("Course Details", { id: obj._id });
+                  }}
+                >
+                  <Image style={styles.courseImage} source={images[obj._id]} />
+                  <View style={styles.courseContainerRound}>
+                    <Text style={styles.courseName}>{obj.name}</Text>
+                  </View>
+                </TouchableOpacity>
+              );
+            })}
           </ScrollView>
         </LinearGradient>
       </KeyboardAvoidingView>

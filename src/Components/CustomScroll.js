@@ -10,6 +10,7 @@ const CustomScroll = ({
   foregroundColor,
   textsize,
   contentColor,
+  contentBackground,
 }) => {
   const [completeScrollBarHeight, setCompleteScrollBarHeight] = useState(1);
   const [visibleScrollBarHeight, setVisibleScrollBarHeight] = useState(0);
@@ -41,6 +42,8 @@ const CustomScroll = ({
         flex: 1,
         flexDirection: "row",
         paddingHorizontal: deviceWindow.width * 0.01,
+        backgroundColor: contentBackground,
+        borderRadius: contentBackground === "transparent" ? 0 : 4,
       }}
     >
       <ScrollView

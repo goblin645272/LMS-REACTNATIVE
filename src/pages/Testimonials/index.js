@@ -9,8 +9,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { getTestimonials } from "../../action/testimonials.js";
 import CustomScroll from "../../Components/CustomScroll";
 const styles = StyleSheet.create(css);
+import { courseDict } from "../../api/course constants.js";
 import { Dimensions } from "react-native";
 const deviceWindow = Dimensions.get("window");
+import Stars from "react-native-stars";
+import starEmpty from "../../assets/images/starEmpty.png";
+import starFilled from "../../assets/images/starFilled.png";
+import starHalf from "../../assets/images/starHalf.png";
 
 const index = () => {
   const testimonials = useSelector((state) => state.testimonials);
@@ -64,7 +69,7 @@ const index = () => {
           ) : (
             <VStack
               style={{
-                height: deviceWindow.height * 0.2,
+                height: deviceWindow.height * 0.32,
                 backgroundColor: "#BEE6F7",
                 borderRadius: 12,
                 padding: deviceWindow.width * 0.035,
@@ -72,16 +77,48 @@ const index = () => {
                 marginRight: deviceWindow.width * 0.03,
                 marginLeft: deviceWindow.width * 0.03,
               }}
-              spacing={4}
+              spacing={5}
               key={data._id}
+              space={2}
             >
+              <Text
+                style={{
+                  fontSize: deviceWindow.height * 0.0265,
+                  fontFamily: "Barlow_500Medium",
+                  color: "rgb(2, 36, 96)",
+                }}
+              >
+                {`${courseDict[data.course_id]} `}
+              </Text>
               <CustomScroll
                 content={data.review}
                 backgroundColor="transparent"
                 foregroundColor="#0E78CF"
                 textsize="0.021"
-                contentColor="rgb(2, 36, 96)"
+                contentColor="white"
+                contentBackground={"#4D729D"}
               />
+              <HStack space={5}>
+                <Text
+                  style={{
+                    fontSize: deviceWindow.height * 0.023,
+                    fontFamily: "Barlow_500Medium",
+                    color: "rgb(2, 36, 96)",
+                  }}
+                >
+                  {new Date(data.createdAt).toLocaleDateString("en-GB")}
+                </Text>
+                <Stars
+                  display={data.star}
+                  spacing={8}
+                  count={5}
+                  starSize={deviceWindow.width < 560 ? 20 : 40}
+                  fullStar={starFilled}
+                  emptyStar={starEmpty}
+                  halfStar={starHalf}
+                  half={true}
+                />
+              </HStack>
               <Text
                 style={{
                   fontSize: deviceWindow.height * 0.023,

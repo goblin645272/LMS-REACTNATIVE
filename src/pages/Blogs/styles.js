@@ -8,6 +8,7 @@ const css = {
   banner: {
     width: deviceWindow.width,
     height: deviceWindow.height * 0.3,
+    marginBottom: deviceWindow.height * 0.01,
   },
   input: {
     marginLeft: deviceWindow.width * 0.04,

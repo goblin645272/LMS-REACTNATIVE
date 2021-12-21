@@ -16,7 +16,8 @@ import ChangePassword from "../pages/Change Password";
 import courseVideo from "../pages/CourseVideo";
 import courseArchive from "../pages/CourseArchive";
 import courseContent from "../pages/CourseContent";
-
+import EventCalendar from "../pages/Event Calendar";
+import Prepayment from "../pages/Prepayment";
 import Blogs from "../pages/Blogs";
 const index = () => {
   const Stack = createDrawerNavigator();
@@ -25,7 +26,7 @@ const index = () => {
       <NavigationContainer>
         <Stack.Navigator
           drawerContent={(props) => <Drawer {...props} />}
-          initialRouteName="Home"
+          initialRouteName="Prepayment"
           screenOptions={{
             headerTitle: "",
             headerRight: () => (
@@ -52,6 +53,8 @@ const index = () => {
           <Stack.Screen name="Course Content" component={courseContent} />
           <Stack.Screen name="Course Archive" component={courseArchive} />
           <Stack.Screen name="Quiz" component={Quiz} />
+          <Stack.Screen name="Event Calendar" component={EventCalendar} />
+          <Stack.Screen name="Prepayment" component={Prepayment} />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>

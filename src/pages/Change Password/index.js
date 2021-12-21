@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, KeyboardAvoidingView, View } from "react-native";
-
+import { useDispatch } from "react-redux";
 import { VStack, Center, Input, Button, FormControl } from "native-base";
-import LinearGradient from 'react-native-linear-gradient';;
+import LinearGradient from 'react-native-linear-gradient';
 import css from "./styles";
 import { changePassword } from "../../action/auth";
 
 const styles = StyleSheet.create(css);
 
 const index = () => {
+  const dispatch = useDispatch();
   const [data, setData] = useState({
     old_password: "",
     new_password: "",
@@ -38,7 +39,7 @@ const index = () => {
           ...(data.confirm_password === ""
             ? { confirm_password: "This field is Required" }
             : null),
-          ...(data.new_password.length > 7
+          ...(data.new_password.length < 7
             ? {
                 new_password:
                   "New password should be atleast 8 characters long ",

@@ -12,4 +12,4 @@ Promise.all(
   })
 );
 
-export const getblogs = API.get("/");
+export const getblogs = () => API.get("/");

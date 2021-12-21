@@ -52,6 +52,22 @@ const Drawer = (props) => {
             label="Contact Us"
             onPress={() => props.navigation.navigate("ContactUs")}
           />
+          <DrawerItem
+            style={styles.item}
+            labelStyle={styles.label}
+            label="Events"
+            onPress={() => {
+              props.navigation.navigate("Event Calendar");
+            }}
+          />
+          <DrawerItem
+            style={styles.item}
+            labelStyle={styles.label}
+            label="Change Password"
+            onPress={() => {
+              props.navigation.navigate("Change Password");
+            }}
+          />
           <Center>
             <Button
               onPress={async () => {

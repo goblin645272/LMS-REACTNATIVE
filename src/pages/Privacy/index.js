@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text } from "react-native";
 import css from "./styles";
-import LinearGradient from 'react-native-linear-gradient';;
+import LinearGradient from 'react-native-linear-gradient';
 import { ScrollView } from "react-native-gesture-handler";
 import { VStack } from "native-base";
 

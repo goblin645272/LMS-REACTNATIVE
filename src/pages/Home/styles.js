@@ -11,7 +11,7 @@ const css = {
     flex: 1,
   },
   banner: {
-    height: deviceWindow.height * 0.3,
+    height: deviceWindow.height * 0.25,
     width: deviceWindow.width,
   },
   bannerContent: {
@@ -51,7 +51,7 @@ const css = {
   courseCard: {
     height: deviceWindow.height * 0.35,
     width: deviceWindow.width * 0.5,
-    borderRadius: 20,
+    borderRadius: 15,
     marginLeft: 10,
     marginRight: 10,
   },
@@ -68,6 +68,16 @@ const css = {
     alignItems: "center",
     backgroundColor: "#022460",
     width: deviceWindow.width * 0.5,
+  },
+  courseContainerRound: {
+    height: deviceWindow.height * 0.1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#022460",
+    width: deviceWindow.width * 0.5,
+    // borderRadius: 15,
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
   },
   courseName: {
     color: "white",

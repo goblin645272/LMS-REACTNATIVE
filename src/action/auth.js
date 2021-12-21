@@ -2,6 +2,8 @@ import {
   changepassword,
   getprofile,
   getboughtcourses,
+  generateverificationotp,
+  verifyverificationotp,
   login,
   signup,
   updateprofile,
@@ -48,7 +50,6 @@ export const signIn = (formData) => async (dispatch) => {
   }
 };
 export const signUp = (formData) => async (dispatch) => {
-  dispatch({ type: "LOAD" });
   try {
     const { data } = await signup(formData);
     await AsyncStorage.setItem("token", data.token);
@@ -61,53 +62,50 @@ export const signUp = (formData) => async (dispatch) => {
   } catch (error) {
     dispatch({ type: "UNLOAD" });
     console.log(error);
-    if (error.response?.status === 400) {
+    Toast.show({
+      title: "Something went Wrong! Please try again later",
+      isClosable: true,
+    });
+  }
+};
+
+export const generateVerifyOTP = (formdata, otp) => async (dispatch) => {
+  dispatch({ type: "LOAD" });
+  try {
+    const { data } = await generateverificationotp(formdata);
+    if (data.message) {
+      dispatch({ type: "UNLOAD" });
+      otp();
+      await AsyncStorage.setItem("otptoken", data.token);
       Toast.show({
-        title: "Email already in use",
+        title: "An OTP has been sent on your entered email.",
         isClosable: true,
       });
+    }
+  } catch (error) {
+    dispatch({ type: "UNLOAD" });
+    if (error.response.status === 409) {
+      Toast.show({ title: "Email already exists", isClosable: true });
     } else {
-      Toast.show({
-        title: "Something went Wrong! Please try again later",
-        isClosable: true,
-      });
+      Toast.show({ title: "Something went wrong....", isClosable: true });
     }
   }
 };
 
-// export const generateVerifyOTP = async (formdata, state, disable) => {
-//   try {
-//     const { data } = await generateverificationotp(formdata);
-//     if (data.message) {
-//       state();
-//       disable();
-//       toast("An OTP has been sent on your entered email.");
-//       return localStorage.setItem("token", data.token);
-//     }
-//   } catch (error) {
-//     if (error.response.status === 409) {
-//       toast("Email already exists");
-//     } else {
-//       toast("Something went wrong....");
-//     }
-//     state();
-//   }
-// };
-
-// export const emailVerifyOTP = async (formdata, state, register2) => {
-//   try {
-//     const { data } = await verifyverificationotp(formdata);
-//     if (data.message) {
-//       state();
-//       register2();
-//       toast.success("You have registered sucessfully .");
-//     }
-//   } catch (error) {
-//     state();
-//     toast("Please enter a valid otp");
-//   }
-// };
-
+export const emailVerifyOTP = (formdata, register2) => async (dispatch) => {
+  dispatch({ type: "LOAD" });
+  try {
+    const { data } = await verifyverificationotp(formdata);
+    await AsyncStorage.clear();
+    if (data.message) {
+      register2();
+    }
+  } catch (error) {
+    dispatch({ type: "UNLOAD" });
+    console.log(error);
+    Toast.show({ title: "Please enter a valid otp", isClosable: true });
+  }
+};
 export const getBoughtCourses = async (dispatch) => {
   try {
     dispatch({ type: "LOAD" });
@@ -133,11 +131,24 @@ export const changePassword = (formdata) => async (dispatch) => {
     });
   } catch (error) {
     dispatch({ type: "UNLOAD" });
-
-    Toast.show({
-      title: "Something went wrong",
-      isClosable: true,
-    });
+    if (error.response?.status === 400) {
+      return Toast.show({
+        title: "Old password is incorrect",
+        isClosable: true,
+      });
+    } else if (error.response?.status == 401) {
+      dispatch({ type: "LOGOUT" });
+      return Toast.show({
+        title:
+          "You have been logged out.Your MK Trading account is in use on another device",
+        isClosable: true,
+      });
+    } else {
+      Toast.show({
+        title: "Something went wrong",
+        isClosable: true,
+      });
+    }
     console.log(error);
   }
 };
@@ -146,28 +157,28 @@ export const getProfile = async (dispatch) => {
   try {
     dispatch({ type: "LOAD" });
     const { data } = await getprofile();
-
+    console.log(data.result);
+    dispatch({ type: "GETPROFILE", data: data.result });
     dispatch({ type: "UNLOAD" });
-    return data.result;
   } catch (error) {
     console.log(error);
     dispatch({ type: "UNLOAD" });
   }
 };
 
-export const updateProfile =
-  (formdata, setState, buffer) => async (dispatch) => {
-    try {
-      dispatch({ type: "LOAD" });
-      const { data } = await updateprofile(formdata);
-      dispatch({ type: "UNLOAD" });
-      setState(data.result);
-      buffer();
-    } catch (error) {
-      console.log(error);
-      dispatch({ type: "UNLOAD" });
-    }
-  };
+export const updateProfile = (formdata) => async (dispatch) => {
+  try {
+    dispatch({ type: "LOAD" });
+    const { data } = await updateprofile(formdata);
+    dispatch({ type: "UNLOAD" });
+
+    dispatch({ type: "GETPROFILE", data: data.result });
+    Toast.show({ title: "Profile Updated" });
+  } catch (error) {
+    console.log(error);
+    dispatch({ type: "UNLOAD" });
+  }
+};
 
 export const logout = async (dispatch) => {
   try {

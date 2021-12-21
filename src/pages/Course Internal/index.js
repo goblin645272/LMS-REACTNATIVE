@@ -15,8 +15,9 @@ import {
   Button,
 } from "native-base";
 const deviceWindow = Dimensions.get("window");
-import LinearGradient from 'react-native-linear-gradient';;
+import LinearGradient from 'react-native-linear-gradient';
 import { ScrollView } from "react-native-gesture-handler";
+import { useScrollToTop } from "@react-navigation/native";
 import css from "./styles";
 import Stars from "react-native-stars";
 import starEmpty from "../../assets/images/starEmpty.png";
@@ -31,7 +32,6 @@ import { faPlayCircle, faBook } from "@fortawesome/free-solid-svg-icons";
 const styles = StyleSheet.create(css);
 import CustomScroll from "../../Components/CustomScroll";
 import { getCourseById } from "../../action/courses";
-import RazorpayCheckout from "react-native-razorpay";
 
 function ConvertMinutes(num) {
   let d = Math.floor(num / 1440);
@@ -68,113 +68,8 @@ const index = ({ route }) => {
           ["#bf9640", "#f7efb1", "#bf9640"],
           ["#b0b0b0", "#d8d8d8", "#b0b0b0"],
         ];
-  function _displayRazorpay(){
-    axios
-      .post(
-        `${baseurl}/razorpay/payment`,
-        {
-          courseId: course?._id,
-          couponCode: coupondata.valid ? coupondata.code : undefined,
-          plan: plan,
-        },
-        { headers: { authorization: localStorage.getItem("token") } }
-      )
-      .then(function (response) {
-        const options = {
-          key: "rzp_test_4LrpORafEOFNKL",
-          order_id: response.data.id,
-          name: "MK Trading School",
-          description: course.name,
-          prefill: {
-            email: user.email,
-          },
-          handler: function (resp) {
-            toast.warning("Please wait for confirmation");
-            if (resp.status?.status === 202) {
-              toast.success(
-                "You have successfully enrolled for the course for free"
-              );
-              dispatch(getProfile(history));
-            } else {
-              setTimeout(() => {
-                axios
-                  .get(
-                    `${baseurl}/razorpay/downloadInvoice/${localStorage.getItem(
-                      "token"
-                    )}/${resp.razorpay_order_id}`
-                  )
-                  .then((response) => {
-                    toast.success(
-                      "You have successfully enrolled for the course. Please check email for invoice"
-                    );
-                    dispatch(getProfile(history));
-                  })
-                  .catch((error) => {
-                    window.alert(
-                      `Please wait. If you do not recieve your course within 10 minutes please contact support. Your order Id is ${resp.razorpay_order_id}`
-                    );
-                  });
-              }, 6500);
-            }
-          },
-        };
-        const paymentObject = new window.Razorpay(options);
-        setLoading(false);
-        paymentObject.open();
-      })
-    var options = {
-      description: 'Course',
-      image: 'https://i.imgur.com/3g7nmJC.png',
-      currency: 'INR',
-      key: 'rzp_test_4LrpORafEOFNKL',
-      amount: '766882',
-      name: 'Ceaso Wrath',
-      order_id: 'order_IYUNCMmtaOuwEr',//Replace this with an order_id created using Orders API.
-      prefill: {
-        email: 'ceaso@example.com',
-        contact: '1234567890',
-        name: 'Ceaso Wrath'
-      },
-      theme: {color: '#53a20e'}
-    }
-    RazorpayCheckout.open(options).then((data) => {
-      console.log(data)
-      toast.warning("Please wait for confirmation");
-            if (resp.status?.status === 202) {
-              toast.success(
-                "You have successfully enrolled for the course for free"
-              );
-              dispatch(getProfile(history));
-            } else {
-              setTimeout(() => {
-                axios
-                  .get(
-                    `${baseurl}/razorpay/downloadInvoice/${localStorage.getItem(
-                      "token"
-                    )}/${resp.razorpay_order_id}`
-                  )
-                  .then((response) => {
-                    toast.success(
-                      "You have successfully enrolled for the course. Please check email for invoice"
-                    );
-                    dispatch(getProfile(history));
-                  })
-                  .catch((error) => {
-                    window.alert(
-                      `Please wait. If you do not recieve your course within 10 minutes please contact support. Your order Id is ${resp.razorpay_order_id}`
-                    );
-                  });
-              }, 6500);
-            }
-      alert(`Success: ${data.razorpay_payment_id}`);
-    }).catch((error) => {
-      console.log(error)
-      // handle failure
-      alert(`Error: ${error.code} | ${error.description}`);
-    });
-  }
 
-  if (Object.keys(data).length === 0) {
+  if (data?._id !== route.params.id) {
     return <View></View>;
   } else {
     return (
@@ -208,7 +103,7 @@ const index = ({ route }) => {
               }
             >
               <Stars
-                display={2.5}
+                display={data?.stars}
                 spacing={8}
                 count={5}
                 starSize={deviceWindow.width < 560 ? 20 : 40}
@@ -292,8 +187,8 @@ const index = ({ route }) => {
                         );
                       })}
                     </VStack>
-                    <Button style={styles.cardButton} onPress={_displayRazorpay}>
-                      <Text style={styles.cardButtonText}>Buy Now</Text>
+                    <Button style={styles.cardButton}>
+                      <Text style={styles.cardButtonText}>Enroll</Text>
                     </Button>
                   </VStack>
                 </LinearGradient>
@@ -371,7 +266,7 @@ const index = ({ route }) => {
               {data?.instructor?.profession}
             </Text>
           </View>
-          {data?.module?.length > 0 && (
+          {data?.modules?.length > 0 && (
             <View style={{ marginTop: deviceWindow.width * 0.03 }}>
               <View
                 style={{
@@ -395,7 +290,7 @@ const index = ({ route }) => {
                   backgroundColor: "#7FE0F3",
                 }}
               >
-                {data?.module?.map((row, key1) => {
+                {data?.modules?.map((row, key1) => {
                   const videos = row?.list.filter(
                     (item) => item.type === "video"
                   );
@@ -411,7 +306,7 @@ const index = ({ route }) => {
                     time = parseInt(videos[0].time);
                   }
                   return (
-                    <Accordion.Item key={(key1, row)}>
+                    <Accordion.Item key={key1*23}>
                       <Accordion.Summary>
                         <HStack space={3} alignItems="center">
                           <Text
@@ -551,6 +446,7 @@ const index = ({ route }) => {
                     foregroundColor="#0E78CF"
                     textsize="0.021"
                     contentColor="rgb(2, 36, 96)"
+                    contentBackground="transparent"
                   />
                   <Text
                     style={{
