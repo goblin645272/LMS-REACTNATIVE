@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { Text, View, Dimensions, TouchableOpacity } from "react-native";
-import { VStack, Accordion, HStack, Toast,Button } from "native-base";
+import { VStack, Accordion, HStack, Toast, Button } from "native-base";
 import { useSelector, useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faPlayCircle, faBook } from "@fortawesome/free-solid-svg-icons";
@@ -181,37 +181,43 @@ const index = ({ route, navigation }) => {
       <VStack style={{ backgroundColor: "#BEE6F7" }}>
         <View>
           {loader ? (
-            <View style={{height: deviceWindow.height * 0.3,
-              width: deviceWindow.width}} > 
-            <Text>loading ...</Text>
+            <View
+              style={{
+                height: deviceWindow.height * 0.32,
+                width: deviceWindow.width,
+              }}
+            >
+              <Text>loading ...</Text>
             </View>
           ) : video.valid ? (
-            <>
-            <VdoPlayerView style={{height: deviceWindow.height * 0.3,
-                  width: deviceWindow.width}}
-              embedInfo={{otp: video.otp, playbackInfo: video.playback}}
-              onInitializationSuccess={() => console.log('init success')}
-              onInitializationFailure={(error) => console.log('init failure', error)}
-              onLoading={(args) => console.log('loading')}
-              onLoaded={(args) => console.log('loaded')}
-              onLoadError={({errorDescription}) => console.log('load error', errorDescription)}
-              onError={({errorDescription}) => console.log('error', errorDescription)}
-              onTracksChanged={(args) => console.log('tracks changed')}
-              onPlaybackSpeedChanged={(speed) => console.log('speed changed to', speed)}
-              onMediaEnded={(args) => console.log('ended')}
-              onEnterFullscreen={() => console.log('enter fullscreen')}
-              onExitFullscreen={() => console.log('exit fullscreen')}
-            />
-            </>
-            // {otp: video.otp, playbackInfo: video.playback}
+            <View style={{ alignItems: "center" }}>
+              <VdoPlayerView
+                style={{
+                  height: deviceWindow.height * 0.32,
+                  width: deviceWindow.width,
+                }}
+                embedInfo={{ otp: video.otp, playbackInfo: video.playback }}
+              />
+              <Button
+                style={{ width: 200, marginTop: 4 }}
+                onPress={() =>
+                  startVideoScreen({
+                    embedInfo: { otp: video.otp, playbackInfo: video.playback },
+                  })
+                }
+              >
+                Start Full Screen
+              </Button>
+            </View>
           ) : (
+            // {otp: video.otp, playbackInfo: video.playback}
             <Text>Video not found</Text>
           )}
         </View>
-        <Button onPress={()=>startVideoScreen({otp: video.otp, playbackInfo: video.playback})}>click</Button>
 
         <Text
           style={{
+            textAlign: "center",
             color: "#000260",
             fontFamily: "Barlow_500Medium",
             fontSize: deviceWindow.height * 0.02,

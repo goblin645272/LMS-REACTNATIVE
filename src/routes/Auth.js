@@ -26,7 +26,7 @@ const index = () => {
       <NavigationContainer>
         <Stack.Navigator
           drawerContent={(props) => <Drawer {...props} />}
-          initialRouteName="Prepayment"
+          initialRouteName="Home"
           screenOptions={{
             headerTitle: "",
             headerRight: () => (

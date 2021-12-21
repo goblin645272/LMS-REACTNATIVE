@@ -12,7 +12,7 @@ import {
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import { getCourses } from "../../action/courses";
 import { useDispatch, useSelector } from "react-redux";
-import LinearGradient from 'react-native-linear-gradient';
+import LinearGradient from "react-native-linear-gradient";
 import home1 from "../../assets/images/home-banner1.jpg";
 import home2 from "../../assets/images/home-banner2.jpg";
 import css from "./styles";

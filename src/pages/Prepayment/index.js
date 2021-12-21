@@ -1,18 +1,48 @@
 import React, { useState, useEffect } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Dimensions,
-  TouchableOpacity,
-} from "react-native";
-import { Avatar, VStack, HStack, Divider, Button, Input } from "native-base";
+import { StyleSheet, Text, View, Dimensions } from "react-native";
+import { VStack, HStack, Divider, Button, Input } from "native-base";
+import { useSelector, useDispatch } from "react-redux";
 const deviceWindow = Dimensions.get("window");
 import { ScrollView } from "react-native-gesture-handler";
 import css from "./styles";
 const styles = StyleSheet.create(css);
 
-const index = () => {
+const index = ({ route, navigation }) => {
+  const { courseID, plan } = route.params;
+  const user = useSelector((state) => state.auth.profile);
+  const loading = useSelector((state) => state.auth.loader);
+  const [gst, setGST] = useState("");
+  const [tele, setTele] = useState("");
+  const [trading, setTrading] = useState("");
+  // const updateGST = () => {
+  //   if (gst.length !== 15) {
+  //     return toast.error("Please Enter a Valid GST number");
+  //   }
+// 
+  //   if (!check) {
+  //     setGST("");
+  //     return toast.error("Update Failed");
+  //   }
+  //   setLoading(true);
+  //   dispatch(
+  //     updateProfile({ gst_number: gst }, history, () => {
+  //       setLoading(false);
+  //       setGST("");
+  //     })
+  //   );
+  // };
+  // const updateTele = () => {
+  //   if (tele.length === 0) {
+  //     return toast.error("Please Enter a Valid Telegram ID");
+  //   }
+  //   setLoading(true);
+  //   dispatch(
+  //     updateProfile({ telegram_id: tele }, history, () => {
+  //       setLoading(false);
+  //       setTele("");
+  //     })
+  //   );
+  // };
   return (
     <ScrollView style={styles.body}>
       <VStack space={5}>

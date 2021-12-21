@@ -15,7 +15,7 @@ import {
   Button,
 } from "native-base";
 const deviceWindow = Dimensions.get("window");
-import LinearGradient from 'react-native-linear-gradient';
+import LinearGradient from "react-native-linear-gradient";
 import { ScrollView } from "react-native-gesture-handler";
 import { useScrollToTop } from "@react-navigation/native";
 import css from "./styles";
@@ -45,7 +45,7 @@ function ConvertMinutes(num) {
   }
 }
 
-const index = ({ route }) => {
+const index = ({ route, navigation }) => {
   const [data, setData] = useState({});
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.loader);
@@ -187,7 +187,15 @@ const index = ({ route }) => {
                         );
                       })}
                     </VStack>
-                    <Button style={styles.cardButton}>
+                    <Button
+                      style={styles.cardButton}
+                      onPress={() =>
+                        navigation.navigate("Prepayment", {
+                          courseID: route.params.id,
+                          plan: item,
+                        })
+                      }
+                    >
                       <Text style={styles.cardButtonText}>Enroll</Text>
                     </Button>
                   </VStack>
@@ -306,7 +314,7 @@ const index = ({ route }) => {
                     time = parseInt(videos[0].time);
                   }
                   return (
-                    <Accordion.Item key={key1*23}>
+                    <Accordion.Item key={key1 * 23}>
                       <Accordion.Summary>
                         <HStack space={3} alignItems="center">
                           <Text
