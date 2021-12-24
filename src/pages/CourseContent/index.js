@@ -1,14 +1,13 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { VStack } from "native-base";
-import LinearGradient from 'react-native-linear-gradient';
+import LinearGradient from "react-native-linear-gradient";
 import { WebView } from "react-native-webview";
 import css from "./styles.js";
 const styles = StyleSheet.create(css);
 import { ScrollView } from "react-native-gesture-handler";
 const index = ({ route, navigation }) => {
   const array = route.params.array;
-  console.log(route.params);
   return (
     <ScrollView style={styles.scroll}>
       <LinearGradient

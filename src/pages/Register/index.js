@@ -98,7 +98,6 @@ const index = ({ navigation }) => {
       hideSubscription.remove();
     };
   }, []);
-  console.log(data);
 
   const handleOTPSubmit = () => {
     if (otp === "") {

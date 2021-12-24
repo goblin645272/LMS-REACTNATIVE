@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text } from "react-native";
 import css from "./styles";
-import LinearGradient from 'react-native-linear-gradient';
+import LinearGradient from "react-native-linear-gradient";
 import { ScrollView } from "react-native-gesture-handler";
 import { VStack } from "native-base";
 
@@ -11,10 +11,10 @@ const Privacy = () => {
   return (
     <ScrollView>
       <LinearGradient
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 2 }}
-          colors={["#ffffff", "#6fbef9"]}
-          style={styles.background}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 2 }}
+        colors={["#ffffff", "#6fbef9"]}
+        style={styles.background}
       >
         <VStack
           space={6}

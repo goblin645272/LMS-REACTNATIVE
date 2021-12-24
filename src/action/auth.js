@@ -25,6 +25,7 @@ export const signIn = (formData) => async (dispatch) => {
       });
     } else {
       await AsyncStorage.setItem("token", data.token);
+      await AsyncStorage.setItem("profile", JSON.stringify(data.result));
       dispatch({ type: "LOGIN", data: data });
       dispatch({ type: "UNLOAD" });
       Toast.show({
@@ -115,7 +116,15 @@ export const getBoughtCourses = async (dispatch) => {
     return data.result;
   } catch (error) {
     dispatch({ type: "UNLOAD" });
-    console.log(error);
+    if (error.response?.status == 401) {
+      logout(dispatch);
+
+      Toast.show({
+        title:
+          "You have been logged out.Your MK Trading account is in use on another device",
+        isClosable: true,
+      });
+    }
   }
 };
 
@@ -137,7 +146,8 @@ export const changePassword = (formdata) => async (dispatch) => {
         isClosable: true,
       });
     } else if (error.response?.status == 401) {
-      dispatch({ type: "LOGOUT" });
+      logout(dispatch);
+
       return Toast.show({
         title:
           "You have been logged out.Your MK Trading account is in use on another device",
@@ -149,7 +159,6 @@ export const changePassword = (formdata) => async (dispatch) => {
         isClosable: true,
       });
     }
-    console.log(error);
   }
 };
 
@@ -157,11 +166,20 @@ export const getProfile = async (dispatch) => {
   try {
     dispatch({ type: "LOAD" });
     const { data } = await getprofile();
-    console.log(data.result);
     dispatch({ type: "GETPROFILE", data: data.result });
     dispatch({ type: "UNLOAD" });
+    return data.result;
   } catch (error) {
-    console.log(error);
+    if (error.response?.status == 401) {
+      logout(dispatch);
+
+      Toast.show({
+        title:
+          "You have been logged out.Your MK Trading account is in use on another device",
+        isClosable: true,
+      });
+    }
+
     dispatch({ type: "UNLOAD" });
   }
 };
@@ -175,7 +193,15 @@ export const updateProfile = (formdata) => async (dispatch) => {
     dispatch({ type: "GETPROFILE", data: data.result });
     Toast.show({ title: "Profile Updated" });
   } catch (error) {
-    console.log(error);
+    if (error.response?.status == 401) {
+      logout(dispatch);
+
+      Toast.show({
+        title:
+          "You have been logged out.Your MK Trading account is in use on another device",
+        isClosable: true,
+      });
+    }
     dispatch({ type: "UNLOAD" });
   }
 };
@@ -184,10 +210,6 @@ export const logout = async (dispatch) => {
   try {
     dispatch({ type: "LOGOUT" });
     await AsyncStorage.clear();
-    Toast.show({
-      title: "Logged Out",
-      isClosable: true,
-    });
   } catch (error) {
     console.log(error);
     Toast.show({

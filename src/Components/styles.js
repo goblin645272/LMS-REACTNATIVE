@@ -1,5 +1,5 @@
 import { Dimensions } from "react-native";
-const { height, width } = Dimensions.get("window");
+const { height } = Dimensions.get("window");
 const css = {
   item: {
     borderBottomWidth: 1,
@@ -7,7 +7,7 @@ const css = {
     width: "100%",
   },
   label: {
-    fontSize: 20,
+    fontSize: height * 0.030,
     color: "#022460",
   },
   button: {
@@ -16,6 +16,7 @@ const css = {
     width: "60%",
   },
   buttonText: {
+    fontSize: height * 0.025,
     color: "#FFC00C",
   },
 };

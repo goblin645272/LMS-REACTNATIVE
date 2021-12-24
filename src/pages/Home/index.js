@@ -21,8 +21,9 @@ import { Button, VStack, HStack } from "native-base";
 const styles = StyleSheet.create(css);
 import Carousel from "react-native-snap-carousel";
 import { getBoughtCourses } from "../../action/auth";
+import { useIsFocused } from "@react-navigation/native";
 
-const Component = ({ index, item }, navigation) => {
+const Component = (course, { index, item }, navigation) => {
   return (
     <ImageBackground
       key={index}
@@ -36,7 +37,10 @@ const Component = ({ index, item }, navigation) => {
           onPress={() =>
             item.text1 === "Foundtion Class on Supply & Demand Trading Strategy"
               ? Linking.openURL("https://workshop.mktradingschool.com/")
-              : navigation.navigate("Profile")
+              : navigation.navigate("Course Internal", {
+                id: "612ccd3c9f192c86faa26f48",
+                course: course,
+              })
           }
           style={styles.bannerButton}
         >
@@ -52,15 +56,17 @@ const index = ({ navigation }) => {
   const deviceWindow = Dimensions.get("window");
   const dispatch = useDispatch();
   const courses = useSelector((state) => state.courses);
-
+  const isFocused = useIsFocused();
   useEffect(() => {
-    getCourses(dispatch);
-    const getData = async () => {
-      const data = await getBoughtCourses(dispatch);
-      setBought(data);
-    };
-    getData();
-  }, [dispatch, setBought]);
+    if (isFocused) {
+      getCourses(dispatch);
+      const getData = async () => {
+        const data = await getBoughtCourses(dispatch);
+        setBought(data);
+      };
+      getData();
+    }
+  }, [dispatch, setBought, isFocused]);
 
   const carouselitems = [
     {
@@ -95,7 +101,7 @@ const index = ({ navigation }) => {
             autoplayDelay={3000}
             sliderWidth={deviceWindow.width}
             itemWidth={deviceWindow.width}
-            renderItem={(obj) => Component(obj, navigation)}
+            renderItem={(obj) => Component(courses?.[0] ,obj, navigation)}
           />
           <Text style={styles.header}>Course & Offerings</Text>
           <ScrollView horizontal={true} style={styles.horizontal}>
@@ -105,7 +111,10 @@ const index = ({ navigation }) => {
                   key={obj._id}
                   style={styles.courseCard}
                   onPress={() =>
-                    navigation.navigate("Course Internal", { id: obj._id })
+                    navigation.navigate("Course Internal", {
+                      id: obj._id,
+                      course: obj,
+                    })
                   }
                 >
                   <Image style={styles.courseImage} source={images[obj._id]} />
@@ -126,7 +135,10 @@ const index = ({ navigation }) => {
                     <Button
                       style={styles.courseButton}
                       onPress={() =>
-                        navigation.navigate("Course Internal", { id: obj._id })
+                        navigation.navigate("Course Internal", {
+                          id: obj._id,
+                          course: obj,
+                        })
                       }
                     >
                       <Text style={styles.courseButtonText}>Enroll</Text>

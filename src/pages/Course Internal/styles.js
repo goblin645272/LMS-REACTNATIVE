@@ -148,6 +148,13 @@ const css = {
     fontSize: deviceWindow.width * 0.07,
     textAlign: "center",
   },
+  span: {
+    marginTop: deviceWindow.height * 0.01,
+    color: "rgb(2, 36, 96)",
+    fontFamily: "Barlow_400Regular",
+    textAlign: "justify",
+    fontSize: deviceWindow.height * 0.019,
+  }
 };
 
 export default css;

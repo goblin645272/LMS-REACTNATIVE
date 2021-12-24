@@ -1,7 +1,7 @@
 import { HStack, ScrollView, VStack } from "native-base";
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import LinearGradient from 'react-native-linear-gradient';
+import LinearGradient from "react-native-linear-gradient";
 import { Agenda, LocaleConfig } from "react-native-calendars";
 import css from "./styles";
 import { getEvents } from "../../action/events";
@@ -52,8 +52,46 @@ LocaleConfig.locales["en"] = {
 };
 LocaleConfig.defaultLocale = "en";
 
+// const events = [
+//   {
+//     _id: "6199dde839668598789a91f8",
+//     courseId: "612ccd3c9f192c86faa26f48",
+//     sessionType: "qna",
+//     from: "2021-12-20T19:00:00.000Z",
+//     to: "2021-12-20T20:00:00.000Z",
+//     title: "Q&A Session",
+//     v: 0,
+//   },
+//   {
+//     _id: "619a046239668598789a9303",
+//     courseId: "612ccd6b9f192c86faa26f49",
+//     sessionType: "live",
+//     from: "2021-12-21T19:00:00.000Z",
+//     to: "2021-12-21T20:30:00.000Z",
+//     title: "Skill UP Session",
+//     v: 0,
+//   },
+//   {
+//     _id: "619a6ece39668598789a9484",
+//     courseId: "612ccd6b9f192c86faa26f49",
+//     sessionType: "live",
+//     from: "2021-12-23T19:00:00.000Z",
+//     to: "2021-12-23T20:30:00.000Z",
+//     title: "Skill UP Session",
+//     v: 0,
+//   },
+//   {
+//     _id: "619a6f0239668598789a948a",
+//     courseId: "612ccd6b9f192c86faa26f49",
+//     sessionType: "live",
+//     from: "2021-12-29T19:00:00.000Z",
+//     to: "2021-12-29T20:30:00.000Z",
+//     title: "Skill UP Session",
+//     v: 0,
+//   },
+// ];
+
 const index = () => {
-  const [bought, setBought] = useState([]);
   const [eves, setEves] = useState({
     items: {},
     markers: {},
@@ -63,42 +101,37 @@ const index = () => {
   useEffect(() => {
     const getData = async () => {
       await getEvents(dispatch);
-      const data = await getBoughtCourses(dispatch);
-      setBought(data);
     };
     getData();
   }, [dispatch]);
 
   useEffect(() => {
-    events.map(event => {
-      const date = event.from.split('T')[0]
-      const title = `${event.from.split('T')[1]} - ${event.to.split('T')[1].slice(5)} ${event.title}`
-      setEves(prev => {
-        const items = { ...prev.items, ...{[date]: [{name: title}]} }
-        const markers = { ...prev.markers }
-        console.log(items)
-        
+    events.map((event) => {
+      const date = event.from.split("T")[0];
+      const title = `${event.from.split("T")[1].slice(0, 5)} - ${event.to
+        .split("T")[1]
+        .slice(0, 5)} ${event.title}`;
+      setEves((prev) => {
+        const items = { ...prev.items, ...{ [date]: [{ name: title }] } };
+        const markers = {
+          ...prev.markers,
+          ...{
+            [date]: { marked: true, dots: [{ key: "item", color: "#000" }] },
+          },
+        };
         return {
-        items: items,
-        markers: {}
-      }})
-      
-    })
-  }, [events, setEves])
+          items: items,
+          markers: markers,
+        };
+      });
+    });
+  }, [setEves]);
 
-  console.log(events)
 
   return (
     <View style={styles.container}>
       <Agenda
-        items={{
-          "2021-12-21": [{ name: "item 1 - any js object" }],
-          "2021-12-23": [{ name: "item 2 - any js object" }],
-          "2021-12-25": [
-            { name: "item 3 - any js object" },
-            { name: "item 4 - any js object" },
-          ],
-        }}
+        items={eves.items}
         renderItem={(item, firstItemInDay) => {
           return (
             <LinearGradient
@@ -129,25 +162,9 @@ const index = () => {
         }}
         pastScrollRange={1}
         futureScrollRange={1}
-        markedDates={{
-          "2021-12-21": {
-            marked: true,
-            dots: [{ key: "item", color: "#f5b000" }],
-          },
-          "2021-12-23": {
-            marked: true,
-            dots: [{ key: "item", color: "#f5b000" }],
-          },
-          "2021-12-25": {
-            marked: true,
-            dots: [
-              { key: "item", color: "#f5b000" },
-              { key: "item", color: "#01489f" },
-            ],
-          },
-        }}
-        onRefresh={() => console.log(events)}
-        selected={new Date()}
+        markedDates={eves.markers}
+        // onRefresh={() => console.log("refreshing...")}
+        selected={new Date().toString()}
         markingType={"multi-dot"}
       />
     </View>

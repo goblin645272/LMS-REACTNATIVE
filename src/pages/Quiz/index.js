@@ -1,120 +1,25 @@
 import React, { useEffect, useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Dimensions,
-} from "react-native";
+import { StyleSheet, Text, View, Dimensions } from "react-native";
 import {
   VStack,
-  Center,
-  Input,
   Button,
   HStack,
   ArrowBackIcon,
   ArrowForwardIcon,
-  Box,
 } from "native-base";
 import css from "./styles";
+import { useDispatch } from "react-redux";
 import { ScrollView } from "react-native-gesture-handler";
-import { justifyContent } from "styled-system";
+import { getQuizById } from "../../action/quiz";
+import { useIsFocused } from "@react-navigation/native";
 const styles = StyleSheet.create(css);
 const deviceWindow = Dimensions.get("window");
 
-const index = () => {
-  const [questions, setQuestions] = useState([
-    {
-      questionText:
-        "Which type of Charts do we use for  Supply & Demand Trading  Analysis?",
-      answerOptions: [
-        {
-          answerText: "Heikin Ashi Candlestick Charts",
-          isCorrect: false,
-        },
-        {
-          answerText: "Bar Charts",
-          isCorrect: false,
-        },
-        {
-          answerText: "Japanese Candlestick Charts",
-          isCorrect: true,
-        },
-        {
-          answerText: "Renko Charts",
-          isCorrect: false,
-        },
-      ],
-    },
-    {
-      questionText:
-        "If the closing price of a Candle is lesser than the opening price of that candle. What will be the colour of the candle?",
-      answerOptions: [
-        {
-          answerText: "Red",
-          isCorrect: true,
-        },
-        {
-          answerText: "Green",
-          isCorrect: false,
-        },
-        {
-          answerText: "",
-          isCorrect: false,
-        },
-        {
-          answerText: "",
-          isCorrect: false,
-        },
-      ],
-    },
-    {
-      questionText:
-        "Open - 430 , High - 460 , Low - 425 , Close - 455 . What will be the value of the range of this candlestick ?",
-      answerOptions: [
-        {
-          answerText: 5,
-          isCorrect: false,
-        },
-        {
-          answerText: 15,
-          isCorrect: false,
-        },
-        {
-          answerText: 35,
-          isCorrect: true,
-        },
-        {
-          answerText: 25,
-          isCorrect: false,
-        },
-      ],
-    },
-    {
-      questionText:
-        "Open - 430 , High - 460 , Low - 425 , Close - 455 . What will be the value of the body of this candlestick ?",
-      answerOptions: [
-        {
-          answerText: 25,
-          isCorrect: true,
-        },
-        {
-          answerText: 15,
-          isCorrect: false,
-        },
-        {
-          answerText: 35,
-          isCorrect: false,
-        },
-        {
-          answerText: 30,
-          isCorrect: false,
-        },
-      ],
-    },
-  ]);
-  const [loading, setLoading] = useState(false);
-
+const index = ({ route, navigation }) => {
+  const isFocused = useIsFocused();
+  const [questions, setQuestions] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
   const [state, setState] = useState({
     currentQuestion: 0,
     attempt: false,
@@ -177,107 +82,143 @@ const index = () => {
       });
     }
   }, [state.currentQuestion, setState, questions, loading]);
+
+  useEffect(() => {
+    if (isFocused) {
+      setLoading(true);
+      setQuestions([]);
+      setState({
+        currentQuestion: 0,
+        attempt: false,
+        last: false,
+        first: true,
+      });
+    }
+  }, [isFocused]);
+  useEffect(() => {
+    const getData = async () => {
+      const data = await dispatch(getQuizById(route.params.id));
+      if (data !== undefined) {
+        setQuestions(data[0]?.quiz);
+        dispatch({ type: "UNLOAD" });
+      }
+      setLoading(false);
+    };
+    getData();
+  }, [dispatch, route]);
+
   return (
-    <ScrollView style={styles.body}>
-      <VStack style={{ justifyContent: "center", alignItems: "center" }}>
-        <Text style={styles.text}>
-          Question {state.currentQuestion + 1}/{questions.length}
-        </Text>
-        <Text style={styles.question}>
-          {questions[state.currentQuestion].questionText}
-        </Text>
-        <VStack>
-          {questions[state.currentQuestion].answerOptions.map(
-            (answerOption, ind) => {
-              return (
-                <View key={ind}>
-                  {answerOption.answerText.length !== 0 && (
-                    <Button
-                      style={{
-                        width: deviceWindow.width * 0.8,
-                        marginTop: deviceWindow.height * 0.02,
-                        backgroundColor: !state.attempt
-                          ? "white"
-                          : !answerOption.isCorrect
-                          ? "#C91515"
-                          : "#1FB91F",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                      disabled={state.attempt}
-                      onPress={() =>
-                        handleAnswerOptionClick(answerOption.isCorrect)
-                      }
-                    >
-                      <Text
-                        style={{
-                          fontSize: deviceWindow.height * 0.025,
-                          fontFamily: "Barlow_600SemiBold",
-                          color: !state.attempt ? "#022460" : "white",
-                        }}
-                      >
-                        {answerOption.answerText.toString()}
-                      </Text>
-                    </Button>
-                  )}
-                </View>
-              );
-            }
-          )}
-        </VStack>
-        <HStack
-          style={{
-            marginTop: deviceWindow.height * 0.03,
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-          space={8}
-        >
-          <View style={{ width: deviceWindow.width * 0.2 }}>
-            {!state.first && (
-              <Button
-                style={{ height: deviceWindow.height * 0.06 }}
-                onPress={handlePrev}
-              >
-                <Text textAlign="center">
-                  <ArrowBackIcon />
-                </Text>
-              </Button>
-            )}
-          </View>
-          <View style={{ width: deviceWindow.width * 0.35 }}>
-            <Button
+    <>
+      {loading ? (
+        <View></View>
+      ) : (
+        <ScrollView style={styles.body}>
+          <VStack style={{ justifyContent: "center", alignItems: "center" }}>
+            <Text style={styles.text}>
+              Question {state.currentQuestion + 1}/{questions.length}
+            </Text>
+            <Text style={styles.question}>
+              {questions[state.currentQuestion].questionText}
+            </Text>
+            <VStack>
+              {questions[state.currentQuestion].answerOptions.map(
+                (answerOption, ind) => {
+                  return (
+                    <View key={ind}>
+                      {answerOption.answerText.length !== 0 && (
+                        <Button
+                          style={{
+                            width: deviceWindow.width * 0.8,
+                            marginTop: deviceWindow.height * 0.02,
+                            backgroundColor: !state.attempt
+                              ? "white"
+                              : !answerOption.isCorrect
+                              ? "#C91515"
+                              : "#1FB91F",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                          disabled={state.attempt}
+                          onPress={() =>
+                            handleAnswerOptionClick(answerOption.isCorrect)
+                          }
+                        >
+                          <Text
+                            style={{
+                              fontSize: deviceWindow.height * 0.025,
+                              fontFamily: "Barlow_600SemiBold",
+                              color: !state.attempt ? "#022460" : "white",
+                            }}
+                          >
+                            {answerOption.answerText.toString()}
+                          </Text>
+                        </Button>
+                      )}
+                    </View>
+                  );
+                }
+              )}
+            </VStack>
+            <HStack
               style={{
-                height: deviceWindow.height * 0.06,
+                marginTop: deviceWindow.height * 0.03,
+                alignItems: "center",
+                justifyContent: "center",
               }}
+              space={8}
             >
-              <Text
-                textAlign="center"
-                style={{
-                  fontSize: deviceWindow.height * 0.025,
-                  fontFamily: "Barlow_600SemiBold",
-                  color: "#022460",
-                }}
-              >
-                {!state.last ? "Skip Quiz" : "End Quiz"}
-              </Text>
-            </Button>
-          </View>
-          <View style={{ width: deviceWindow.width * 0.2 }}>
-            {!state.last && (
-              <Button
-                style={{ height: deviceWindow.height * 0.06 }}
-                onPress={handleNext}
-              >
-                <Text textAlign="center">
-                  <ArrowForwardIcon />
-                </Text>
-              </Button>
-            )}
-          </View>
-        </HStack>
-      </VStack>
-    </ScrollView>
+              <View style={{ width: deviceWindow.width * 0.2 }}>
+                {!state.first && (
+                  <Button
+                    style={{ height: deviceWindow.height * 0.06 }}
+                    onPress={handlePrev}
+                  >
+                    <Text textAlign="center">
+                      <ArrowBackIcon />
+                    </Text>
+                  </Button>
+                )}
+              </View>
+              <View style={{ width: deviceWindow.width * 0.35 }}>
+                <Button
+                  style={{
+                    height: deviceWindow.height * 0.06,
+                  }}
+                  onPress={() =>
+                    navigation.navigate("Course Video", {
+                      course: route.params.course,
+                    })
+                  }
+                >
+                  <Text
+                    textAlign="center"
+                    style={{
+                      fontSize: deviceWindow.height * 0.025,
+                      fontFamily: "Barlow_600SemiBold",
+                      color: "#022460",
+                    }}
+                  >
+                    {!state.last ? "Skip Quiz" : "End Quiz"}
+                  </Text>
+                </Button>
+              </View>
+              <View style={{ width: deviceWindow.width * 0.2 }}>
+                {!state.last && (
+                  <Button
+                    style={{ height: deviceWindow.height * 0.06 }}
+                    onPress={handleNext}
+                  >
+                    <Text textAlign="center">
+                      <ArrowForwardIcon />
+                    </Text>
+                  </Button>
+                )}
+              </View>
+            </HStack>
+          </VStack>
+        </ScrollView>
+      )}
+    </>
   );
 };
 

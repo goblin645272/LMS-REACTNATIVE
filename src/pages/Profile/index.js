@@ -1,6 +1,13 @@
-import { VStack, Input, Button, HStack, Toast } from "native-base";
+import {
+  VStack,
+  Input,
+  Button,
+  HStack,
+  Divider,
+  AlertDialog,
+  Toast,
+} from "native-base";
 import React, { useState, useEffect } from "react";
-
 import { useDispatch, useSelector } from "react-redux";
 import {
   KeyboardAvoidingView,
@@ -14,24 +21,45 @@ import css from "./styles";
 import { getProfile, updateProfile } from "../../action/auth";
 import { ScrollView } from "react-native-gesture-handler";
 import EvilIcons from "react-native-vector-icons/EvilIcons";
+import { useIsFocused } from "@react-navigation/native";
+import { getCertificate } from "../../action/courses";
+import { courseDict } from "../../api/course constants";
+import { extensionCoupon } from "../../action/coupons";
+
 const index = () => {
   const styles = StyleSheet.create(css);
   const [change, setChange] = useState(false);
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const data = useSelector((state) => state.auth.profile);
+  const [isOpen, setOpen] = useState({ open: false, type: "", confirm: false });
+  const cancelRef = React.useRef(null);
+  const isFocused = useIsFocused();
+  const [coupons, setCoupons] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [state, setState] = useState({
     telegram_id: "",
     gst_number: "",
     tradingview_id: "",
   });
-  console.log(data);
   const dispatch = useDispatch();
   useEffect(() => {
-    const getData = async () => {
-      await getProfile(dispatch);
-    };
-    getData();
-  }, [dispatch]);
+    if (isFocused) {
+      const getData = async () => {
+        const data = await getProfile(dispatch);
+        if (data) {
+          setCoupons(
+            data?.courses?.map((obj) => {
+              return { courseId: obj.course_id, couponCode: "" };
+            })
+          );
+          setLoading(false);
+        }
+      };
+      setCoupons([]);
+      setLoading(true);
+      getData();
+    }
+  }, [dispatch, isFocused, setCoupons, setLoading]);
   useEffect(() => {
     if (
       (state.gst_number !== "" && state.gst_number.length === 15) ||
@@ -81,10 +109,49 @@ const index = () => {
     };
     dispatch(updateProfile(req));
   };
+
   return (
     <ScrollView scrollEnabled={!isKeyboardVisible} style={styles.scroll}>
-      <KeyboardAvoidingView behavior="padding" style={styles.scroll}>
+      {/* <KeyboardAvoidingView behavior="padding" style={styles.scroll}> */}
         <View style={styles.container}>
+          <AlertDialog
+            leastDestructiveRef={cancelRef}
+            isOpen={isOpen.open}
+            onClose={() => {
+              setOpen({ open: false, type: "", confirm: false });
+            }}
+          >
+            <AlertDialog.Content>
+              <AlertDialog.CloseButton />
+              <AlertDialog.Header>{`Set ${isOpen.type}`}</AlertDialog.Header>
+              <AlertDialog.Body>
+                The data you have entered cannot be changed after submission.
+                Please Ensure that the GST Number is correct.
+              </AlertDialog.Body>
+              <AlertDialog.Footer>
+                <Button.Group space={2}>
+                  <Button
+                    variant="unstyled"
+                    colorScheme="coolGray"
+                    onPress={() => {
+                      setOpen({ open: false, type: "", confirm: false });
+                    }}
+                    ref={cancelRef}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    colorScheme="danger"
+                    onPress={() => {
+                      setOpen({ open: false, type: "", confirm: true });
+                    }}
+                  >
+                    Confirm
+                  </Button>
+                </Button.Group>
+              </AlertDialog.Footer>
+            </AlertDialog.Content>
+          </AlertDialog>
           <VStack style={styles.background}>
             <View>
               <Text style={styles.header}>Your Profile</Text>
@@ -199,9 +266,101 @@ const index = () => {
               CLICK HERE to learn how to find your TradingView & Telegram
               Username
             </Text>
+
+            <Divider my="6" style={{ backgroundColor: "#98B8C6" }} />
+
+            <View style={styles.Courses}>
+              <VStack
+                style={{ alignItems: "center", justifyContent: "center" }}
+              >
+                <Text style={styles.CourseHeader}>Your Courses</Text>
+                <VStack style={styles.CoursesContainer} space={3}>
+                  {!loading &&
+                    data?.courses.map((item) => {
+                      const handleCoupons = (text) => {
+                        setCoupons((state) => {
+                          const index = state.findIndex(
+                            (ite) => ite.courseId === item.course_id
+                          );
+                          if (index !== -1) {
+                            state[index].couponCode = text;
+                          }
+                          return [...state];
+                        });
+                      };
+                      const applyCoupon = () => {
+                        const data = coupons.find(
+                          (ite) => ite.courseId === item.course_id
+                        );
+                        if (data.couponCode.trim() !== "") {
+                          dispatch(
+                            extensionCoupon({
+                              courseId: data.courseId,
+                              couponCode: data.couponCode.trim(),
+                            })
+                          );
+                        } else {
+                          Toast.show({
+                            title: "Please enter coupon ",
+                            isClosable: true,
+                          });
+                        }
+                      };
+                      return (
+                        <VStack
+                          style={styles.card}
+                          space={2}
+                          key={item.course_id}
+                        >
+                          <Text style={styles.CourseName}>
+                            Course: {courseDict[item.course_id]}
+                          </Text>
+                          {item?.percent_completed >= 90 && (
+                            <Button
+                              style={styles.CourseButton}
+                              onPress={() => {
+                                dispatch(getCertificate(item.course_id));
+                              }}
+                            >
+                              <Text
+                                style={{
+                                  color: "#022460",
+                                }}
+                              >
+                                DOWNLOAD CERTIFICATE
+                              </Text>
+                            </Button>
+                          )}
+                          <Divider
+                            my="2"
+                            style={{ backgroundColor: "#98B8C6" }}
+                          />
+                          <Input
+                            placeholder="Code"
+                            style={styles.CouponInput}
+                            onChangeText={handleCoupons}
+                          />
+                          <Button
+                            style={styles.CourseButton}
+                            onPress={applyCoupon}
+                          >
+                            <Text
+                              style={{
+                                color: "#022460",
+                              }}
+                            >
+                              APPLY EXTENSION COUPON
+                            </Text>
+                          </Button>
+                        </VStack>
+                      );
+                    })}
+                </VStack>
+              </VStack>
+            </View>
           </VStack>
         </View>
-      </KeyboardAvoidingView>
+      {/* </KeyboardAvoidingView> */}
     </ScrollView>
   );
 };

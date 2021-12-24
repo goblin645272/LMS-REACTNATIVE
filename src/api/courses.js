@@ -18,3 +18,4 @@ export const getsingleboughtcourse = (id) =>
 export const changewatchstatus = (courseId, videoId) =>
   API.get(`/${courseId}/${videoId}`);
 export const getvideodetails = (id) => API.get(`/vdoCipher/${id}`);
+export const getcertificate = (id) => API.get(`/certificate/${id}`);

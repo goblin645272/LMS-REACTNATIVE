@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, KeyboardAvoidingView, Linking } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { VStack, Link } from "native-base";
-import LinearGradient from 'react-native-linear-gradient';
+import LinearGradient from "react-native-linear-gradient";
 import css from "./styles";
 import { SafeAreaView } from "react-native-safe-area-context";
 

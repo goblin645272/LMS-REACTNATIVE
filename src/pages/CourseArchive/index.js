@@ -4,24 +4,16 @@ import { Accordion, VStack, HStack, Toast } from "native-base";
 import moment from "moment";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import { Vimeo } from "react-native-vimeo-iframe";
-import LinearGradient from 'react-native-linear-gradient';
+import LinearGradient from "react-native-linear-gradient";
 import { getEvents } from "../../action/events";
 import { useDispatch, useSelector } from "react-redux";
 import css from "./styles";
 const styles = StyleSheet.create(css);
 const deviceWindow = Dimensions.get("window");
 
-function addHoursToDate(date, hours, minutes) {
-  const dat = new Date(date);
-  dat.setMinutes(dat.getMinutes() + minutes);
-  dat.setHours(dat.getHours() + hours);
-  return dat;
-}
-
 const index = ({ route, navigation }) => {
   const [past, setPast] = useState(false);
   const events = useSelector((state) => state.events);
-  const [loading, setLoading] = useState(true);
   const params = route.params;
   const dispatch = useDispatch();
   useEffect(() => {

@@ -13,3 +13,4 @@ Promise.all(
 );
 
 export const gettestimonials = () => API.get("/getDedicatedTestimonialsPage");
+export const updatetestimonial = (formdata) =>API.post(`/`, formdata);

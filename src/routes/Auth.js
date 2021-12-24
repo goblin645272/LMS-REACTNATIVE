@@ -19,6 +19,8 @@ import courseContent from "../pages/CourseContent";
 import EventCalendar from "../pages/Event Calendar";
 import Prepayment from "../pages/Prepayment";
 import Blogs from "../pages/Blogs";
+import BlogInternal from "../pages/BlogInternal";
+
 const index = () => {
   const Stack = createDrawerNavigator();
   return (
@@ -26,7 +28,7 @@ const index = () => {
       <NavigationContainer>
         <Stack.Navigator
           drawerContent={(props) => <Drawer {...props} />}
-          initialRouteName="Home"
+          initialRouteName="Profile"
           screenOptions={{
             headerTitle: "",
             headerRight: () => (
@@ -50,6 +52,8 @@ const index = () => {
           <Stack.Screen name="Blogs" component={Blogs} />
           <Stack.Screen name="Testimonials" component={Testimonials} />
           <Stack.Screen name="Course Video" component={courseVideo} />
+          <Stack.Screen name="Blog Internal" component={BlogInternal} />
+
           <Stack.Screen name="Course Content" component={courseContent} />
           <Stack.Screen name="Course Archive" component={courseArchive} />
           <Stack.Screen name="Quiz" component={Quiz} />

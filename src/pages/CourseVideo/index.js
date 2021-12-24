@@ -5,11 +5,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faPlayCircle, faBook } from "@fortawesome/free-solid-svg-icons";
 import { ScrollView } from "react-native-gesture-handler";
+import { useIsFocused } from "@react-navigation/native";
 import { VdoPlayerView, startVideoScreen } from "vdocipher-rn-bridge";
 const deviceWindow = Dimensions.get("window");
 import { getVideoDetails, changeWatchStatus } from "../../action/courses";
 
 const index = ({ route, navigation }) => {
+  const isFocused = useIsFocused();
   const [id, setId] = useState();
   const [watched, setWatched] = useState();
   const [video, setVideo] = useState({ valid: false, otp: "", playback: "" });
@@ -18,46 +20,49 @@ const index = ({ route, navigation }) => {
   const [sections, setSection] = useState();
   const [loading, setLoading] = useState(true);
   const [loader, setLoader] = useState(true);
+
   useEffect(() => {
-    const getData = () => {
-      const data = route.params.course;
-      if (data?.modules.length !== 0) {
-        let index1;
-        let index2;
-        let bool = false;
-        data.modules.map((item, inx1) => {
-          item.list.map((item2, inx2) => {
-            if (!bool && item2.id === data.last_watched) {
-              index1 = inx1;
-              index2 = inx2;
-              bool = true;
-            }
-            return item2;
+    if (isFocused) {
+      const getData = () => {
+        const data = route.params.course;
+        if (data?.modules.length !== 0) {
+          let index1;
+          let index2;
+          let bool = false;
+          data.modules.map((item, inx1) => {
+            item.list.map((item2, inx2) => {
+              if (!bool && item2.id === data.last_watched) {
+                index1 = inx1;
+                index2 = inx2;
+                bool = true;
+              }
+              return item2;
+            });
+            return item;
           });
-          return item;
-        });
-        if (bool) {
-          setSection(data?.modules);
-          setId(data?.modules[index1].list[index2].id);
-          setLoading(false);
+          if (bool) {
+            setSection(data?.modules);
+            setId(data?.modules[index1].list[index2].id);
+            setLoading(false);
+          } else {
+            setSection(data?.modules);
+            setId(data?.modules[0].list[0].id);
+            Toast.show({
+              title: "Your last watched video was deleted ! ",
+              isClosable: true,
+            });
+            dispatch(
+              changeWatchStatus(route.params.id, data?.modules[0].list[0].id)
+            );
+            setLoading(false);
+          }
         } else {
-          setSection(data?.modules);
-          setId(data?.modules[0].list[0].id);
-          Toast.show({
-            title: "Your last watched video was deleted ! ",
-            isClosable: true,
-          });
-          dispatch(
-            changeWatchStatus(route.params.id, data?.modules[0].list[0].id)
-          );
           setLoading(false);
         }
-      } else {
-        setLoading(false);
-      }
-    };
-    getData();
-  }, [dispatch, route.params.id, setId, setSection]);
+      };
+      getData();
+    }
+  }, [dispatch, route.params.id, setId, setSection, isFocused]);
 
   const videos = useMemo(() => {
     let tempVideo = [];
@@ -187,7 +192,7 @@ const index = ({ route, navigation }) => {
                 width: deviceWindow.width,
               }}
             >
-              <Text>loading ...</Text>
+              <Text>loading</Text>
             </View>
           ) : video.valid ? (
             <View style={{ alignItems: "center" }}>
@@ -300,25 +305,34 @@ const index = ({ route, navigation }) => {
                               </HStack>
                             </TouchableOpacity>
                           ) : (
-                            <HStack space={3} alignItems="center" key={key2}>
-                              <FontAwesomeIcon
-                                icon={faBook}
-                                style={{
-                                  width: deviceWindow.width * 0.2,
-                                }}
-                                size={deviceWindow.width < 560 ? 20 : 28}
-                              />
-                              <Text
-                                style={{
-                                  width: deviceWindow.width * 0.5,
-                                  fontFamily: "Barlow_500Medium",
-                                  fontSize: deviceWindow.height * 0.02,
-                                  color: "#000260",
-                                }}
-                              >
-                                {obj.title}
-                              </Text>
-                            </HStack>
+                            <TouchableOpacity
+                              onPress={() =>
+                                navigation.navigate("Quiz", {
+                                  id: obj.id,
+                                  course: route.params.course,
+                                })
+                              }
+                            >
+                              <HStack space={3} alignItems="center" key={key2}>
+                                <FontAwesomeIcon
+                                  icon={faBook}
+                                  style={{
+                                    width: deviceWindow.width * 0.2,
+                                  }}
+                                  size={deviceWindow.width < 560 ? 20 : 28}
+                                />
+                                <Text
+                                  style={{
+                                    width: deviceWindow.width * 0.5,
+                                    fontFamily: "Barlow_500Medium",
+                                    fontSize: deviceWindow.height * 0.02,
+                                    color: "#000260",
+                                  }}
+                                >
+                                  {obj.title}
+                                </Text>
+                              </HStack>
+                            </TouchableOpacity>
                           )}
                         </VStack>
                       );

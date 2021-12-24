@@ -2,30 +2,65 @@ import React, { useEffect } from "react";
 import { View, StyleSheet, Text, Dimensions, Image } from "react-native";
 import css from "./styles";
 import { VStack, ScrollView, Accordion } from "native-base";
-import CustomScroll from "../../Components/CustomScroll";
+import moment from "moment";
 const styles = StyleSheet.create(css);
 import cash from "../../assets/images/cash.jpeg";
 import { useDispatch, useSelector } from "react-redux";
 import { getBlogs } from "../../action/blogs";
-const index = () => {
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { useIsFocused } from "@react-navigation/native";
+const index = ({ navigation }) => {
   const blogs = useSelector((state) => state.blogs);
-  console.log(blogs);
+  const isFocused = useIsFocused();
   const deviceWindow = Dimensions.get("window");
   const dispatch = useDispatch();
   useEffect(() => {
-    const getdata = async () => {
-      await getBlogs(dispatch);
-    };
-    getdata();
-  }, [dispatch]);
+    if (isFocused) {
+      const getdata = async () => {
+        await getBlogs(dispatch);
+      };
+      getdata();
+    }
+  }, [dispatch, isFocused]);
 
   return (
     <ScrollView style={styles.scroll}>
       <Image source={cash} style={styles.banner} resizeMode="cover" />
       <View style={{ padding: 5 }}>
-        {blogs?.map((data) => {
+        {blogs?.map((data, index) => {
           return (
-            <Accordion key={data._id}>
+            <TouchableOpacity
+              key={index}
+              style={styles.touchable}
+              onPress={() =>
+                navigation.navigate("Blog Internal", {
+                  data: data,
+                })
+              }
+            >
+              <VStack>
+                <Text style={styles.head}>{data.title.replace(/-/g, " ")}</Text>
+                <Text style={styles.body}>
+                  {`${moment(data.date.slice(0, 10))
+                    .format("dddd")
+                    .slice(0, 3)}, ${moment(data.date.slice(0, 10)).format(
+                    "Do MMMM YYYY"
+                  )}`}
+                </Text>
+
+                <Text style={styles.body}>Click to Read More...</Text>
+              </VStack>
+            </TouchableOpacity>
+          );
+        })}
+      </View>
+    </ScrollView>
+  );
+};
+
+export default index;
+{
+  /* <Accordion key={data._id}>
               <Accordion.Item>
                 <Accordion.Summary>
                   <Text
@@ -76,12 +111,5 @@ const index = () => {
                   </VStack>
                 </Accordion.Details>
               </Accordion.Item>
-            </Accordion>
-          );
-        })}
-      </View>
-    </ScrollView>
-  );
-};
-
-export default index;
+            </Accordion> */
+}

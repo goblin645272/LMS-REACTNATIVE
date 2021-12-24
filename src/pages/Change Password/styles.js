@@ -10,7 +10,7 @@ const css = {
     height: deviceWindow.height,
   },
   header: {
-    marginTop: deviceWindow.height * 0.1,
+    marginTop: deviceWindow.height * 0.2  ,
     color: "#022460",
     fontSize: deviceWindow.height * 0.05,
     fontFamily: "Barlow_500Medium",
@@ -24,14 +24,14 @@ const css = {
     color: "#022460",
   },
   input: {
-    marginBottom: deviceWindow.height * 0.01,
+    marginTop: deviceWindow.height * 0.025,
     width: deviceWindow.width * 0.8,
     backgroundColor: "transparent",
     borderWidth: 1,
     borderColor: "#3F51B5",
   },
   button: {
-    marginTop: deviceWindow.height * 0.01,
+    marginTop: deviceWindow.height * 0.025,
     width: deviceWindow.width / 2,
     backgroundColor: "#022460",
   },

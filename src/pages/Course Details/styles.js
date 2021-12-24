@@ -14,11 +14,39 @@ const css = {
     justifyContent: "center",
     borderRadius: 20,
   },
+  inputBox: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  input: {
+    marginBottom: height * 0.015,
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: "#3F51B5",
+    width: "70%",
+  },
+  inputModal: {
+    marginTop: height * 0.025,
+    marginBottom: height * 0.025,
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: "#ffffff",
+    width: "70%",
+    color: "#ffffff",
+  },
   courseText: {
     textAlign: "center",
     color: "#022460",
     fontFamily: "Barlow_600SemiBold",
-    fontSize: height * 0.035,
+    fontSize: height * 0.023,
+  },
+  modalText: {
+    textAlign: "center",
+    color: "#ffffff",
+    fontFamily: "Barlow_600SemiBold",
+    fontSize: height * 0.02,
+    marginBottom: height * 0.025,
   },
   progress: {
     padding: width * 0.035,
@@ -45,6 +73,13 @@ const css = {
     fontSize: height * 0.04,
     color: "white",
     fontFamily: "Barlow_500Medium",
+  },
+  courseName: {
+    fontSize: height * 0.03,
+    color: "#022460",
+    fontFamily: "Barlow_500Medium",
+    textAlign: "center",
+    marginBottom: height * 0.02,
   },
 };
 export default css;

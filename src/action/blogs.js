@@ -1,4 +1,5 @@
 import { getblogs } from "../api/blogs";
+import { logout } from "./auth";
 export const getBlogs = async (dispatch) => {
   try {
     dispatch({ type: "LOAD" });
@@ -9,6 +10,14 @@ export const getBlogs = async (dispatch) => {
   } catch (error) {
     console.log(error);
     dispatch({ type: "UNLOAD" });
+    if (error.response?.status == 401) {
+      logout(dispatch);
+      Toast.show({
+        title:
+          "You have been logged out.Your MK Trading account is in use on another device",
+        isClosable: true,
+      });
+    }
     console.log(error);
   }
 };

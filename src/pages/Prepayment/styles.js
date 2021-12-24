@@ -49,6 +49,12 @@ const css = {
     backgroundColor: "#F3C10C",
     padding: 0,
   },
+  couponValidButton:{
+    width: deviceWindow.width * 0.3,
+    height: "100%",
+    backgroundColor: "#F3C10C",
+    padding: 0,
+  }
 };
 
 export default css;
