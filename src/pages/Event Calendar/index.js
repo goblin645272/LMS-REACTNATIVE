@@ -141,7 +141,7 @@ const index = () => {
               colors={["#1963D5", "#77DDEC"]}
             >
               <TouchableOpacity onPress={() => console.log(item.name)}>
-                <Text style={{ color: "white" }}>{item.name}</Text>
+                <Text allowFontScaling={false} style={{ color: "white" }}>{item.name}</Text>
               </TouchableOpacity>
             </LinearGradient>
           );
@@ -155,7 +155,7 @@ const index = () => {
                 style={styles.courseDetails}
                 colors={["#1963D5", "#77DDEC"]}
               >
-                <Text style={{ color: "white" }}>No Events Today</Text>
+                <Text allowFontScaling={false} style={{ color: "white" }}>No Events Today</Text>
               </LinearGradient>
             </View>
           );

@@ -102,7 +102,7 @@ const index = ({ route, navigation }) => {
     }
   }, [setCoupon, setTele, setOpen, setTrading, isFocused]);
 
-const _displayRazorpay = async()=>{
+const _displayRazorpay = async() => {
   axios
       .post(
         `${url}/razorpay/payment`,
@@ -147,7 +147,7 @@ const _displayRazorpay = async()=>{
                   .get(
                     `${url}/razorpay/downloadInvoice/${await AsyncStorage.getItem("token")}/${resp.razorpay_order_id}`
                   )
-                  .then((response) => {
+                  .then(async (response) => {
                     Toast.show(
                       {title: "You have successfully enrolled for the course. Please check email for invoice"}
                     );
@@ -231,15 +231,15 @@ const _displayRazorpay = async()=>{
       </AlertDialog>
       <VStack space={5}>
         <VStack space={3}>
-          <Text style={styles.headerText}>Purchase Information</Text>
-          <Text style={styles.smallText}>
+          <Text allowFontScaling={false} style={styles.headerText}>Purchase Information</Text>
+          <Text allowFontScaling={false} style={styles.smallText}>
             Course : {`${courseDict[courseID]} `}
           </Text>
-          <Text style={styles.smallText}>Plan: {plan.tier}</Text>
+          <Text allowFontScaling={false} style={styles.smallText}>Plan: {plan.tier}</Text>
           {!coupon.valid ? (
             <>
               {user.state === "Maharashtra" || user.state === "Other" ? (
-                <Text style={styles.smallText}>
+                <Text allowFontScaling={false} style={styles.smallText}>
                   Total Amount: ₹{plan?.amount}+{" "}
                   {`${(plan?.amount * CGST).toFixed(2)} (CGST ${CGST * 100}%) `}{" "}
                   +{" "}
@@ -247,7 +247,7 @@ const _displayRazorpay = async()=>{
                   = ₹{(plan?.amount + plan?.amount * (CGST + SGST)).toFixed(2)}
                 </Text>
               ) : (
-                <Text style={styles.smallText}>
+                <Text allowFontScaling={false} style={styles.smallText}>
                   Total Amount: ₹{plan?.amount} +{" "}
                   {`${(plan?.amount * IGST).toFixed(2)} (IGST ${IGST * 100}%) `}{" "}
                   = ₹{(plan?.amount + plan?.amount * IGST).toFixed(2)}
@@ -255,14 +255,14 @@ const _displayRazorpay = async()=>{
               )}
             </>
           ) : coupon.IGST !== "" ? (
-            <Text style={styles.smallText}>
+            <Text allowFontScaling={false} style={styles.smallText}>
               Total Amount: ₹{plan?.amount} -{" "}
               {`${coupon.discount_amount} ( ${coupon.discount_percent}% )`} +{" "}
               {`${coupon?.IGST} (IGST ${IGST * 100}%) `} = ₹
               {coupon.final_amount}
             </Text>
           ) : (
-            <Text style={styles.smallText}>
+            <Text allowFontScaling={false} style={styles.smallText}>
               Total Amount: ₹{plan?.amount} -{" "}
               {`${coupon.discount_amount} ( ${coupon.discount_percent}% )`} +{" "}
               {`${coupon?.CGST} (CGST ${CGST * 100}%) `} +
@@ -270,7 +270,7 @@ const _displayRazorpay = async()=>{
               {coupon.final_amount}
             </Text>
           )}
-          <Text style={styles.smallText}>{`Date of Purchase: ${moment(new Date())
+          <Text allowFontScaling={false} style={styles.smallText}>{`Date of Purchase: ${moment(new Date())
                     .format("dddd")
                     .slice(0, 3)}, ${moment(new Date()).format(
                     "Do MMMM YYYY"
@@ -280,11 +280,11 @@ const _displayRazorpay = async()=>{
           <Divider my="1" style={{ backgroundColor: "rgba(2, 36, 96, 1)" }} />
         </View>
         <VStack space={3}>
-          <Text style={styles.headerText}>User Information</Text>
+          <Text allowFontScaling={false} style={styles.headerText}>User Information</Text>
           <Text
             style={styles.smallText}
           >{`User : ${user.firstName} ${user.lastName}`}</Text>
-          <Text style={styles.smallText}>{`User Email: ${user.email}`}</Text>
+          <Text allowFontScaling={false} style={styles.smallText}>{`User Email: ${user.email}`}</Text>
 
           {!user?.gst_number ? (
             <>
@@ -298,7 +298,7 @@ const _displayRazorpay = async()=>{
                   placeholder="User GST"
                 />
                 <Button style={styles.button} onPress={updateGST}>
-                  <Text style={{ color: "#F3C10C" }}>
+                  <Text allowFontScaling={false} style={{ color: "#F3C10C" }}>
                     Confirm Your GST number
                   </Text>
                 </Button>
@@ -322,7 +322,7 @@ const _displayRazorpay = async()=>{
                   placeholder="User Telegram"
                 />
                 <Button style={styles.button} onPress={updateTele}>
-                  <Text style={{ color: "#F3C10C" }}>
+                  <Text allowFontScaling={false} style={{ color: "#F3C10C" }}>
                     Confirm Your Telegram ID
                   </Text>
                 </Button>
@@ -344,7 +344,7 @@ const _displayRazorpay = async()=>{
                   }}
                 />
                 <Button style={styles.button} onPress={updateTrading}>
-                  <Text style={{ color: "#F3C10C" }}>
+                  <Text allowFontScaling={false} style={{ color: "#F3C10C" }}>
                     Confirm Your Trading View ID
                   </Text>
                 </Button>

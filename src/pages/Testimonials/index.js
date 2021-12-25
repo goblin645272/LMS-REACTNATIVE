@@ -38,7 +38,7 @@ const index = () => {
             setType(type === "user" ? "video" : "user");
           }}
         >
-          <Text style={styles.buttonText}>
+          <Text allowFontScaling={false} style={styles.buttonText}>
             {type === "user" ? "Testimonials" : "Reviews"}
           </Text>
         </Button>
@@ -63,7 +63,7 @@ const index = () => {
                   controls={true}
                   speed={false}
                 />
-                <Text style={styles.cardText}>{data.video_title}</Text>
+                <Text allowFontScaling={false} style={styles.cardText}>{data.video_title}</Text>
               </View>
             </VStack>
           ) : (

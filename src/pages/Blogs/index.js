@@ -39,8 +39,8 @@ const index = ({ navigation }) => {
               }
             >
               <VStack>
-                <Text style={styles.head}>{data.title.replace(/-/g, " ")}</Text>
-                <Text style={styles.body}>
+                <Text allowFontScaling={false} style={styles.head}>{data.title.replace(/-/g, " ")}</Text>
+                <Text allowFontScaling={false} style={styles.body}>
                   {`${moment(data.date.slice(0, 10))
                     .format("dddd")
                     .slice(0, 3)}, ${moment(data.date.slice(0, 10)).format(
@@ -48,7 +48,7 @@ const index = ({ navigation }) => {
                   )}`}
                 </Text>
 
-                <Text style={styles.body}>Click to Read More...</Text>
+                <Text allowFontScaling={false} style={styles.body}>Click to Read More...</Text>
               </VStack>
             </TouchableOpacity>
           );

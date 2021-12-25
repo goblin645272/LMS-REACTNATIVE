@@ -74,7 +74,7 @@ const index = ({ route, navigation }) => {
             flexDirection: "column",
           }}
         >
-          <Text style={styles.header}>{data?.name}</Text>
+          <Text allowFontScaling={false} style={styles.header}>{data?.name}</Text>
           <View
             style={
               deviceWindow.width < 560
@@ -101,9 +101,9 @@ const index = ({ route, navigation }) => {
               half={true}
             />
           </View>
-          {/* <Text style={styles.reviewText}>{`${data?.stars} stars`}</Text> */}
+          {/* <Text allowFontScaling={false} style={styles.reviewText}>{`${data?.stars} stars`}</Text> */}
 
-          <Text style={styles.reviewText}>{`${data?.rating} reviews`}</Text>
+          <Text allowFontScaling={false} style={styles.reviewText}>{`${data?.rating} reviews`}</Text>
           <Avatar
             size={deviceWindow.width < 560 ? "md" : "92"}
             source={AvatarImage}
@@ -117,22 +117,22 @@ const index = ({ route, navigation }) => {
       </LinearGradient>
       <ScrollView horizontal={true} style={styles.tabContainer}>
         <TouchableOpacity>
-          <Text style={styles.tabs}> BUY NOW </Text>
+          <Text allowFontScaling={false} style={styles.tabs}> BUY NOW </Text>
         </TouchableOpacity>
         <TouchableOpacity>
-          <Text style={styles.tabs}>ABOUT</Text>
+          <Text allowFontScaling={false} style={styles.tabs}>ABOUT</Text>
         </TouchableOpacity>
         <TouchableOpacity>
-          <Text style={styles.tabs}> INSTUCTOR </Text>
+          <Text allowFontScaling={false} style={styles.tabs}> INSTUCTOR </Text>
         </TouchableOpacity>
         <TouchableOpacity>
-          <Text style={styles.tabs}> SYLLABUS</Text>
+          <Text allowFontScaling={false} style={styles.tabs}> SYLLABUS</Text>
         </TouchableOpacity>
         <TouchableOpacity>
-          <Text style={styles.tabs}> TESTIMONIALS </Text>
+          <Text allowFontScaling={false} style={styles.tabs}> TESTIMONIALS </Text>
         </TouchableOpacity>
         <TouchableOpacity>
-          <Text style={styles.tabs}> FAQ</Text>
+          <Text allowFontScaling={false} style={styles.tabs}> FAQ</Text>
         </TouchableOpacity>
       </ScrollView>
 
@@ -144,7 +144,7 @@ const index = ({ route, navigation }) => {
         }}
       >
         <VStack space={3}>
-          <Text style={styles.pricing}>Pricing</Text>
+          <Text allowFontScaling={false} style={styles.pricing}>Pricing</Text>
           {data?.price?.map((item, index4) => {
             return (
               <LinearGradient
@@ -154,7 +154,7 @@ const index = ({ route, navigation }) => {
                 style={styles.background}
               >
                 <VStack alignItems="center">
-                  <Text style={styles.priceCardsHeader}>{item.tier}</Text>
+                  <Text allowFontScaling={false} style={styles.priceCardsHeader}>{item.tier}</Text>
                   <Text
                     style={styles.priceCardsPriceCancelled}
                   >{`₹ ${item.listAmount}`}</Text>
@@ -170,7 +170,7 @@ const index = ({ route, navigation }) => {
                     {item.qualities.map((quality, index6) => {
                       return (
                         <Unorderedlist key={index6 * 0.08}>
-                          <Text style={styles.priceQualities}>{quality}</Text>
+                          <Text allowFontScaling={false} style={styles.priceQualities}>{quality}</Text>
                         </Unorderedlist>
                       );
                     })}
@@ -184,7 +184,7 @@ const index = ({ route, navigation }) => {
                       })
                     }
                   >
-                    <Text style={styles.cardButtonText}>Enroll</Text>
+                    <Text allowFontScaling={false} style={styles.cardButtonText}>Enroll</Text>
                   </Button>
                 </VStack>
               </LinearGradient>
@@ -192,7 +192,7 @@ const index = ({ route, navigation }) => {
           })}
         </VStack>
         <View>
-          <Text style={styles.aboutHeader}>About This Program</Text>
+          <Text allowFontScaling={false} style={styles.aboutHeader}>About This Program</Text>
           <HTMLView
             value={data?.About}
             stylesheet={styles}
@@ -200,7 +200,7 @@ const index = ({ route, navigation }) => {
           />
         </View>
         <View style={styles.skills}>
-          <Text style={styles.skillsHeader}>Skills You'll Gain</Text>
+          <Text allowFontScaling={false} style={styles.skillsHeader}>Skills You'll Gain</Text>
           <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
             {data?.skills?.map((item, ind) => {
               return (
@@ -225,8 +225,8 @@ const index = ({ route, navigation }) => {
           {data?.features?.map((item, index2) => {
             return (
               <View style={styles.featureContainer} key={index2 * 0.782}>
-                <Text style={styles.featureHeader}>{item.feature_title}</Text>
-                <Text style={styles.featureContent}>{item.feature_desc}</Text>
+                <Text allowFontScaling={false} style={styles.featureHeader}>{item.feature_title}</Text>
+                <Text allowFontScaling={false} style={styles.featureContent}>{item.feature_desc}</Text>
               </View>
             );
           })}

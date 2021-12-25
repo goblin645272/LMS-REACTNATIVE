@@ -90,7 +90,7 @@ const index = () => {
       >
         <Center>
           <VStack>
-            <Text style={styles.header}>Change Password</Text>
+            <Text allowFontScaling={false} style={styles.header}>Change Password</Text>
             <FormControl isInvalid={"old_password" in errors}>
               <Input
                 type="password"
@@ -163,7 +163,7 @@ const index = () => {
           </VStack>
           <View style={{ alignItems: "center" }}>
             <Button onPress={() => submit()} style={styles.button}>
-              <Text style={styles.buttonText}>Change Password</Text>
+              <Text allowFontScaling={false} style={styles.buttonText}>Change Password</Text>
             </Button>
           </View>
         </Center>

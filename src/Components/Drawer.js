@@ -75,7 +75,7 @@ const Drawer = (props) => {
               }}
               style={styles.button}
             >
-              <Text style={styles.buttonText}>Log out</Text>
+              <Text allowFontScaling={false} style={styles.buttonText}>Log out</Text>
             </Button>
           </Center>
         </DrawerContentScrollView>

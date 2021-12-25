@@ -135,7 +135,7 @@ const index = ({ route, navigation }) => {
                   alignItems: "center",
                 }}
               >
-                <Text style={styles.modalText}>
+                <Text allowFontScaling={false} style={styles.modalText}>
                   Please take a moment to tell us about your experience of this
                   course/indicator?
                 </Text>
@@ -237,10 +237,10 @@ const index = ({ route, navigation }) => {
         <VStack space={1}>
           {!loading && (
             <>
-              <Text style={styles.courseName}>{course.name}</Text>
-              <Text style={styles.courseText}>Current Plan: {course.plan}</Text>
+              <Text allowFontScaling={false} style={styles.courseName}>{course.name}</Text>
+              <Text allowFontScaling={false} style={styles.courseText}>Current Plan: {course.plan}</Text>
               {courseID !== "612ccdb59f192c86faa26f4a" && (
-                <Text style={styles.courseText}>
+                <Text allowFontScaling={false} style={styles.courseText}>
                   Expires On:
                   {new Date(course.expiry).getFullYear() > 2110
                     ? "Unlimited Plan"
@@ -248,7 +248,7 @@ const index = ({ route, navigation }) => {
                 </Text>
               )}
               {courseID === "612ccd3c9f192c86faa26f48" && (
-                <Text style={styles.courseText}>
+                <Text allowFontScaling={false} style={styles.courseText}>
                   Sessions Available: {course.liveSessions}
                 </Text>
               )}
@@ -263,8 +263,8 @@ const index = ({ route, navigation }) => {
             alignItems="center"
             style={styles.progress}
           >
-            <Text style={styles.progressText}>Course Progress</Text>
-            <Text style={styles.progressPercent}>
+            <Text allowFontScaling={false} style={styles.progressText}>Course Progress</Text>
+            <Text allowFontScaling={false} style={styles.progressPercent}>
               {course?.percent_completed}%
             </Text>
           </HStack>
@@ -293,7 +293,7 @@ const index = ({ route, navigation }) => {
             end={{ x: 0.5, y: 1.5 }}
             style={styles.content}
           >
-            <Text style={styles.contentText}>Course Video</Text>
+            <Text allowFontScaling={false} style={styles.contentText}>Course Video</Text>
           </LinearGradient>
         </TouchableOpacity>
       )}
@@ -316,7 +316,7 @@ const index = ({ route, navigation }) => {
               end={{ x: 0.5, y: 1.5 }}
               style={styles.content}
             >
-              <Text style={styles.contentText}>Course Sessions & Archives</Text>
+              <Text allowFontScaling={false} style={styles.contentText}>Course Sessions & Archives</Text>
             </LinearGradient>
           </TouchableOpacity>
         )}
@@ -338,7 +338,7 @@ const index = ({ route, navigation }) => {
               end={{ x: 0.5, y: 1.5 }}
               style={styles.content}
             >
-              <Text style={styles.contentText}>
+              <Text allowFontScaling={false} style={styles.contentText}>
                 Skill Up Sessions & Archives
               </Text>
             </LinearGradient>
@@ -362,7 +362,7 @@ const index = ({ route, navigation }) => {
               end={{ x: 0.5, y: 1.5 }}
               style={styles.content}
             >
-              <Text style={styles.contentText}>Course Content</Text>
+              <Text allowFontScaling={false} style={styles.contentText}>Course Content</Text>
             </LinearGradient>
           </TouchableOpacity>
         )}

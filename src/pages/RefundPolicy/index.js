@@ -23,16 +23,16 @@ const index = () => {
           alignItems="center"
           style={styles.Vstack}
         >
-          <Text style={styles.head}>Cancellation & Refund Policy</Text>
-          <Text style={styles.body}>
+          <Text allowFontScaling={false} style={styles.head}>Cancellation & Refund Policy</Text>
+          <Text allowFontScaling={false} style={styles.body}>
             We at MK Trading School follow this simple rule, always give people
             more than what they expect to get. However, there may be instances
             where in we may not be the right fit for some customers, so if
             someone doesn't like our course or products they should be entitled
             for a refund.
           </Text>
-          <Text style={styles.point}>For the Courses</Text>
-          <Text style={styles.body}>
+          <Text allowFontScaling={false} style={styles.point}>For the Courses</Text>
+          <Text allowFontScaling={false} style={styles.body}>
             We follow a 7-day refund policy, wherein we offer a 7-day period to
             test out the course. However, if one has watched more than 50% of
             the course, he/she will not be eligible to claim a refund. Course
@@ -44,8 +44,8 @@ const index = () => {
             along with the course, the very same day we receive the refund
             request.
           </Text>
-          <Text style={styles.point}>For Skill UP Program</Text>
-          <Text style={styles.body}>
+          <Text allowFontScaling={false} style={styles.point}>For Skill UP Program</Text>
+          <Text allowFontScaling={false} style={styles.body}>
             One can request a refund for the fees paid towards the skill up
             program, within one week of purchase provided he/she has not
             attended any live skill up session. Attending even a single live
@@ -56,19 +56,19 @@ const index = () => {
             courses/ subscription which were offered along with the program, the
             very same day we receive the refund request.
           </Text>
-          <Text style={styles.point}>
+          <Text allowFontScaling={false} style={styles.point}>
             For Automated Zone Indicator & Alerts Subscription
           </Text>
-          <Text style={styles.body}>
+          <Text allowFontScaling={false} style={styles.body}>
             Since we are already offering a Free Demo, we do not entertain any
             cancellation and refund requests towards subscription made for the
             Automated Zone Indicator & Alerts. Any amounts paid are
             non-refundable under any circumstances.
           </Text>
-          <Text style={styles.point}>
+          <Text allowFontScaling={false} style={styles.point}>
             For Foundation Workshop on Supply & Demand Trading Strategy
           </Text>
-          <Text style={styles.body}>
+          <Text allowFontScaling={false} style={styles.body}>
             We do not entertain any cancellation and refund requests towards
             bookings made for the online workshop. Any amounts paid are
             non-refundable under any circumstances. Due to some unavoidable

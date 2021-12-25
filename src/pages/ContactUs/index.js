@@ -120,7 +120,7 @@ const index = () => {
             style={styles.background}
           >
             <VStack space={6} justifyContent="center" alignItems="center">
-              <Text style={styles.header}>Contact Us</Text>
+              <Text allowFontScaling={false} style={styles.header}>Contact Us</Text>
               <Input
                 placeholder="Name"
                 placeholderTextColor="#022460"
@@ -187,7 +187,7 @@ const index = () => {
                 }}
               />
               <Button style={styles.button} onPress={submit}>
-                <Text style={styles.button_text}>Submit</Text>
+                <Text allowFontScaling={false} style={styles.button_text}>Submit</Text>
               </Button>
             </VStack>
           </LinearGradient>

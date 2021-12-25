@@ -32,7 +32,7 @@ const Component = (course, { index, item }, navigation) => {
       style={styles.banner}
     >
       <VStack style={styles.bannerContent}>
-        <Text style={{ ...styles.bannerText }}>{item.text1}</Text>
+        <Text allowFontScaling={false} style={{ ...styles.bannerText }}>{item.text1}</Text>
         <Button
           onPress={() =>
             item.text1 === "Foundtion Class on Supply & Demand Trading Strategy"
@@ -44,9 +44,9 @@ const Component = (course, { index, item }, navigation) => {
           }
           style={styles.bannerButton}
         >
-          <Text style={styles.bannerButtonText}>Enroll Now</Text>
+          <Text allowFontScaling={false} style={styles.bannerButtonText}>Enroll Now</Text>
         </Button>
-        <Text style={{ ...styles.bannerText }}>{item.text2}</Text>
+        <Text allowFontScaling={false} style={{ ...styles.bannerText }}>{item.text2}</Text>
       </VStack>
     </ImageBackground>
   );
@@ -101,9 +101,9 @@ const index = ({ navigation }) => {
             autoplayDelay={3000}
             sliderWidth={deviceWindow.width}
             itemWidth={deviceWindow.width}
-            renderItem={(obj) => Component(courses?.[0] ,obj, navigation)}
+            renderItem={(obj) => Component(courses?.find((item)=>item._id === "612ccd3c9f192c86faa26f48") ,obj, navigation)}
           />
-          <Text style={styles.header}>Course & Offerings</Text>
+          <Text allowFontScaling={false} style={styles.header}>Course & Offerings</Text>
           <ScrollView horizontal={true} style={styles.horizontal}>
             {courses.map((obj) => {
               return (
@@ -119,7 +119,7 @@ const index = ({ navigation }) => {
                 >
                   <Image style={styles.courseImage} source={images[obj._id]} />
                   <View style={styles.courseContainer}>
-                    <Text style={styles.courseName}>{obj.name} </Text>
+                    <Text allowFontScaling={false} style={styles.courseName}>{obj.name} </Text>
                   </View>
                   <View
                     style={{
@@ -141,14 +141,14 @@ const index = ({ navigation }) => {
                         })
                       }
                     >
-                      <Text style={styles.courseButtonText}>Enroll</Text>
+                      <Text allowFontScaling={false} style={styles.courseButtonText}>Enroll</Text>
                     </Button>
                   </View>
                 </TouchableOpacity>
               );
             })}
           </ScrollView>
-          <Text style={styles.header}>Your Courses</Text>
+          <Text allowFontScaling={false} style={styles.header}>Your Courses</Text>
           <ScrollView horizontal={true} style={styles.horizontal}>
             {bought?.map((obj) => {
               return (
@@ -161,7 +161,7 @@ const index = ({ navigation }) => {
                 >
                   <Image style={styles.courseImage} source={images[obj._id]} />
                   <View style={styles.courseContainerRound}>
-                    <Text style={styles.courseName}>{obj.name}</Text>
+                    <Text allowFontScaling={false} style={styles.courseName}>{obj.name}</Text>
                   </View>
                 </TouchableOpacity>
               );

@@ -201,7 +201,7 @@ const index = ({ navigation }) => {
               style={styles.logo}
             />
             <View style={styles.login_box}>
-              <Text style={styles.header}>
+              <Text allowFontScaling={false} style={styles.header}>
                 {genOTP ? "Signup" : "Verify OTP"}
               </Text>
               <VStack
@@ -425,7 +425,7 @@ const index = ({ navigation }) => {
                       handleSubmit();
                     }}
                   >
-                    <Text style={styles.button_text}>Generate OTP</Text>
+                    <Text allowFontScaling={false} style={styles.button_text}>Generate OTP</Text>
                   </Button>
                 ) : (
                   <Button
@@ -434,7 +434,7 @@ const index = ({ navigation }) => {
                       handleOTPSubmit();
                     }}
                   >
-                    <Text style={styles.button_text}>Verify OTP</Text>
+                    <Text allowFontScaling={false} style={styles.button_text}>Verify OTP</Text>
                   </Button>
                 )}
               </VStack>

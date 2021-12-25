@@ -91,7 +91,7 @@ const index = ({ navigation }) => {
               style={styles.logo}
             />
             <View style={styles.login_box}>
-              <Text style={styles.header}>Login</Text>
+              <Text allowFontScaling={false} style={styles.header}>Login</Text>
               <Center flex={1} px="3">
                 <VStack space={6} justifyContent="center" alignItems="center">
                   <FormControl isInvalid={"email" in errors}>
@@ -184,7 +184,7 @@ const index = ({ navigation }) => {
                     ref={refs.button}
                     style={styles.button}
                   >
-                    <Text style={styles.button_text}>Login</Text>
+                    <Text allowFontScaling={false} style={styles.button_text}>Login</Text>
                   </Button>
                 </VStack>
               </Center>

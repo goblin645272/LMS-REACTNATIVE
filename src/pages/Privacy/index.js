@@ -22,11 +22,11 @@ const Privacy = () => {
           alignItems="center"
           style={styles.Vstack}
         >
-          <Text style={styles.head}>Privacy Policy</Text>
-          <Text style={styles.point}>
+          <Text allowFontScaling={false} style={styles.head}>Privacy Policy</Text>
+          <Text allowFontScaling={false} style={styles.point}>
             MKTS stands for MK Trading School here onwards
           </Text>
-          <Text style={styles.body}>
+          <Text allowFontScaling={false} style={styles.body}>
             Your privacy is important to MKTS. To reinforce our commitment to
             protect your privacy, we provide this notice explaining our online
             information practices and the choices you can make about the way
@@ -59,8 +59,8 @@ const Privacy = () => {
             any changes. Continued use of this website and/or our services shall
             constitute consent to this policy and any changes made hereto.
           </Text>
-          <Text style={styles.point}>How We Use Information</Text>
-          <Text style={styles.body}>
+          <Text allowFontScaling={false} style={styles.point}>How We Use Information</Text>
+          <Text allowFontScaling={false} style={styles.body}>
             MK Trading School may use the information that you provide through
             our site to market our services. Our goal is to utilize the
             information collected to ensure a positive experience with our
@@ -77,8 +77,8 @@ const Privacy = () => {
             wish to receive calls from us in the future, you can let us know by
             emailing us at support@mktradingschool.com
           </Text>
-          <Text style={styles.point}>Sharing Information</Text>
-          <Text style={styles.body}>
+          <Text allowFontScaling={false} style={styles.point}>Sharing Information</Text>
+          <Text allowFontScaling={false} style={styles.body}>
             Privacy matters are very important to us, and all available
             resources and processes are implemented to make sure your
             information remains safe and secure. We do not sell, license, lease
@@ -107,8 +107,8 @@ const Privacy = () => {
             non-personal information and personal information, to one or more
             affiliated or unaffiliated third parties.
           </Text>
-          <Text style={styles.point}>Control of Your Password</Text>
-          <Text style={styles.body}>
+          <Text allowFontScaling={false} style={styles.point}>Control of Your Password</Text>
+          <Text allowFontScaling={false} style={styles.body}>
             When you sign up to become a member, you will also be asked to
             choose a password. You are entirely responsible for maintaining the
             confidentiality of your password. It is important that you protect
@@ -128,16 +128,16 @@ const Privacy = () => {
             suspect any consistent unauthorized use of your account or access to
             your password even after changing it.
           </Text>
-          <Text style={styles.point}>Public Forums</Text>
-          <Text style={styles.body}>
+          <Text allowFontScaling={false} style={styles.point}>Public Forums</Text>
+          <Text allowFontScaling={false} style={styles.body}>
             This site may make chat rooms, forums, message boards, and/or news
             groups available to its users. Please remember that any information
             that is disclosed in these areas becomes public information and you
             should exercise caution when deciding to disclose your personal
             information.
           </Text>
-          <Text style={styles.point}>Social Media</Text>
-          <Text style={styles.body}>
+          <Text allowFontScaling={false} style={styles.point}>Social Media</Text>
+          <Text allowFontScaling={false} style={styles.body}>
             We may use hyperlinks on the Website which will redirect you to a
             social network if you click on the respective link. However, when
             you click on a social plug-in, such as Facebook’s “Like” or “Share”
@@ -164,8 +164,8 @@ const Privacy = () => {
             harm resulting from their voluntary disclosure of personally
             identifying information.
           </Text>
-          <Text style={styles.point}>Confidentiality</Text>
-          <Text style={styles.body}>
+          <Text allowFontScaling={false} style={styles.point}>Confidentiality</Text>
+          <Text allowFontScaling={false} style={styles.body}>
             This site has security measures in place to protect the loss,
             misuse, and alteration of the information under our control. You
             further acknowledge that the Website may contain information which
@@ -191,8 +191,8 @@ const Privacy = () => {
             cannot be controlled by us and as such, information and data
             transmitted may be viewed by unauthorized third parties.
           </Text>
-          <Text style={styles.point}>Cookies</Text>
-          <Text style={styles.body}>
+          <Text allowFontScaling={false} style={styles.point}>Cookies</Text>
+          <Text allowFontScaling={false} style={styles.body}>
             We use cookie technology to help members move faster through the
             site. We also use cookies to deliver content specific to your
             interests. A cookie is a small file sent to your computer by our
@@ -217,8 +217,8 @@ const Privacy = () => {
             investigation into a violation of the terms of use or alleged
             misconduct.
           </Text>
-          <Text style={styles.point}>Links to Other Websites</Text>
-          <Text style={styles.body}>
+          <Text allowFontScaling={false} style={styles.point}>Links to Other Websites</Text>
+          <Text allowFontScaling={false} style={styles.body}>
             This site may contain links to third parties’ websites. Please note
             that we are not responsible for the collection, use, maintenance,
             sharing, or disclosure of data and information by such third
@@ -228,23 +228,23 @@ const Privacy = () => {
             purchase of a product. We encourage you to read the privacy policies
             of websites that you visit before submitting personal information.
           </Text>
-          <Text styles={styles.point}>
+          <Text allowFontScaling={false} styles={styles.point}>
             Our Commitment to Children’s Privacy
           </Text>
-          <Text style={styles.body}>
+          <Text allowFontScaling={false} style={styles.body}>
             Protecting the privacy of the very young is especially important.
             For that reason, we do not collect or maintain information at our
             website from those we know are under the age of thirteen (13).
           </Text>
-          <Text style={styles.point}>Opt-Out</Text>
-          <Text style={styles.body}>
+          <Text allowFontScaling={false} style={styles.point}>Opt-Out</Text>
+          <Text allowFontScaling={false} style={styles.body}>
             If you do not wish to have your personal information disclosed to
             our affiliates, third parties or to be used by MK Trading School as
             described in this Policy please contact us via email:
             - support@mktradingschool.com
           </Text>
-          <Text style={styles.point}>Contact Us</Text>
-          <Text style={styles.body}>
+          <Text allowFontScaling={false} style={styles.point}>Contact Us</Text>
+          <Text allowFontScaling={false} style={styles.body}>
             If you further have any questions about this agreement, the
             practices of MK Trading School or your experience with our service,
             you can email us at support@mktradingschool.com

@@ -42,10 +42,10 @@ const index = ({ navigation, route }) => {
                 }}
                 size={deviceWindow.width < 560 ? 20 : 28}
               />
-              <Text style={styles.body}>{`Go Back`}</Text>
+              <Text allowFontScaling={false} style={styles.body}>{`Go Back`}</Text>
             </HStack>
           </TouchableOpacity>
-          <Text style={styles.head}>{data.title.replace(/-/g, " ")}</Text>
+          <Text allowFontScaling={false} style={styles.head}>{data.title.replace(/-/g, " ")}</Text>
           <Image
             source={{ uri: data.image_link }}
             style={styles.banner}
@@ -59,7 +59,7 @@ const index = ({ navigation, route }) => {
               onLinkPress={(url) => Linking.openURL(url)}
             />
           </View>
-          <Text style={styles.body}>{`~ ${data.author}`}</Text>
+          <Text allowFontScaling={false} style={styles.body}>{`~ ${data.author}`}</Text>
         </VStack>
       </LinearGradient>
     </ScrollView>

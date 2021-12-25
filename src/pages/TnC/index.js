@@ -23,8 +23,8 @@ const index = () => {
           alignItems="center"
           style={styles.Vstack}
         >
-          <Text style={styles.head}>Terms & Conditions</Text>
-          <Text style={styles.body}>
+          <Text allowFontScaling={false} style={styles.head}>Terms & Conditions</Text>
+          <Text allowFontScaling={false} style={styles.body}>
             By visiting & registering on our website 
             <Text
               onPress={() => Linking.openURL("https://www.mktradingschool.com")}
@@ -44,7 +44,7 @@ const index = () => {
             “Terms & Conditions’ link on our website.
           </Text>
 
-          <Text style={styles.body}>
+          <Text allowFontScaling={false} style={styles.body}>
             The Participant agrees to take particular care when providing us
             with the details pertaining to debit/credit card and warrants that
             these details are accurate and complete at the time of making
@@ -54,7 +54,7 @@ const index = () => {
             payment.
           </Text>
 
-          <Text style={styles.body}>
+          <Text allowFontScaling={false} style={styles.body}>
             All contents of this training program including all the trademarks,
             logos and service marks, information’s and contents provided on our
             website, design structure and compilation are owned Intellectual
@@ -70,13 +70,13 @@ const index = () => {
             action and forfeiture of the course fees.
           </Text>
 
-          <Text style={styles.body}>
+          <Text allowFontScaling={false} style={styles.body}>
             Any subscriber will be restricted to maximum of One concurrent login
             from any devices, any attempts of more than One concurrent login
             will be blocked.
           </Text>
 
-          <Text style={styles.body}>
+          <Text allowFontScaling={false} style={styles.body}>
             The Participant understands that investment in securities market is
             subject to market risk and shall read all the related documents
             including the Risk disclosure documents carefully before investing

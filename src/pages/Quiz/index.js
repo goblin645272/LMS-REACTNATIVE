@@ -114,10 +114,10 @@ const index = ({ route, navigation }) => {
       ) : (
         <ScrollView style={styles.body}>
           <VStack style={{ justifyContent: "center", alignItems: "center" }}>
-            <Text style={styles.text}>
+            <Text allowFontScaling={false} style={styles.text}>
               Question {state.currentQuestion + 1}/{questions.length}
             </Text>
-            <Text style={styles.question}>
+            <Text allowFontScaling={false} style={styles.question}>
               {questions[state.currentQuestion].questionText}
             </Text>
             <VStack>
@@ -173,7 +173,7 @@ const index = ({ route, navigation }) => {
                     style={{ height: deviceWindow.height * 0.06 }}
                     onPress={handlePrev}
                   >
-                    <Text textAlign="center">
+                    <Text allowFontScaling={false} textAlign="center">
                       <ArrowBackIcon />
                     </Text>
                   </Button>
@@ -208,7 +208,7 @@ const index = ({ route, navigation }) => {
                     style={{ height: deviceWindow.height * 0.06 }}
                     onPress={handleNext}
                   >
-                    <Text textAlign="center">
+                    <Text allowFontScaling={false} textAlign="center">
                       <ArrowForwardIcon />
                     </Text>
                   </Button>

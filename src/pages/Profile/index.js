@@ -154,10 +154,10 @@ const index = () => {
           </AlertDialog>
           <VStack style={styles.background}>
             <View>
-              <Text style={styles.header}>Your Profile</Text>
+              <Text allowFontScaling={false} style={styles.header}>Your Profile</Text>
             </View>
             <View>
-              <Text style={styles.label}>First Name</Text>
+              <Text allowFontScaling={false} style={styles.label}>First Name</Text>
               <Input
                 value={data?.firstName}
                 placeholder="First Name"
@@ -166,7 +166,7 @@ const index = () => {
               />
             </View>
             <View>
-              <Text style={styles.label}>Last Name</Text>
+              <Text allowFontScaling={false} style={styles.label}>Last Name</Text>
               <Input
                 placeholder="Last Name"
                 value={data?.lastName}
@@ -175,7 +175,7 @@ const index = () => {
               />
             </View>
             <View>
-              <Text style={styles.label}>Email</Text>
+              <Text allowFontScaling={false} style={styles.label}>Email</Text>
               <Input
                 placeholder="First Name"
                 value={data?.email}
@@ -184,7 +184,7 @@ const index = () => {
               />
             </View>
             <View>
-              <Text style={styles.label}>State</Text>
+              <Text allowFontScaling={false} style={styles.label}>State</Text>
               <Input
                 placeholder="State"
                 value={data?.state}
@@ -194,7 +194,7 @@ const index = () => {
             </View>
 
             <View>
-              <Text style={styles.label}>Phone Number</Text>
+              <Text allowFontScaling={false} style={styles.label}>Phone Number</Text>
               <Input
                 placeholder="Phone Number"
                 value={data?.phone_number}
@@ -203,7 +203,7 @@ const index = () => {
               />
             </View>
             <View>
-              <Text style={styles.label}>GST Number</Text>
+              <Text allowFontScaling={false} style={styles.label}>GST Number</Text>
               <Input
                 placeholder="GST Number"
                 value={!data?.gst_number ? state.gst_number : data?.gst_number}
@@ -213,7 +213,7 @@ const index = () => {
               />
             </View>
             <View>
-              <Text style={styles.label}>Telegram Username</Text>
+              <Text allowFontScaling={false} style={styles.label}>Telegram Username</Text>
               <Input
                 value={!data?.telegramId ? state.telegram_id : data?.telegramId}
                 onChangeText={(text) => handleChange("telegram_id", text)}
@@ -223,7 +223,7 @@ const index = () => {
               />
             </View>
             <View>
-              <Text style={styles.label}>Trading View Username</Text>
+              <Text allowFontScaling={false} style={styles.label}>Trading View Username</Text>
               <Input
                 value={
                   !data?.tradingviewId
@@ -273,7 +273,7 @@ const index = () => {
               <VStack
                 style={{ alignItems: "center", justifyContent: "center" }}
               >
-                <Text style={styles.CourseHeader}>Your Courses</Text>
+                <Text allowFontScaling={false} style={styles.CourseHeader}>Your Courses</Text>
                 <VStack style={styles.CoursesContainer} space={3}>
                   {!loading &&
                     data?.courses.map((item) => {
@@ -312,7 +312,7 @@ const index = () => {
                           space={2}
                           key={item.course_id}
                         >
-                          <Text style={styles.CourseName}>
+                          <Text allowFontScaling={false} style={styles.CourseName}>
                             Course: {courseDict[item.course_id]}
                           </Text>
                           {item?.percent_completed >= 90 && (

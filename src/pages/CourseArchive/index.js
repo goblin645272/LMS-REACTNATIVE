@@ -84,21 +84,21 @@ const index = ({ route, navigation }) => {
                       end={{ x: 0.5, y: 1.5 }}
                       style={styles.content}
                     >
-                      <Text style={styles.contentTextDate}>
+                      <Text allowFontScaling={false} style={styles.contentTextDate}>
                         {`${moment(data.from.slice(0, 10))
                           .format("dddd")
                           .slice(0, 3)}, ${moment(
                           data.from.slice(0, 10)
                         ).format("Do MMMM")}`}
                       </Text>
-                      <Text style={styles.contentTextCourse}>
+                      <Text allowFontScaling={false} style={styles.contentTextCourse}>
                         {`${data.from.slice(11, 16)} - ${data.to.slice(
                           11,
                           16
                         )}`}
                       </Text>
-                      <Text style={styles.contentTextCourse}>{data.title}</Text>
-                      <Text style={styles.contentTextLink}>
+                      <Text allowFontScaling={false} style={styles.contentTextCourse}>{data.title}</Text>
+                      <Text allowFontScaling={false} style={styles.contentTextLink}>
                         Click here to join
                       </Text>
                     </LinearGradient>
