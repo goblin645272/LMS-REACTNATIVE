@@ -23,6 +23,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import moment from "moment";
 import axios from "axios";
 import url from "../../api/url";
+import { getProfile, logout } from "../../action/auth";
+
 const index = ({ route, navigation }) => {
   const isFocused = useIsFocused();
   const { courseID, plan } = route.params;
@@ -123,12 +125,22 @@ const _displayRazorpay = async()=>{
           
         };
         RazorpayCheckout.open(options).then(async (resp)=>{
+          setCoupon({
+            valid: false,
+            code: "",
+            discount_percent: "",
+            discount_amount: "",
+            CGST: "",
+            SGST: "",
+            IGST: "",
+            final_amount: "",
+          });
           Toast.show({title: "Please wait for confirmation"});
             if (resp.status?.status === 202) {
               Toast.show(
                 {title: "You have successfully enrolled for the course for free"}
               );
-              // update profile here
+              await getProfile(dispatch);
             } else {
               setTimeout( async function() {
                 axios
@@ -139,7 +151,7 @@ const _displayRazorpay = async()=>{
                     Toast.show(
                       {title: "You have successfully enrolled for the course. Please check email for invoice"}
                     );
-                    // update profile here
+                    await getProfile(dispatch);
                   })
                   .catch((error) => {
                     alert(
@@ -154,17 +166,15 @@ const _displayRazorpay = async()=>{
       .catch(async function (error) {
         alert(error)
         if (error.response?.status === 401) {
-          dispatch({ type: "LOGOUT" });
+          logout(dispatch);
           Toast.show(
             {title: "You have been logged out.Your MK Trading account is in use on another device"}
           );
-        
         } else if (error.response?.status === 409) {
           Toast.show({title:"You have successfully enrolled for the course"});
         } else {
           Toast.show({title: "Something went wrong.Please try again"});
         }
-        // setLoading(false);s
       });
 }
 

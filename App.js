@@ -13,7 +13,7 @@ export default function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const iocli = io("https://b08a-2409-4041-6ec0-f435-392e-6bc-2206-b63a.ngrok.io")
+    const iocli = io("https://705b-2405-201-200d-9062-cd98-c4d6-8cc4-5ec7.ngrok.io")
     const getToken = async () => {
       const data = await AsyncStorage.getItem("token");
       dispatch({ type: "SETTOKEN", data: data });
