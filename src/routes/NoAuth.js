@@ -8,6 +8,7 @@ import TnC from "../pages/TnC";
 import RefundPolicy from "../pages/RefundPolicy";
 import Privacy from "../pages/Privacy";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import NoInternet from "../pages/NoInternet"
 
 import AntDesign from "react-native-vector-icons/AntDesign";
 const index = ({ navigation }) => {
@@ -90,7 +91,23 @@ const index = ({ navigation }) => {
             }}
             component={TnC}
           />
+          <Stack.Screen
+            name="No Internet"
+            options={{
+              title: "",
+              headerLeft: () => (
+                <AntDesign
+                  name="left"
+                  size={24}
+                  color="black"
+                  onPress={() => navigation.goBack()}
+                />
+              ),
+            }}
+            component={NoInternet}
+          />
         </Stack.Navigator>
+        
       </NavigationContainer>
     </SafeAreaProvider>
   );

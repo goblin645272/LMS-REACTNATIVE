@@ -20,7 +20,7 @@ import EventCalendar from "../pages/Event Calendar";
 import Prepayment from "../pages/Prepayment";
 import Blogs from "../pages/Blogs";
 import BlogInternal from "../pages/BlogInternal";
-
+import NoInternet from "../pages/NoInternet"
 const index = () => {
   const Stack = createDrawerNavigator();
   return (
@@ -53,12 +53,12 @@ const index = () => {
           <Stack.Screen name="Testimonials" component={Testimonials} />
           <Stack.Screen name="Course Video" component={courseVideo} />
           <Stack.Screen name="Blog Internal" component={BlogInternal} />
-
           <Stack.Screen name="Course Content" component={courseContent} />
           <Stack.Screen name="Course Archive" component={courseArchive} />
           <Stack.Screen name="Quiz" component={Quiz} />
           <Stack.Screen name="Event Calendar" component={EventCalendar} />
           <Stack.Screen name="Prepayment" component={Prepayment} />
+          <Stack.Screen name="No Internet Auth" component={NoInternet} />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>

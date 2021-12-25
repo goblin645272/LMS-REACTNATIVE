@@ -6,6 +6,8 @@ import AuthNavigator from "./src/routes/Auth";
 import { useDispatch, useSelector } from "react-redux";
 import Spinner from "react-native-loading-spinner-overlay";
 import io from "socket.io-client"
+import NetInfo from "@react-native-community/netinfo";
+
 
 export default function App() {
   const visible = useSelector((state) => state.loader);
@@ -13,7 +15,7 @@ export default function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const iocli = io("https://705b-2405-201-200d-9062-cd98-c4d6-8cc4-5ec7.ngrok.io")
+    const iocli = io("https://efd3-2405-201-200d-9062-9dd1-2e22-a9a3-7fa4.ngrok.io")
     const getToken = async () => {
       const data = await AsyncStorage.getItem("token");
       dispatch({ type: "SETTOKEN", data: data });
@@ -21,7 +23,14 @@ export default function App() {
     getToken();
   }, [dispatch]);
    
-    
+
+const unsubscribe = NetInfo.addEventListener(state => {
+    console.log("Connection type", state.type);
+    console.log("Is connected?", state.isConnected);
+    !state.isConnected && navigation.navigate("No Internet")
+});
+// Unsubscribe
+// unsubscribe();
     return (
       <NativeBaseProvider>
         <Spinner

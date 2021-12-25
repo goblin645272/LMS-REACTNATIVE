@@ -127,7 +127,6 @@ const index = () => {
     });
   }, [setEves]);
 
-
   return (
     <View style={styles.container}>
       <Agenda

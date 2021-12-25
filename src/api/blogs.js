@@ -13,3 +13,4 @@ Promise.all(
 );
 
 export const getblogs = () => API.get("/");
+  
