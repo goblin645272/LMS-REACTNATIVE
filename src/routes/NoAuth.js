@@ -107,7 +107,6 @@ const index = ({ navigation }) => {
             component={NoInternet}
           />
         </Stack.Navigator>
-        
       </NavigationContainer>
     </SafeAreaProvider>
   );
