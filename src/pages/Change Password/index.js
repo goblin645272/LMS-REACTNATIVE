@@ -6,10 +6,16 @@ import LinearGradient from "react-native-linear-gradient";
 import css from "./styles";
 import { changePassword } from "../../action/auth";
 import { useIsFocused } from "@react-navigation/native";
+import NetInfo from "@react-native-community/netinfo"
 
 const styles = StyleSheet.create(css);
 
 const index = () => {
+  NetInfo.fetch().then(state => {
+    console.log("Connection type", state.type);
+    console.log("Is connected?", state.isConnected);
+    !state.isConnected && navigation.navigate("No Internet Auth")
+});
   const dispatch = useDispatch();
   const [data, setData] = useState({
     old_password: "",

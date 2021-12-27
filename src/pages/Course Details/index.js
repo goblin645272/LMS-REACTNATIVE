@@ -21,11 +21,16 @@ import starEmpty from "../../assets/images/starEmpty.png";
 import starFilled from "../../assets/images/starFilled.png";
 import starHalf from "../../assets/images/starHalf.png";
 import { updateTestimonial } from '../../action/testimonials';
-
+import NetInfo from "@react-native-community/netinfo"
 const styles = StyleSheet.create(css);
 const deviceWindow = Dimensions.get("window");
 
 const index = ({ route, navigation }) => {
+  NetInfo.fetch().then(state => {
+    console.log("Connection type", state.type);
+    console.log("Is connected?", state.isConnected);
+    !state.isConnected && navigation.navigate("No Internet Auth")
+});
   const cancelRef = useRef(null);
   const dispatch = useDispatch();
   const courseID = route.params.id;

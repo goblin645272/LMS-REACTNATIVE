@@ -32,7 +32,7 @@ const css = {
     paddingBottom: 20,
   },
   banner: {
-    width: deviceWindow.height * 0.9,
+    width: deviceWindow.width * 0.95,
     minHeight: deviceWindow.height * 0.25,
   },
   header: {

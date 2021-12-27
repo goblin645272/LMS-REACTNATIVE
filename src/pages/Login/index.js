@@ -16,10 +16,16 @@ import { useDispatch } from "react-redux";
 import { signIn } from "../../action/auth";
 import css from "./styles";
 import { Dimensions } from "react-native";
+import NetInfo from "@react-native-community/netinfo"
 const deviceWindow = Dimensions.get("window");
 
 const styles = StyleSheet.create(css);
 const index = ({ navigation }) => {
+  NetInfo.fetch().then(state => {
+    console.log("Connection type", state.type);
+    console.log("Is connected?", state.isConnected);
+    !state.isConnected && navigation.navigate("No Internet")
+  });
   const dispatch = useDispatch();
   const [data, setData] = useState({
     email: "",

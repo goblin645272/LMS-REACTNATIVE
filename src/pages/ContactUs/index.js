@@ -20,9 +20,15 @@ import { ScrollView } from "react-native-gesture-handler";
 import axios from "axios";
 import baseurl from "../../api/url";
 import { useDispatch } from "react-redux";
+import NetInfo from "@react-native-community/netinfo"
 const styles = StyleSheet.create(css);
 
 const index = () => {
+  NetInfo.fetch().then(state => {
+    console.log("Connection type", state.type);
+    console.log("Is connected?", state.isConnected);
+    !state.isConnected && navigation.navigate("No Internet Auth")
+});
   const dispatch = useDispatch();
   const emailRegex =
     /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

@@ -8,12 +8,22 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import HTMLView from "react-native-htmlview";
 import { Dimensions } from "react-native";
+import NetInfo from "@react-native-community/netinfo"
+
+
+    
+
 const deviceWindow = Dimensions.get("window");
 
 const styles = StyleSheet.create(css);
 
 const index = ({ navigation, route }) => {
   const data = route.params.data;
+  NetInfo.fetch().then(state => {
+    console.log("Connection type", state.type);
+    console.log("Is connected?", state.isConnected);
+    !state.isConnected && navigation.navigate("No Internet Auth")
+});
   return (
     <ScrollView>
       <LinearGradient
@@ -49,7 +59,7 @@ const index = ({ navigation, route }) => {
           <Image
             source={{ uri: data.image_link }}
             style={styles.banner}
-            // resizeMode="contain"
+            resizeMode="contain"
             alt="Blog Image"
           />
           <View>

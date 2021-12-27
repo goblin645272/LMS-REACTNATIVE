@@ -24,8 +24,14 @@ import moment from "moment";
 import axios from "axios";
 import url from "../../api/url";
 import { getProfile, logout } from "../../action/auth";
+import NetInfo from "@react-native-community/netinfo"
 
 const index = ({ route, navigation }) => {
+  NetInfo.fetch().then(state => {
+    console.log("Connection type", state.type);
+    console.log("Is connected?", state.isConnected);
+    !state.isConnected && navigation.navigate("No Internet Auth")
+});
   const isFocused = useIsFocused();
   const { courseID, plan } = route.params;
   const user = useSelector((state) => state.auth.profile);

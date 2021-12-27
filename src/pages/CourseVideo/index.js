@@ -9,8 +9,14 @@ import { useIsFocused } from "@react-navigation/native";
 import { VdoPlayerView, startVideoScreen } from "vdocipher-rn-bridge";
 const deviceWindow = Dimensions.get("window");
 import { getVideoDetails, changeWatchStatus } from "../../action/courses";
+import NetInfo from "@react-native-community/netinfo"
 
 const index = ({ route, navigation }) => {
+  NetInfo.fetch().then(state => {
+    console.log("Connection type", state.type);
+    console.log("Is connected?", state.isConnected);
+    !state.isConnected && navigation.navigate("No Internet Auth")
+});
   const isFocused = useIsFocused();
   const [id, setId] = useState();
   const [watched, setWatched] = useState();

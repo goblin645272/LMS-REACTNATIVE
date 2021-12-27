@@ -22,8 +22,14 @@ const styles = StyleSheet.create(css);
 import Carousel from "react-native-snap-carousel";
 import { getBoughtCourses } from "../../action/auth";
 import { useIsFocused } from "@react-navigation/native";
+import NetInfo from "@react-native-community/netinfo"
 
 const Component = (course, { index, item }, navigation) => {
+  NetInfo.fetch().then(state => {
+    console.log("Connection type", state.type);
+    console.log("Is connected?", state.isConnected);
+    !state.isConnected && navigation.navigate("No Internet Auth")
+});
   return (
     <ImageBackground
       key={index}

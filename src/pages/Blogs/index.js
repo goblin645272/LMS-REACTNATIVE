@@ -9,11 +9,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { getBlogs } from "../../action/blogs";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useIsFocused } from "@react-navigation/native";
+import NetInfo from "@react-native-community/netinfo"
 const index = ({ navigation }) => {
-  const blogs = useSelector((state) => state.blogs);
+  NetInfo.fetch().then(state => {
+    console.log("Connection type", state.type);
+    console.log("Is connected?", state.isConnected);
+    !state.isConnected && navigation.navigate("No Internet Auth")
+});
+const blogs = useSelector((state) => state.blogs);
   const isFocused = useIsFocused();
   const deviceWindow = Dimensions.get("window");
   const dispatch = useDispatch();
+  
   useEffect(() => {
     if (isFocused) {
       const getdata = async () => {

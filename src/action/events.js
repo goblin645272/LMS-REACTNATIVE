@@ -6,6 +6,7 @@ export const getEvents = async (dispatch) => {
     const { data } = await geteventswithauth();
     dispatch({ type: "GETEVENTS", data: data.result });
     dispatch({ type: "UNLOAD" });
+    return data.result;
   } catch (error) {
     dispatch({ type: "UNLOAD" });
     if (error.response?.status == 401) {

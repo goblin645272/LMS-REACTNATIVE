@@ -21,21 +21,16 @@ import Prepayment from "../pages/Prepayment";
 import Blogs from "../pages/Blogs";
 import BlogInternal from "../pages/BlogInternal";
 import NoInternet from "../pages/NoInternet"
-import NetInfo from "@react-native-community/netinfo";
 
 const index = ({navigation}) => {
   const Stack = createDrawerNavigator();
-  const unsubscribe = NetInfo.addEventListener(state => {
-    console.log("Connection type", state.type);
-    console.log("Is connected?", state.isConnected);
-    !state.isConnected && navigation.navigate("No Internet Auth")
-  });
+
   return (
     <SafeAreaProvider>
       <NavigationContainer>
         <Stack.Navigator
           drawerContent={(props) => <Drawer {...props} />}
-          initialRouteName="Profile"
+          initialRouteName="Home"
           screenOptions={{
             headerTitle: "",
             headerRight: () => (

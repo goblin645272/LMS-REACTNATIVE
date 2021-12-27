@@ -16,8 +16,14 @@ import Stars from "react-native-stars";
 import starEmpty from "../../assets/images/starEmpty.png";
 import starFilled from "../../assets/images/starFilled.png";
 import starHalf from "../../assets/images/starHalf.png";
+import NetInfo from "@react-native-community/netinfo"
 
 const index = () => {
+  NetInfo.fetch().then(state => {
+    console.log("Connection type", state.type);
+    console.log("Is connected?", state.isConnected);
+    !state.isConnected && navigation.navigate("No Internet Auth")
+});
   const testimonials = useSelector((state) => state.testimonials);
   const dispatch = useDispatch();
   useEffect(() => {

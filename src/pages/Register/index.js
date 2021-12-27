@@ -20,6 +20,8 @@ import css from "./styles";
 import { countryCode as countryList } from "../../assets/country";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { generateVerifyOTP, signUp, emailVerifyOTP } from "../../action/auth";
+import NetInfo from "@react-native-community/netinfo";
+
 const styles = StyleSheet.create(css);
 const statesIndia = [
   "Andaman and Nicobar Island",
@@ -63,6 +65,11 @@ const statesIndia = [
 ];
 
 const index = ({ navigation }) => {
+  NetInfo.fetch().then(state => {
+    console.log("Connection type", state.type);
+    console.log("Is connected?", state.isConnected);
+    !state.isConnected && navigation.navigate("No Internet")
+  });
   const dispatch = useDispatch();
   const [keyboard, setKeyboard] = useState(false);
   const [genOTP, setGenOTP] = useState(true);

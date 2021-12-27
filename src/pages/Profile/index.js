@@ -25,8 +25,14 @@ import { useIsFocused } from "@react-navigation/native";
 import { getCertificate } from "../../action/courses";
 import { courseDict } from "../../api/course constants";
 import { extensionCoupon } from "../../action/coupons";
+import NetInfo from "@react-native-community/netinfo"
 
 const index = () => {
+  NetInfo.fetch().then(state => {
+    console.log("Connection type", state.type);
+    console.log("Is connected?", state.isConnected);
+    !state.isConnected && navigation.navigate("No Internet Auth")
+});
   const styles = StyleSheet.create(css);
   const [change, setChange] = useState(false);
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);

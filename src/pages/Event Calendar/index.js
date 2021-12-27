@@ -1,12 +1,13 @@
-import { HStack, ScrollView, VStack } from "native-base";
 import React, { useEffect, useState, useLayoutEffect } from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, Linking } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { Agenda, LocaleConfig } from "react-native-calendars";
 import css from "./styles";
 import { getEvents } from "../../action/events";
 import { useDispatch, useSelector } from "react-redux";
-import Cal from "./Cal";
+import { useIsFocused } from "@react-navigation/native";
+import NetInfo from "@react-native-community/netinfo"
+
 const styles = StyleSheet.create(css);
 
 LocaleConfig.locales["en"] = {
@@ -53,84 +54,122 @@ LocaleConfig.locales["en"] = {
 };
 LocaleConfig.defaultLocale = "en";
 
-// const events = [
-//   {
-//     _id: "6199dde839668598789a91f8",
-//     courseId: "612ccd3c9f192c86faa26f48",
-//     sessionType: "qna",
-//     from: "2021-12-20T19:00:00.000Z",
-//     to: "2021-12-20T20:00:00.000Z",
-//     title: "Q&A Session",
-//     v: 0,
-//   },
-//   {
-//     _id: "619a046239668598789a9303",
-//     courseId: "612ccd6b9f192c86faa26f49",
-//     sessionType: "live",
-//     from: "2021-12-21T19:00:00.000Z",
-//     to: "2021-12-21T20:30:00.000Z",
-//     title: "Skill UP Session",
-//     v: 0,
-//   },
-//   {
-//     _id: "619a6ece39668598789a9484",
-//     courseId: "612ccd6b9f192c86faa26f49",
-//     sessionType: "live",
-//     from: "2021-12-23T19:00:00.000Z",
-//     to: "2021-12-23T20:30:00.000Z",
-//     title: "Skill UP Session",
-//     v: 0,
-//   },
-//   {
-//     _id: "619a6f0239668598789a948a",
-//     courseId: "612ccd6b9f192c86faa26f49",
-//     sessionType: "live",
-//     from: "2021-12-29T19:00:00.000Z",
-//     to: "2021-12-29T20:30:00.000Z",
-//     title: "Skill UP Session",
-//     v: 0,
-//   },
-// ];
-
 const index = () => {
+  NetInfo.fetch().then(state => {
+    console.log("Connection type", state.type);
+    console.log("Is connected?", state.isConnected);
+    !state.isConnected && navigation.navigate("No Internet Auth")
+});
   const [eves, setEves] = useState({
     items: {},
     markers: {},
   });
+  const [loading, setLoading] = useState(true)
+  const isFocused = useIsFocused();
   const dispatch = useDispatch();
-  const events = useSelector((state) => state.events);
-  useLayoutEffect(() => {
-    const getData = async () => {
-      await getEvents(dispatch);
-    };
-    getData();
-  }, [dispatch]);
 
-  useLayoutEffect(() => {
-    events.map((event) => {
-      const date = event.from.split("T")[0];
-      const title = `${event.from.split("T")[1].slice(0, 5)} - ${event.to
-        .split("T")[1]
-        .slice(0, 5)} ${event.title}`;
-      setEves((prev) => {
-        const items = { ...prev.items, ...{ [date]: [{ name: title }] } };
-        const markers = {
-          ...prev.markers,
-          ...{
-            [date]: { marked: true, dots: [{ key: "item", color: "#000" }] },
-          },
-        };
-        return {
-          items: items,
-          markers: markers,
-        };
-      });
-    });
-  }, [setEves]);
+  useEffect(()=>{
+    if (isFocused) {
+      setEves({
+        items: {},
+        markers: {},
+      })
+    }
+  }, [isFocused, setEves])
 
+  useEffect(() => {
+    if (isFocused) {
+      const getData = async () => {
+        const events = await getEvents(dispatch);
+        if (events) {
+          events.map((event) => {
+            const diff = new Date(event.from).getTime() - new Date().getTime();
+            const date = event.from.split("T")[0];
+            const title = `${event.from.split("T")[1].slice(0, 5)} - ${event.to
+              .split("T")[1]
+              .slice(0, 5)} ${event.title}`;
+            setEves((prev) => {
+              return {
+                items: { ...prev.items, ...{ [date]: [{ name: title, link: event.zoomLink, time: diff }] } },
+                markers: {
+                  ...prev.markers,
+                  ...{
+                    [date]: { marked: true, dots: [{ key: "item", color: "#000" }] },
+                  },
+                },
+              };
+            });
+          });
+        }
+      };
+      getData();
+    }
+  }, [dispatch, setEves, isFocused]);
+  
   return (
     <View style={styles.container}>
-      <Cal eves={eves} />
+      {eves.markers !== {} && <Agenda
+        items={eves.items}
+        renderItem={(item, firstItemInDay) => {
+          return (
+            <LinearGradient
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 2 }}
+              style={styles.item}
+              colors={["#1963D5", "#77DDEC"]}
+            >
+              <TouchableOpacity onPress={() => item.link && item.diff < 900000 && Linking.openURL(item.link)}>
+                <Text allowFontScaling={false} style={{ color: "white" }}>{item.name}</Text>
+                {item.link && item.diff < 900000 && <Text allowFontScaling={false} style={{ color: "white" }}>Click here to join!</Text>}
+              </TouchableOpacity>
+            </LinearGradient>
+          );
+        }}
+        renderEmptyData={() => {
+          return (
+            <View style={styles.background}>
+              <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 2 }}
+                style={styles.courseDetails}
+                colors={["#1963D5", "#77DDEC"]}
+              >
+                <Text allowFontScaling={false} style={{ color: "white" }}>No Events Today</Text>
+              </LinearGradient>
+            </View>
+          );
+        }}
+        pastScrollRange={1}
+        futureScrollRange={1}
+        markedDates={eves.markers}
+        onRefresh={() => {
+          const getData = async () => {
+            const events = await getEvents(dispatch);
+            if (events) {
+              events.map((event) => {
+                const date = event.from.split("T")[0];
+                const title = `${event.from.split("T")[1].slice(0, 5)} - ${event.to
+                  .split("T")[1]
+                  .slice(0, 5)} ${event.title}`;
+                setEves((prev) => {
+                  return {
+                    items: { ...prev.items, ...{ [date]: [{ name: title, link: event.zoomLink }] } },
+                    markers: {
+                      ...prev.markers,
+                      ...{
+                        [date]: { marked: true, dots: [{ key: "item", color: "#000" }] },
+                      },
+                    },
+                  };
+                });
+              });
+            }
+          };
+          getData();
+        }}
+        selected={new Date().toString()}
+        markingType={"multi-dot"}
+      />}
     </View>
   );
 };

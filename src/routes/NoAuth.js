@@ -16,7 +16,7 @@ const index = ({ navigation }) => {
   return (
     <SafeAreaProvider>
       <NavigationContainer>
-        <Stack.Navigator>
+        <Stack.Navigator>  
           <Stack.Screen
             name="Login"
             options={{
@@ -91,6 +91,7 @@ const index = ({ navigation }) => {
             }}
             component={TnC}
           />
+          <Stack.Screen name="No Internet" component={NoInternet} />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>
