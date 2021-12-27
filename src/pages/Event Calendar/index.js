@@ -1,11 +1,12 @@
 import { HStack, ScrollView, VStack } from "native-base";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useLayoutEffect } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { Agenda, LocaleConfig } from "react-native-calendars";
 import css from "./styles";
 import { getEvents } from "../../action/events";
 import { useDispatch, useSelector } from "react-redux";
+import Cal from "./Cal";
 const styles = StyleSheet.create(css);
 
 LocaleConfig.locales["en"] = {
@@ -98,14 +99,14 @@ const index = () => {
   });
   const dispatch = useDispatch();
   const events = useSelector((state) => state.events);
-  useEffect(() => {
+  useLayoutEffect(() => {
     const getData = async () => {
       await getEvents(dispatch);
     };
     getData();
   }, [dispatch]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     events.map((event) => {
       const date = event.from.split("T")[0];
       const title = `${event.from.split("T")[1].slice(0, 5)} - ${event.to
@@ -129,43 +130,7 @@ const index = () => {
 
   return (
     <View style={styles.container}>
-      <Agenda
-        items={eves.items}
-        renderItem={(item, firstItemInDay) => {
-          return (
-            <LinearGradient
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 2 }}
-              style={styles.item}
-              colors={["#1963D5", "#77DDEC"]}
-            >
-              <TouchableOpacity onPress={() => console.log(item.name)}>
-                <Text allowFontScaling={false} style={{ color: "white" }}>{item.name}</Text>
-              </TouchableOpacity>
-            </LinearGradient>
-          );
-        }}
-        renderEmptyData={() => {
-          return (
-            <View style={styles.background}>
-              <LinearGradient
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 2 }}
-                style={styles.courseDetails}
-                colors={["#1963D5", "#77DDEC"]}
-              >
-                <Text allowFontScaling={false} style={{ color: "white" }}>No Events Today</Text>
-              </LinearGradient>
-            </View>
-          );
-        }}
-        pastScrollRange={1}
-        futureScrollRange={1}
-        markedDates={eves.markers}
-        // onRefresh={() => console.log("refreshing...")}
-        selected={new Date().toString()}
-        markingType={"multi-dot"}
-      />
+      <Cal eves={eves} />
     </View>
   );
 };

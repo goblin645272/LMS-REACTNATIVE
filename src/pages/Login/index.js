@@ -66,11 +66,9 @@ const index = ({ navigation }) => {
       return false;
     }
   };
-  const submit = () => {
-    setErrors({});
-
+  const submit = async () => {
+    setErrors({});   
     const valid = validate();
-
     if (valid) {
       return;
     }

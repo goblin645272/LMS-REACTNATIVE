@@ -91,21 +91,6 @@ const index = ({ navigation }) => {
             }}
             component={TnC}
           />
-          <Stack.Screen
-            name="No Internet"
-            options={{
-              title: "",
-              headerLeft: () => (
-                <AntDesign
-                  name="left"
-                  size={24}
-                  color="black"
-                  onPress={() => navigation.goBack()}
-                />
-              ),
-            }}
-            component={NoInternet}
-          />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>

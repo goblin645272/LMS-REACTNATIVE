@@ -6,14 +6,15 @@ Promise.all(
   API.interceptors.request.use(async (req) => {
     if (await AsyncStorage.getItem("otptoken")) {
       req.headers.Authorization = await AsyncStorage.getItem("otptoken");
-    } else if (await AsyncStorage.getItem("token")) {
+    } 
+    else if (await AsyncStorage.getItem("token")) {
       req.headers.Authorization = await AsyncStorage.getItem("token");
     }
     return req;
   })
 );
 
-export const login = (formdata) => API.post("/login", formdata);
+export const login = async (formdata) => API.post("/login", {...formdata, fcmtoken: await AsyncStorage.getItem("fcmToken")});
 export const signup = (formData) => API.post("/register", formData);
 export const getboughtcourses = () => API.get("/bought-courses");
 export const changepassword = (data) => API.put("change-password", data);

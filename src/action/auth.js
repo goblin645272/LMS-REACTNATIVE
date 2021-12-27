@@ -10,11 +10,24 @@ import {
 } from "../api/auth";
 import { Toast } from "native-base";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import messaging from "@react-native-firebase/messaging"
+async function getToken() {
+  let fcmToken = await AsyncStorage.getItem('fcmToken');
+  console.log("here1")
+  if (!fcmToken) {
+    console.log("here2")
+    fcmToken = await messaging().getToken();
+    if (fcmToken) {
+      console.log("here3")
+      console.log('fcmToken:', fcmToken);
+      await AsyncStorage.setItem('fcmToken', fcmToken);
+    }
+  }
+}
 export const signIn = (formData) => async (dispatch) => {
   dispatch({ type: "LOAD" });
-
   try {
+    await getToken();
     const { data } = await login(formData);
 
     if (data.result.role === "admin" || data.result.role === "moderator") {

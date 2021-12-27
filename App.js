@@ -5,32 +5,25 @@ import NoAuthNavigator from "./src/routes/NoAuth";
 import AuthNavigator from "./src/routes/Auth";
 import { useDispatch, useSelector } from "react-redux";
 import Spinner from "react-native-loading-spinner-overlay";
-import io from "socket.io-client"
-import NetInfo from "@react-native-community/netinfo";
+// import io from "socket.io-client"
 import PushNotification from "react-native-push-notification";
+
+
 export default function App() {
   const visible = useSelector((state) => state.loader);
   const token = useSelector((state) => state.auth.token);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const iocli = io("https://991c-2409-4041-6ec0-f435-f1e1-a51-9147-712.ngrok.io")
-    iocli.emit("Add User to Server","ceasowrath@gmail.com")
-    const getToken = async () => {
+    // const iocli = io("https://991c-2409-4041-6ec0-f435-f1e1-a51-9147-712.ngrok.io")
+    // iocli.emit("Add User to Server","ceasowrath@gmail.com")
+
+       const getToken = async () => {
       const data = await AsyncStorage.getItem("token");
       dispatch({ type: "SETTOKEN", data: data });
     };
     getToken();
   }, [dispatch]);
-
-const unsubscribe = NetInfo.addEventListener(state => {
-    console.log("Connection type", state.type);
-    console.log("Is connected?", state.isConnected);
-    !state.isConnected && navigation.navigate("No Internet")
-});
-// Unsubscribe
-// unsubscribe();
-
 
 const test = ()=>{
   PushNotification.createChannel(
@@ -58,7 +51,6 @@ PushNotification.localNotificationSchedule({
 // test();
     return (
       <NativeBaseProvider>
-        <Button onPress={test}>Click me</Button>
         <Spinner
           visible={visible}
           textContent={"Loading..."}
