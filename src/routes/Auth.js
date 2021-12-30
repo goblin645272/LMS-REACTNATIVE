@@ -21,6 +21,7 @@ import Prepayment from "../pages/Prepayment";
 import Blogs from "../pages/Blogs";
 import BlogInternal from "../pages/BlogInternal";
 import NoInternet from "../pages/NoInternet"
+import AntDesign from "react-native-vector-icons/AntDesign";
 
 const index = ({navigation}) => {
   const Stack = createDrawerNavigator();
@@ -47,8 +48,44 @@ const index = ({navigation}) => {
         >
           <Stack.Screen name="Home" component={Home} />
           <Stack.Screen name="Profile" component={Profile} />
-          <Stack.Screen name="Course Internal" component={CourseInternal} />
-          <Stack.Screen name="Course Details" component={CourseDetails} />
+          <Stack.Screen name="Course Internal" component={CourseInternal} 
+            options={{
+              title: "",
+              headerLeft: () => (
+                <AntDesign
+                  name="left"
+                  size={30}
+                  color="black"
+                  onPress={() => navigation.goBack()}
+                />
+              ),
+              headerRight: () => (
+                <Image
+                  style={{ width: 100, height: 40 }}
+                  source={require("../assets/images/logo.png")}
+                />
+              ),
+            }}
+          />
+          <Stack.Screen name="Course Details" component={CourseDetails}
+            options={{
+              title: "",
+              headerLeft: () => (
+                <AntDesign
+                  name="left"
+                  size={30}
+                  color="black"
+                  onPress={() => navigation.goBack()}
+                />
+              ),
+              headerRight: () => (
+                <Image
+                  style={{ width: 100, height: 40 }}
+                  source={require("../assets/images/logo.png")}
+                />
+              ),
+            }}
+          />
           <Stack.Screen name="Change Password" component={ChangePassword} />
           <Stack.Screen name="ContactUs" component={ContactUs} />
           <Stack.Screen name="Blogs" component={Blogs} />

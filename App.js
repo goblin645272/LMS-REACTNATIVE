@@ -6,7 +6,7 @@ import AuthNavigator from "./src/routes/Auth";
 import { useDispatch, useSelector } from "react-redux";
 import Spinner from "react-native-loading-spinner-overlay";
 import messaging from "@react-native-firebase/messaging";
-// import io from "socket.io-client"
+import { Alert } from "react-native";
 
 export default function App() {
   const visible = useSelector((state) => state.loader);
@@ -15,7 +15,8 @@ export default function App() {
 
   useEffect(() => {  
     const unsubscribe = messaging().onMessage(async remoteMessage => {
-      alert(remoteMessage);
+      console.log(remoteMessage.notification.body)
+      Alert.alert(remoteMessage.notification.body);
     });
     const getToken = async () => {
       dispatch({ type: "LOAD" });

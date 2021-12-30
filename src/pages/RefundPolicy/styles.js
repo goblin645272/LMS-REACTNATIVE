@@ -19,13 +19,13 @@ const css = {
     paddingBottom: 20,
   },
   head: {
-    fontSize: deviceWindow.width * 0.1,
-    fontFamily: "Barlow_400Regular",
+    fontSize: deviceWindow.width * 0.06,
+    fontFamily: "Barlow_500Medium",
     color: "rgb(2,36,96)",
     margin: 15,
   },
   body: {
-    fontSize: deviceWindow.width * 0.05,
+    fontSize: deviceWindow.width * 0.045,
     fontFamily: "Barlow_400Regular",
     color: "rgb(2,36,96)",
     textAlign: "justify",

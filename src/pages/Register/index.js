@@ -9,7 +9,7 @@ import {
   Keyboard,
   KeyboardAvoidingView,
 } from "react-native";
-import { Toast, FormControl, VStack, Input, Button, Select } from "native-base";
+import { Toast, FormControl, VStack, Input, Button, Select, HStack } from "native-base";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -451,6 +451,26 @@ const index = ({ navigation }) => {
               >
                 Already have an account?
               </Text>
+              <HStack>
+              <Text
+                style={styles.tnc}
+                onPress={() => navigation.navigate("TnC")}
+              >
+                Terms & Conditions
+              </Text>
+              <Text
+                style={styles.tnc}
+                onPress={() => navigation.navigate("Privacy Policy")}
+              >
+                Privacy Policy
+              </Text>
+              <Text
+                style={styles.tnc}
+                onPress={() => navigation.navigate("RefundPolicy")}
+              >
+                Refund & Cancellation Policy
+              </Text>
+              </HStack>
             </View>
           </ImageBackground>
         </KeyboardAvoidingView>

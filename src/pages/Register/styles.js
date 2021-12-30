@@ -74,6 +74,15 @@ const css = {
     textDecorationLine: "underline",
     textAlign: "center",
   },
+  tnc: {
+    color: "#022460",
+    fontSize: deviceWindow.height * 0.014,
+    marginTop: deviceWindow.height * 0.00024,
+    fontFamily: "Barlow_400Regular",
+    textDecorationLine: "underline",
+    textAlign: "center",
+    padding: deviceWindow.width * 0.024,
+  },
 };
 
 export default css;

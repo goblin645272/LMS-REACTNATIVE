@@ -35,7 +35,7 @@ const index = ({ navigation, route }) => {
             onPress={() => NetInfo.fetch().then(state => {
               console.log("Connection type", state.type);
               console.log("Is connected?", state.isConnected);
-              state.isConnected ? navigation.navigate("Home") : Toast.show("Please connect to internet")
+              state.isConnected ? navigation.navigate("Home") : Toast.show({title : "Please connect to internet"})
           })}
           >
             <HStack style={styles.hstack}>

@@ -34,13 +34,13 @@ const css = {
     borderColor: "#3F51B5",
   },
   head: {
-    fontSize: deviceWindow.width * 0.1,
+    fontSize: deviceWindow.width * 0.06,
     fontFamily: "Barlow_500Medium",
     color: "rgb(2,36,96)",
     margin: 15,
   },
   body: {
-    fontSize: deviceWindow.width * 0.05,
+    fontSize: deviceWindow.width * 0.045,
     fontFamily: "Barlow_400Regular",
     color: "rgb(2,36,96)",
     textAlign: "justify",
