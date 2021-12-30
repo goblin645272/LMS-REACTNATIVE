@@ -1,3 +1,3 @@
-const url = "https://a60f-2409-4041-6e8d-f03c-9ce6-eb54-b1fc-b82f.ngrok.io";
+const url = "https://3d6a-2405-201-200d-9062-d06d-cdfa-4d89-ef.ngrok.io";
 
 export default url;

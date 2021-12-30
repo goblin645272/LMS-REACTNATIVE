@@ -1,19 +1,22 @@
-import { Button, NativeBaseProvider } from "native-base";
+import { NativeBaseProvider } from "native-base";
 import React, { useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import NoAuthNavigator from "./src/routes/NoAuth";
 import AuthNavigator from "./src/routes/Auth";
 import { useDispatch, useSelector } from "react-redux";
 import Spinner from "react-native-loading-spinner-overlay";
+import messaging from "@react-native-firebase/messaging";
 // import io from "socket.io-client"
-import PushNotification from "react-native-push-notification";
 
 export default function App() {
   const visible = useSelector((state) => state.loader);
   const token = useSelector((state) => state.auth.token);
   const dispatch = useDispatch();
 
-  useEffect(() => {
+  useEffect(() => {  
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      alert(remoteMessage);
+    });
     const getToken = async () => {
       dispatch({ type: "LOAD" });
       const data = await AsyncStorage.getItem("token");
@@ -27,26 +30,6 @@ export default function App() {
     getToken();
   }, [dispatch]);
 
-  const test = () => {
-    PushNotification.createChannel({
-      channelId: "test-channel",
-      channelName: "Test Channel",
-    });
-    PushNotification.localNotification({
-      channelId: "test-channel",
-      id: 0,
-      title: "My Notification Title", // (optional)
-      message: "My Notification Message", // (required)
-      picture: "https://www.example.tld/picture.jpg",
-    });
-    PushNotification.localNotificationSchedule({
-      channelId: "test-channel",
-      title: "Alarm",
-      message: "You clicked on + 20 seconds ago",
-      date: new Date(Date.now() + 20 * 1000),
-      allowWhileIdle: true,
-    });
-  };
   // test();
   return (
     <NativeBaseProvider>

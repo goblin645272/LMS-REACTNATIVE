@@ -109,6 +109,7 @@ const index = ({ route, navigation }) => {
   }, [setCoupon, setTele, setOpen, setTrading, isFocused]);
 
 const _displayRazorpay = async() => {
+  dispatch({ type: "LOAD" });
   axios
       .post(
         `${url}/razorpay/payment`,
@@ -131,6 +132,7 @@ const _displayRazorpay = async() => {
           
         };
         RazorpayCheckout.open(options).then(async (resp)=>{
+          dispatch({ type: "UNLOAD" });
           setCoupon({
             valid: false,
             code: "",
@@ -167,9 +169,10 @@ const _displayRazorpay = async() => {
               } ,6500)
                 
             }
-        }).catch((err)=> alert("Payment failed. Please try again"))
+        }).catch((err)=> {dispatch({ type: "UNLOAD" });alert("Payment failed. Please try again")})
       })
       .catch(async function (error) {
+        dispatch({ type: "UNLOAD" });
         alert(error)
         if (error.response?.status === 401) {
           logout(dispatch);

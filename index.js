@@ -9,38 +9,14 @@ import React from "react";
 import store, { persistor } from "./src/redux";
 import { Provider } from "react-redux";
 import App from "./App";
-import PushNotification from "react-native-push-notification";
-
+import messaging from "@react-native-firebase/messaging";
 import { PersistGate } from "redux-persist/integration/react";
-PushNotification.configure({
-  // onRegister: function (token) {
-  //   console.log("TOKEN:", token);
-  // },
-  onNotification: function (notification) {
-    console.log("NOTIFICATION:", notification);
-    // notification.finish(PushNotificationIOS.FetchResult.NoData);
-  },
-  requestPermissions: Platform.OS === "ios",
-  // onAction: function (notification) {
-  //   console.log("ACTION:", notification.action);
-  //   console.log("NOTIFICATION:", notification);
 
-  // },
+messaging().setBackgroundMessageHandler(async remoteMessage => {
+  console.log(remoteMessage);
+})
 
-  // onRegistrationError: function(err) {
-  //   console.error(err.message, err);
-  // },
-
-  // permissions: {
-  //   alert: true,
-  //   badge: true,
-  //   sound: true,
-  // },
-
-  // popInitialNotification: true,
-
-  // requestPermissions: true,
-});
+// AppRegistry.registerHeadlessTask('RNFirebaseBackgroundMessage', () => bgMessaging);
 function App12() {
   return (
     <Provider store={store}>
@@ -50,6 +26,4 @@ function App12() {
     </Provider>
   );
 }
-Text.defaultProps = Text.defaultProps || {};
-Text.defaultProps.allowFontScaling = false;
 AppRegistry.registerComponent(appName, () => App12);
