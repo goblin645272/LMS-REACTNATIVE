@@ -23,7 +23,7 @@ import BlogInternal from "../pages/BlogInternal";
 import NoInternet from "../pages/NoInternet"
 import AntDesign from "react-native-vector-icons/AntDesign";
 
-const index = ({navigation}) => {
+const index = () => {
   const Stack = createDrawerNavigator();
 
   return (
@@ -49,8 +49,9 @@ const index = ({navigation}) => {
           <Stack.Screen name="Home" component={Home} />
           <Stack.Screen name="Profile" component={Profile} />
           <Stack.Screen name="Course Internal" component={CourseInternal} 
-            options={{
-              title: "",
+            
+            options={({ navigation }) => ({
+                 title: "",
               headerLeft: () => (
                 <AntDesign
                   name="left"
@@ -64,11 +65,12 @@ const index = ({navigation}) => {
                   style={{ width: 100, height: 40 }}
                   source={require("../assets/images/logo.png")}
                 />
-              ),
-            }}
+              )
+            })}
+            
           />
           <Stack.Screen name="Course Details" component={CourseDetails}
-            options={{
+            options={({ navigation }) => ({
               title: "",
               headerLeft: () => (
                 <AntDesign
@@ -83,8 +85,8 @@ const index = ({navigation}) => {
                   style={{ width: 100, height: 40 }}
                   source={require("../assets/images/logo.png")}
                 />
-              ),
-            }}
+              )
+            })}
           />
           <Stack.Screen name="Change Password" component={ChangePassword} />
           <Stack.Screen name="ContactUs" component={ContactUs} />

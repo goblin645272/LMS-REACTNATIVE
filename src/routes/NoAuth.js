@@ -25,8 +25,8 @@ const index = ({ navigation }) => {
             component={Login}
           />
           <Stack.Screen
-            options={{
-              title: "",
+            options={({ navigation }) => ({
+                 title: "",
               headerLeft: () => (
                 <AntDesign
                   name="left"
@@ -40,17 +40,15 @@ const index = ({ navigation }) => {
                   style={{ width: 100, height: 40 }}
                   source={require("../assets/images/logo.png")}
                 />
-              ),
-            }}
-            name="Privacy Policy"
+              )
+            })}            name="Privacy Policy"
             component={Privacy}
           />
 
           <Stack.Screen
             name="RefundPolicy"
-            options={{
+             options={({ navigation }) => ({
               title: "",
-
               headerLeft: () => (
                 <AntDesign
                   name="left"
@@ -64,8 +62,8 @@ const index = ({ navigation }) => {
                   style={{ width: 100, height: 40 }}
                   source={require("../assets/images/logo.png")}
                 />
-              ),
-            }}
+              )
+            })}
             component={RefundPolicy}
           />
 
@@ -78,17 +76,23 @@ const index = ({ navigation }) => {
           />
           <Stack.Screen
             name="TnC"
-            options={{
+            options={({ navigation }) => ({
               title: "",
               headerLeft: () => (
                 <AntDesign
                   name="left"
-                  size={24}
+                  size={30}
                   color="black"
                   onPress={() => navigation.goBack()}
                 />
               ),
-            }}
+              headerRight: () => (
+                <Image
+                  style={{ width: 100, height: 40 }}
+                  source={require("../assets/images/logo.png")}
+                />
+              )
+            })}
             component={TnC}
           />
           <Stack.Screen name="No Internet" component={NoInternet} />

@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useRef} from "react";
 import {
   StyleSheet,
   Text,
@@ -64,7 +64,12 @@ const index = ({ route, navigation }) => {
           ["#bf9640", "#f7efb1", "#bf9640"],
           ["#b0b0b0", "#d8d8d8", "#b0b0b0"],
         ];
-
+  const aboutRef = useRef(null);
+  const instructorRef = useRef(null);
+  const testimonialRef = useRef(null);
+  const enrollmentRef = useRef(null);
+  const syllabusRef = useRef(null);
+  const faqRef = useRef(null);
   return (
     <ScrollView style={styles.screen} stickyHeaderIndices={[1]}>
       <LinearGradient
@@ -122,22 +127,22 @@ const index = ({ route, navigation }) => {
       </LinearGradient>
       <ScrollView horizontal={true} style={styles.tabContainer}>
         <TouchableOpacity>
-          <Text allowFontScaling={false} style={styles.tabs}> BUY NOW </Text>
+          <Text allowFontScaling={false} style={styles.tabs}>BUY NOW </Text>
         </TouchableOpacity>
         <TouchableOpacity>
           <Text allowFontScaling={false} style={styles.tabs}>ABOUT</Text>
         </TouchableOpacity>
         <TouchableOpacity>
-          <Text allowFontScaling={false} style={styles.tabs}> INSTUCTOR </Text>
+          <Text allowFontScaling={false} style={styles.tabs}>INSTUCTOR </Text>
         </TouchableOpacity>
         <TouchableOpacity>
-          <Text allowFontScaling={false} style={styles.tabs}> SYLLABUS</Text>
+          <Text allowFontScaling={false} style={styles.tabs}>SYLLABUS</Text>
         </TouchableOpacity>
         <TouchableOpacity>
-          <Text allowFontScaling={false} style={styles.tabs}> TESTIMONIALS </Text>
+          <Text allowFontScaling={false} style={styles.tabs}>TESTIMONIALS </Text>
         </TouchableOpacity>
         <TouchableOpacity>
-          <Text allowFontScaling={false} style={styles.tabs}> FAQ</Text>
+          <Text allowFontScaling={false} style={styles.tabs}>FAQ</Text>
         </TouchableOpacity>
       </ScrollView>
 
@@ -148,7 +153,7 @@ const index = ({ route, navigation }) => {
           marginLeft: deviceWindow.width * 0.03,
         }}
       >
-        <VStack space={3}>
+        <VStack space={3} ref={enrollmentRef}>
           <Text allowFontScaling={false} style={styles.pricing}>Pricing</Text>
           {data?.price?.map((item, index4) => {
             return (
@@ -196,7 +201,7 @@ const index = ({ route, navigation }) => {
             );
           })}
         </VStack>
-        <View>
+        <View ref={aboutRef}>
           <Text allowFontScaling={false} style={styles.aboutHeader}>About This Program</Text>
           <HTMLView
             value={data?.About}
@@ -236,7 +241,7 @@ const index = ({ route, navigation }) => {
             );
           })}
         </View>
-        <View style={styles.instructor}>
+        <View style={styles.instructor} ref={instructorRef}>
           <Avatar size={32} source={AvatarImage}>
             MK
           </Avatar>
@@ -272,7 +277,7 @@ const index = ({ route, navigation }) => {
           </Text>
         </View>
         {data?.modules?.length > 0 && (
-          <View style={{ marginTop: deviceWindow.width * 0.03 }}>
+          <View style={{ marginTop: deviceWindow.width * 0.03 }} ref={syllabusRef}>
             <View
               style={{
                 alignItems: "center",
@@ -411,6 +416,7 @@ const index = ({ route, navigation }) => {
           style={{
             marginTop: deviceWindow.width * 0.03,
           }}
+          ref={testimonialRef}
         >
           <View
             style={{
@@ -466,7 +472,7 @@ const index = ({ route, navigation }) => {
           <Divider my="1" style={{ backgroundColor: "rgba(2, 36, 96, 1)" }} />
         </View>
 
-        <VStack space={2} style={{ marginTop: deviceWindow.height * 0.015 }}>
+        <VStack ref={faqRef} space={2} style={{ marginTop: deviceWindow.height * 0.015 }}>
           <View
             style={{
               alignItems: "center",

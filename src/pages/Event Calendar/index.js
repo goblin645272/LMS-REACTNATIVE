@@ -5,7 +5,6 @@ import { Agenda, LocaleConfig } from "react-native-calendars";
 import css from "./styles";
 import { getEvents } from "../../action/events";
 import { useDispatch, useSelector } from "react-redux";
-import { useIsFocused } from "@react-navigation/native";
 import NetInfo from "@react-native-community/netinfo"
 
 const styles = StyleSheet.create(css);
@@ -64,21 +63,9 @@ const index = () => {
     items: {},
     markers: {},
   });
-  const [loading, setLoading] = useState(true)
-  const isFocused = useIsFocused();
   const dispatch = useDispatch();
 
-  useEffect(()=>{
-    if (isFocused) {
-      setEves({
-        items: {},
-        markers: {},
-      })
-    }
-  }, [isFocused, setEves])
-
   useEffect(() => {
-    if (isFocused) {
       const getData = async () => {
         const events = await getEvents(dispatch);
         if (events) {
@@ -103,8 +90,7 @@ const index = () => {
         }
       };
       getData();
-    }
-  }, [dispatch, setEves, isFocused]);
+  }, [dispatch, setEves]);
   
   return (
     <View style={styles.container}>
