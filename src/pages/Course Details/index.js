@@ -44,7 +44,6 @@ const index = ({ route, navigation }) => {
     star: 0,
     user_name: `${profile?.firstName} ${profile?.lastName}`,
   });
-  // console.log(course?.course_resources);
 
   useEffect(() => {
     if (isFocused) {

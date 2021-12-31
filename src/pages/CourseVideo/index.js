@@ -27,9 +27,11 @@ const index = ({ route, navigation }) => {
   useEffect(() => {
     if (!isFocused) {
       setVideo({ valid: false, otp: "", playback: "" });
+      setLoader(true);
     } else {
       if (route.params.video !== null && route.params.video !== undefined) {
         setVideo(video);
+        setLoader(false);
       }
     }
   }, [isFocused, route]);
@@ -324,6 +326,7 @@ const index = ({ route, navigation }) => {
                                   id: obj.id,
                                   course: route.params.course,
                                   video: video,
+                                  _id: route.params.id,
                                 })
                               }
                             >

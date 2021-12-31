@@ -193,6 +193,7 @@ const index = ({ route, navigation }) => {
                     navigation.navigate("Course Video", {
                       course: route.params.course,
                       video: route.params.video,
+                      id: route.params._id,
                     })
                   }
                 >
