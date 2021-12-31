@@ -55,8 +55,6 @@ LocaleConfig.defaultLocale = "en";
 
 const index = () => {
   NetInfo.fetch().then(state => {
-    console.log("Connection type", state.type);
-    console.log("Is connected?", state.isConnected);
     !state.isConnected && navigation.navigate("No Internet Auth")
 });
   const [eves, setEves] = useState({

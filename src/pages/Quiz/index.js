@@ -12,17 +12,15 @@ import { useDispatch } from "react-redux";
 import { ScrollView } from "react-native-gesture-handler";
 import { getQuizById } from "../../action/quiz";
 import { useIsFocused } from "@react-navigation/native";
-import NetInfo from "@react-native-community/netinfo"
+import NetInfo from "@react-native-community/netinfo";
 
 const styles = StyleSheet.create(css);
 const deviceWindow = Dimensions.get("window");
 
 const index = ({ route, navigation }) => {
-  NetInfo.fetch().then(state => {
-    console.log("Connection type", state.type);
-    console.log("Is connected?", state.isConnected);
-    !state.isConnected && navigation.navigate("No Internet Auth")
-});
+  NetInfo.fetch().then((state) => {
+    !state.isConnected && navigation.navigate("No Internet Auth");
+  });
   const isFocused = useIsFocused();
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -194,6 +192,7 @@ const index = ({ route, navigation }) => {
                   onPress={() =>
                     navigation.navigate("Course Video", {
                       course: route.params.course,
+                      video: route.params.video,
                     })
                   }
                 >

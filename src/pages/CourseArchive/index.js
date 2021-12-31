@@ -14,8 +14,6 @@ const deviceWindow = Dimensions.get("window");
 
 const index = ({ route, navigation }) => {
   NetInfo.fetch().then(state => {
-    console.log("Connection type", state.type);
-    console.log("Is connected?", state.isConnected);
     !state.isConnected && navigation.navigate("No Internet Auth")
 });
   const [past, setPast] = useState(false);

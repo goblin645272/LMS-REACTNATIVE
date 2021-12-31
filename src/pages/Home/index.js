@@ -26,8 +26,6 @@ import NetInfo from "@react-native-community/netinfo"
 
 const Component = (course, { index, item }, navigation) => {
   NetInfo.fetch().then(state => {
-    console.log("Connection type", state.type);
-    console.log("Is connected?", state.isConnected);
     !state.isConnected && navigation.navigate("No Internet Auth")
 });
   return (

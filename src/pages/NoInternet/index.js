@@ -33,8 +33,6 @@ const index = ({ navigation, route }) => {
           <TouchableOpacity
             style={styles.touchable}
             onPress={() => NetInfo.fetch().then(state => {
-              console.log("Connection type", state.type);
-              console.log("Is connected?", state.isConnected);
               state.isConnected ? navigation.navigate("Home") : Toast.show({title : "Please connect to internet"})
           })}
           >

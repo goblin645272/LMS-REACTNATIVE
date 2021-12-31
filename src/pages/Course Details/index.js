@@ -5,7 +5,7 @@ import {
   AlertDialog,
   Input,
   Button,
-  Toast
+  Toast,
 } from "native-base";
 import React, { useEffect, useState, useRef } from "react";
 import { StyleSheet, Text, View, Dimensions } from "react-native";
@@ -20,17 +20,15 @@ import Stars from "react-native-stars";
 import starEmpty from "../../assets/images/starEmpty.png";
 import starFilled from "../../assets/images/starFilled.png";
 import starHalf from "../../assets/images/starHalf.png";
-import { updateTestimonial } from '../../action/testimonials';
-import NetInfo from "@react-native-community/netinfo"
+import { updateTestimonial } from "../../action/testimonials";
+import NetInfo from "@react-native-community/netinfo";
 const styles = StyleSheet.create(css);
 const deviceWindow = Dimensions.get("window");
 
 const index = ({ route, navigation }) => {
-  NetInfo.fetch().then(state => {
-    console.log("Connection type", state.type);
-    console.log("Is connected?", state.isConnected);
-    !state.isConnected && navigation.navigate("No Internet Auth")
-});
+  NetInfo.fetch().then((state) => {
+    !state.isConnected && navigation.navigate("No Internet Auth");
+  });
   const cancelRef = useRef(null);
   const dispatch = useDispatch();
   const courseID = route.params.id;
@@ -242,8 +240,12 @@ const index = ({ route, navigation }) => {
         <VStack space={1}>
           {!loading && (
             <>
-              <Text allowFontScaling={false} style={styles.courseName}>{course.name}</Text>
-              <Text allowFontScaling={false} style={styles.courseText}>Current Plan: {course.plan}</Text>
+              <Text allowFontScaling={false} style={styles.courseName}>
+                {course.name}
+              </Text>
+              <Text allowFontScaling={false} style={styles.courseText}>
+                Current Plan: {course.plan}
+              </Text>
               {courseID !== "612ccdb59f192c86faa26f4a" && (
                 <Text allowFontScaling={false} style={styles.courseText}>
                   Expires On:
@@ -268,7 +270,9 @@ const index = ({ route, navigation }) => {
             alignItems="center"
             style={styles.progress}
           >
-            <Text allowFontScaling={false} style={styles.progressText}>Course Progress</Text>
+            <Text allowFontScaling={false} style={styles.progressText}>
+              Course Progress
+            </Text>
             <Text allowFontScaling={false} style={styles.progressPercent}>
               {course?.percent_completed}%
             </Text>
@@ -298,7 +302,9 @@ const index = ({ route, navigation }) => {
             end={{ x: 0.5, y: 1.5 }}
             style={styles.content}
           >
-            <Text allowFontScaling={false} style={styles.contentText}>Course Video</Text>
+            <Text allowFontScaling={false} style={styles.contentText}>
+              Course Video
+            </Text>
           </LinearGradient>
         </TouchableOpacity>
       )}
@@ -321,7 +327,9 @@ const index = ({ route, navigation }) => {
               end={{ x: 0.5, y: 1.5 }}
               style={styles.content}
             >
-              <Text allowFontScaling={false} style={styles.contentText}>Course Sessions & Archives</Text>
+              <Text allowFontScaling={false} style={styles.contentText}>
+                Course Sessions & Archives
+              </Text>
             </LinearGradient>
           </TouchableOpacity>
         )}
@@ -367,7 +375,9 @@ const index = ({ route, navigation }) => {
               end={{ x: 0.5, y: 1.5 }}
               style={styles.content}
             >
-              <Text allowFontScaling={false} style={styles.contentText}>Course Content</Text>
+              <Text allowFontScaling={false} style={styles.contentText}>
+                Course Content
+              </Text>
             </LinearGradient>
           </TouchableOpacity>
         )}

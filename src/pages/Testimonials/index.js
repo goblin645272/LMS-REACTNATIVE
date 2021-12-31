@@ -16,14 +16,12 @@ import Stars from "react-native-stars";
 import starEmpty from "../../assets/images/starEmpty.png";
 import starFilled from "../../assets/images/starFilled.png";
 import starHalf from "../../assets/images/starHalf.png";
-import NetInfo from "@react-native-community/netinfo"
+import NetInfo from "@react-native-community/netinfo";
 
 const index = () => {
-  NetInfo.fetch().then(state => {
-    console.log("Connection type", state.type);
-    console.log("Is connected?", state.isConnected);
-    !state.isConnected && navigation.navigate("No Internet Auth")
-});
+  NetInfo.fetch().then((state) => {
+    !state.isConnected && navigation.navigate("No Internet Auth");
+  });
   const testimonials = useSelector((state) => state.testimonials);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -69,7 +67,9 @@ const index = () => {
                   controls={true}
                   speed={false}
                 />
-                <Text allowFontScaling={false} style={styles.cardText}>{data.video_title}</Text>
+                <Text allowFontScaling={false} style={styles.cardText}>
+                  {data.video_title}
+                </Text>
               </View>
             </VStack>
           ) : (

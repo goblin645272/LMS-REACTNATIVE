@@ -20,8 +20,6 @@ const styles = StyleSheet.create(css);
 const index = ({ navigation, route }) => {
   const data = route.params.data;
   NetInfo.fetch().then(state => {
-    console.log("Connection type", state.type);
-    console.log("Is connected?", state.isConnected);
     !state.isConnected && navigation.navigate("No Internet Auth")
 });
   return (

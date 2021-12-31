@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { Text, View, Dimensions, TouchableOpacity } from "react-native";
 import { VStack, Accordion, HStack, Toast, Button } from "native-base";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faPlayCircle, faBook } from "@fortawesome/free-solid-svg-icons";
 import { ScrollView } from "react-native-gesture-handler";
@@ -9,23 +9,30 @@ import { useIsFocused } from "@react-navigation/native";
 import { VdoPlayerView, startVideoScreen } from "vdocipher-rn-bridge";
 const deviceWindow = Dimensions.get("window");
 import { getVideoDetails, changeWatchStatus } from "../../action/courses";
-import NetInfo from "@react-native-community/netinfo"
+import NetInfo from "@react-native-community/netinfo";
 
 const index = ({ route, navigation }) => {
-  NetInfo.fetch().then(state => {
-    console.log("Connection type", state.type);
-    console.log("Is connected?", state.isConnected);
-    !state.isConnected && navigation.navigate("No Internet Auth")
-});
+  NetInfo.fetch().then((state) => {
+    !state.isConnected && navigation.navigate("No Internet Auth");
+  });
   const isFocused = useIsFocused();
   const [id, setId] = useState();
   const [watched, setWatched] = useState();
   const [video, setVideo] = useState({ valid: false, otp: "", playback: "" });
-  const login = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const [sections, setSection] = useState();
   const [loading, setLoading] = useState(true);
   const [loader, setLoader] = useState(true);
+
+  useEffect(() => {
+    if (!isFocused) {
+      setVideo({ valid: false, otp: "", playback: "" });
+    } else {
+      if (route.params.video !== null && route.params.video !== undefined) {
+        setVideo(video);
+      }
+    }
+  }, [isFocused, route]);
 
   useEffect(() => {
     if (isFocused) {
@@ -68,7 +75,7 @@ const index = ({ route, navigation }) => {
       };
       getData();
     }
-  }, [dispatch, route.params.id, setId, setSection, isFocused]);
+  }, [dispatch, route, setId, setSection, isFocused]);
 
   const videos = useMemo(() => {
     let tempVideo = [];
@@ -316,6 +323,7 @@ const index = ({ route, navigation }) => {
                                 navigation.navigate("Quiz", {
                                   id: obj.id,
                                   course: route.params.course,
+                                  video: video,
                                 })
                               }
                             >

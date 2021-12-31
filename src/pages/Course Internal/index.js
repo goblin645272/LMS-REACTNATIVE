@@ -1,4 +1,4 @@
-import React,{useRef} from "react";
+import React, { useRef } from "react";
 import {
   StyleSheet,
   Text,
@@ -25,7 +25,7 @@ import starFilled from "../../assets/images/starFilled.png";
 import starHalf from "../../assets/images/starHalf.png";
 import { useSelector } from "react-redux";
 import Unorderedlist from "react-native-unordered-list";
-import NetInfo from "@react-native-community/netinfo"
+import NetInfo from "@react-native-community/netinfo";
 import AvatarImage from "../../assets/images/MK-Portrait.jpg";
 import { Chip } from "react-native-elements";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -47,11 +47,9 @@ function ConvertMinutes(num) {
 }
 
 const index = ({ route, navigation }) => {
-  NetInfo.fetch().then(state => {
-    console.log("Connection type", state.type);
-    console.log("Is connected?", state.isConnected);
-    !state.isConnected && navigation.navigate("No Internet Auth")
-});
+  NetInfo.fetch().then((state) => {
+    !state.isConnected && navigation.navigate("No Internet Auth");
+  });
   const data = route.params.course;
   const cardColor =
     data?.price?.length === 3
@@ -64,14 +62,16 @@ const index = ({ route, navigation }) => {
           ["#bf9640", "#f7efb1", "#bf9640"],
           ["#b0b0b0", "#d8d8d8", "#b0b0b0"],
         ];
+  const refs = useRef(null);
   const aboutRef = useRef(null);
   const instructorRef = useRef(null);
   const testimonialRef = useRef(null);
   const enrollmentRef = useRef(null);
   const syllabusRef = useRef(null);
   const faqRef = useRef(null);
+  
   return (
-    <ScrollView style={styles.screen} stickyHeaderIndices={[1]}>
+    <ScrollView style={styles.screen} ref={refs} stickyHeaderIndices={[1]}>
       <LinearGradient
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 2 }}
@@ -84,7 +84,9 @@ const index = ({ route, navigation }) => {
             flexDirection: "column",
           }}
         >
-          <Text allowFontScaling={false} style={styles.header}>{data?.name}</Text>
+          <Text allowFontScaling={false} style={styles.header}>
+            {data?.name}
+          </Text>
           <View
             style={
               deviceWindow.width < 560
@@ -113,7 +115,10 @@ const index = ({ route, navigation }) => {
           </View>
           {/* <Text allowFontScaling={false} style={styles.reviewText}>{`${data?.stars} stars`}</Text> */}
 
-          <Text allowFontScaling={false} style={styles.reviewText}>{`${data?.rating} reviews`}</Text>
+          <Text
+            allowFontScaling={false}
+            style={styles.reviewText}
+          >{`${data?.rating} reviews`}</Text>
           <Avatar
             size={deviceWindow.width < 560 ? "md" : "92"}
             source={AvatarImage}
@@ -127,22 +132,34 @@ const index = ({ route, navigation }) => {
       </LinearGradient>
       <ScrollView horizontal={true} style={styles.tabContainer}>
         <TouchableOpacity>
-          <Text allowFontScaling={false} style={styles.tabs}>BUY NOW </Text>
+          <Text allowFontScaling={false} style={styles.tabs}>
+            BUY NOW{" "}
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity>
-          <Text allowFontScaling={false} style={styles.tabs}>ABOUT</Text>
+          <Text allowFontScaling={false} style={styles.tabs}>
+            ABOUT
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity>
-          <Text allowFontScaling={false} style={styles.tabs}>INSTUCTOR </Text>
+          <Text allowFontScaling={false} style={styles.tabs}>
+            INSTUCTOR{" "}
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity>
-          <Text allowFontScaling={false} style={styles.tabs}>SYLLABUS</Text>
+          <Text allowFontScaling={false} style={styles.tabs}>
+            SYLLABUS
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity>
-          <Text allowFontScaling={false} style={styles.tabs}>TESTIMONIALS </Text>
+          <Text allowFontScaling={false} style={styles.tabs}>
+            TESTIMONIALS{" "}
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity>
-          <Text allowFontScaling={false} style={styles.tabs}>FAQ</Text>
+          <Text allowFontScaling={false} style={styles.tabs}>
+            FAQ
+          </Text>
         </TouchableOpacity>
       </ScrollView>
 
@@ -154,7 +171,9 @@ const index = ({ route, navigation }) => {
         }}
       >
         <VStack space={3} ref={enrollmentRef}>
-          <Text allowFontScaling={false} style={styles.pricing}>Pricing</Text>
+          <Text allowFontScaling={false} style={styles.pricing}>
+            Pricing
+          </Text>
           {data?.price?.map((item, index4) => {
             return (
               <LinearGradient
@@ -164,7 +183,12 @@ const index = ({ route, navigation }) => {
                 style={styles.background}
               >
                 <VStack alignItems="center">
-                  <Text allowFontScaling={false} style={styles.priceCardsHeader}>{item.tier}</Text>
+                  <Text
+                    allowFontScaling={false}
+                    style={styles.priceCardsHeader}
+                  >
+                    {item.tier}
+                  </Text>
                   <Text
                     style={styles.priceCardsPriceCancelled}
                   >{`₹ ${item.listAmount}`}</Text>
@@ -180,7 +204,12 @@ const index = ({ route, navigation }) => {
                     {item.qualities.map((quality, index6) => {
                       return (
                         <Unorderedlist key={index6 * 0.08}>
-                          <Text allowFontScaling={false} style={styles.priceQualities}>{quality}</Text>
+                          <Text
+                            allowFontScaling={false}
+                            style={styles.priceQualities}
+                          >
+                            {quality}
+                          </Text>
                         </Unorderedlist>
                       );
                     })}
@@ -194,7 +223,12 @@ const index = ({ route, navigation }) => {
                       })
                     }
                   >
-                    <Text allowFontScaling={false} style={styles.cardButtonText}>Enroll</Text>
+                    <Text
+                      allowFontScaling={false}
+                      style={styles.cardButtonText}
+                    >
+                      Enroll
+                    </Text>
                   </Button>
                 </VStack>
               </LinearGradient>
@@ -202,7 +236,9 @@ const index = ({ route, navigation }) => {
           })}
         </VStack>
         <View ref={aboutRef}>
-          <Text allowFontScaling={false} style={styles.aboutHeader}>About This Program</Text>
+          <Text allowFontScaling={false} style={styles.aboutHeader}>
+            About This Program
+          </Text>
           <HTMLView
             value={data?.About}
             stylesheet={styles}
@@ -210,7 +246,9 @@ const index = ({ route, navigation }) => {
           />
         </View>
         <View style={styles.skills}>
-          <Text allowFontScaling={false} style={styles.skillsHeader}>Skills You'll Gain</Text>
+          <Text allowFontScaling={false} style={styles.skillsHeader}>
+            Skills You'll Gain
+          </Text>
           <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
             {data?.skills?.map((item, ind) => {
               return (
@@ -235,8 +273,12 @@ const index = ({ route, navigation }) => {
           {data?.features?.map((item, index2) => {
             return (
               <View style={styles.featureContainer} key={index2 * 0.782}>
-                <Text allowFontScaling={false} style={styles.featureHeader}>{item.feature_title}</Text>
-                <Text allowFontScaling={false} style={styles.featureContent}>{item.feature_desc}</Text>
+                <Text allowFontScaling={false} style={styles.featureHeader}>
+                  {item.feature_title}
+                </Text>
+                <Text allowFontScaling={false} style={styles.featureContent}>
+                  {item.feature_desc}
+                </Text>
               </View>
             );
           })}
@@ -277,7 +319,10 @@ const index = ({ route, navigation }) => {
           </Text>
         </View>
         {data?.modules?.length > 0 && (
-          <View style={{ marginTop: deviceWindow.width * 0.03 }} ref={syllabusRef}>
+          <View
+            style={{ marginTop: deviceWindow.width * 0.03 }}
+            ref={syllabusRef}
+          >
             <View
               style={{
                 alignItems: "center",
@@ -472,7 +517,11 @@ const index = ({ route, navigation }) => {
           <Divider my="1" style={{ backgroundColor: "rgba(2, 36, 96, 1)" }} />
         </View>
 
-        <VStack ref={faqRef} space={2} style={{ marginTop: deviceWindow.height * 0.015 }}>
+        <VStack
+          ref={faqRef}
+          space={2}
+          style={{ marginTop: deviceWindow.height * 0.015 }}
+        >
           <View
             style={{
               alignItems: "center",
