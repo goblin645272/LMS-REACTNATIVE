@@ -72,7 +72,15 @@ const index = ({ route, navigation }) => {
                         new Date().getTime() -
                         19800000;
                       if (diff < 900000) {
+                        if(data.zoomLink){
                         Linking.openURL(data.zoomLink);
+                      }else{
+                        Toast.show({
+                          title:
+                            "Please Wait for link/Contact Support",
+                          isClosable: true,
+                        })
+                      }
                       } else {
                         return Toast.show({
                           title:

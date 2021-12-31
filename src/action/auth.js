@@ -61,6 +61,7 @@ export const signIn = (formData) => async (dispatch) => {
 };
 export const signUp = (formData) => async (dispatch) => {
   try {
+    await getToken();
     const { data } = await signup(formData);
     await AsyncStorage.setItem("token", data.token);
     dispatch({ type: "LOGIN", data: data });

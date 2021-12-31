@@ -15,7 +15,7 @@ Promise.all(
 );
 
 export const login = async (formdata) => API.post("/login", {...formdata, fcmtoken: await AsyncStorage.getItem("fcmToken")});
-export const signup = (formData) => API.post("/register", formData);
+export const signup = async (formData) => API.post("/register", {...formData, fcmtoken: await AsyncStorage.getItem("fcmToken")});
 export const getboughtcourses = () => API.get("/bought-courses");
 export const changepassword = (data) => API.put("change-password", data);
 export const getprofile = () => API.get("/");
