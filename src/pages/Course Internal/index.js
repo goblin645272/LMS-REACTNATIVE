@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -62,16 +62,57 @@ const index = ({ route, navigation }) => {
           ["#bf9640", "#f7efb1", "#bf9640"],
           ["#b0b0b0", "#d8d8d8", "#b0b0b0"],
         ];
-  const refs = useRef(null);
-  const aboutRef = useRef(null);
-  const instructorRef = useRef(null);
-  const testimonialRef = useRef(null);
-  const enrollmentRef = useRef(null);
-  const syllabusRef = useRef(null);
-  const faqRef = useRef(null);
+
+  const [ref, setRef] = useState(null);
+
+  const [dataSourceCords, setDataSourceCords] = useState([]);
+  const handleRef = (ref_name) => {
+    if(ref_name === "about"){
+      ref.scrollTo({
+        x: 0,
+        y: dataSourceCords[1]
+      })
+    } else if(ref_name === "instructor"){
+      ref.scrollTo({
+        x: 0,
+        y: dataSourceCords[2]
+      })
+    } else if(ref_name === "testimonial"){
+      ref.scrollTo({
+        x: 0,
+        y: dataSourceCords[4]
+      })
+    } else if(ref_name === "enroll"){
+      ref.scrollTo({
+        x: 0,
+        y: dataSourceCords[0]
+      })
+    } else if(ref_name === "syllabus"){
+      ref.scrollTo({
+        x: 0,
+        y: dataSourceCords[3]
+      })
+    } else if(ref_name === "faq"){
+      ref.scrollTo({
+        x: 0,
+        y: dataSourceCords[5]
+      })
+    }else{
+      console.log('not found')
+    }
+  }
   
+  // const scrollHandler = () => {
+  //     ref.scrollTo({
+  //       x: 0,
+  //       y: ,
+  //       animated: true,
+  //     });
+    
+  // };
+
   return (
-    <ScrollView style={styles.screen} ref={refs} stickyHeaderIndices={[1]}>
+    <ScrollView style={styles.screen} ref={(ref)=>{setRef(ref)}} stickyHeaderIndices={[1]}>
       <LinearGradient
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 2 }}
@@ -131,33 +172,39 @@ const index = ({ route, navigation }) => {
         </View>
       </LinearGradient>
       <ScrollView horizontal={true} style={styles.tabContainer}>
-        <TouchableOpacity>
-          <Text allowFontScaling={false} style={styles.tabs}>
+        <TouchableOpacity onPress={()=>{handleRef("enroll")}}>
+          <Text allowFontScaling={false} style={styles.tabs} 
+          >
             BUY NOW{" "}
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity>
-          <Text allowFontScaling={false} style={styles.tabs}>
+        <TouchableOpacity onPress={()=>{handleRef("about")}}>
+          <Text allowFontScaling={false} style={styles.tabs}
+          >
             ABOUT
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity>
-          <Text allowFontScaling={false} style={styles.tabs}>
+        <TouchableOpacity onPress={()=>{handleRef("instructor")}}>
+          <Text allowFontScaling={false} style={styles.tabs}
+          >
             INSTUCTOR{" "}
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity>
-          <Text allowFontScaling={false} style={styles.tabs}>
+        {data?.modules?.length > 0 && (<TouchableOpacity onPress={()=>{handleRef("syllabus")}}>
+          <Text allowFontScaling={false} style={styles.tabs}
+          >
             SYLLABUS
           </Text>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Text allowFontScaling={false} style={styles.tabs}>
+        </TouchableOpacity>)}
+        <TouchableOpacity onPress={()=>{handleRef("testimonial")}}>
+          <Text allowFontScaling={false} style={styles.tabs}
+          >
             TESTIMONIALS{" "}
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity>
-          <Text allowFontScaling={false} style={styles.tabs}>
+        <TouchableOpacity onPress={()=>{handleRef("faq")}}>
+          <Text allowFontScaling={false} style={styles.tabs}
+          >
             FAQ
           </Text>
         </TouchableOpacity>
@@ -170,8 +217,14 @@ const index = ({ route, navigation }) => {
           marginLeft: deviceWindow.width * 0.03,
         }}
       >
-        <VStack space={3} ref={enrollmentRef}>
-          <Text allowFontScaling={false} style={styles.pricing}>
+      
+        <VStack space={3}>
+          <Text allowFontScaling={false} style={styles.pricing}
+          onLayout={(event)=> {
+            const layout = event.nativeEvent.layout;
+            dataSourceCords[0] = layout.y;
+            setDataSourceCords(dataSourceCords);
+          }}>
             Pricing
           </Text>
           {data?.price?.map((item, index4) => {
@@ -235,8 +288,15 @@ const index = ({ route, navigation }) => {
             );
           })}
         </VStack>
-        <View ref={aboutRef}>
-          <Text allowFontScaling={false} style={styles.aboutHeader}>
+        
+        <View
+        onLayout={(event)=> {
+          const layout = event.nativeEvent.layout;
+          dataSourceCords[1] = layout.y;
+          setDataSourceCords(dataSourceCords);
+        }}>
+          <Text allowFontScaling={false} style={styles.aboutHeader}
+          >
             About This Program
           </Text>
           <HTMLView
@@ -283,7 +343,12 @@ const index = ({ route, navigation }) => {
             );
           })}
         </View>
-        <View style={styles.instructor} ref={instructorRef}>
+        <View style={styles.instructor}
+        onLayout={(event)=> {
+          const layout = event.nativeEvent.layout;
+          dataSourceCords[2] = layout.y;
+          setDataSourceCords(dataSourceCords);
+        }}>
           <Avatar size={32} source={AvatarImage}>
             MK
           </Avatar>
@@ -321,7 +386,11 @@ const index = ({ route, navigation }) => {
         {data?.modules?.length > 0 && (
           <View
             style={{ marginTop: deviceWindow.width * 0.03 }}
-            ref={syllabusRef}
+            onLayout={(event)=> {
+              const layout = event.nativeEvent.layout;
+              dataSourceCords[3] = layout.y;
+              setDataSourceCords(dataSourceCords);
+            }}
           >
             <View
               style={{
@@ -461,7 +530,11 @@ const index = ({ route, navigation }) => {
           style={{
             marginTop: deviceWindow.width * 0.03,
           }}
-          ref={testimonialRef}
+          onLayout={(event)=> {
+            const layout = event.nativeEvent.layout;
+            dataSourceCords[4] = layout.y;
+            setDataSourceCords(dataSourceCords);
+          }}
         >
           <View
             style={{
@@ -513,12 +586,15 @@ const index = ({ route, navigation }) => {
             );
           })}
         </View>
-        <View>
+        <View 
+          onLayout={(event)=> {
+          const layout = event.nativeEvent.layout;
+          dataSourceCords[5] = layout.y;
+          setDataSourceCords(dataSourceCords);
+        }}>
           <Divider my="1" style={{ backgroundColor: "rgba(2, 36, 96, 1)" }} />
         </View>
-
         <VStack
-          ref={faqRef}
           space={2}
           style={{ marginTop: deviceWindow.height * 0.015 }}
         >
@@ -533,6 +609,7 @@ const index = ({ route, navigation }) => {
                 fontFamily: "Barlow_600SemiBold",
                 fontSize: deviceWindow.width * 0.06,
               }}
+              
             >
               FAQs
             </Text>

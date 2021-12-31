@@ -56,12 +56,6 @@ const index = () => {
                 <Vimeo
                   videoId={data.video.substr(data.video.length - 9)}
                   style={{ backgroundColor: "rgba(0,0,0,0)" }}
-                  onReady={() => console.log("Video is ready")}
-                  onPlay={() => console.log("Video is playing")}
-                  onPlayProgress={(data) =>
-                    console.log("Video progress data:", data)
-                  }
-                  onFinish={() => console.log("Video is finished")}
                   loop={false}
                   autoPlay={false}
                   controls={true}

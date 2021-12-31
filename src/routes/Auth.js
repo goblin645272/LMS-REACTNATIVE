@@ -63,9 +63,13 @@ const index = () => {
               ),
               headerRight: () => (
                 <Image
-                  style={{ width: 100, height: 40 }}
-                  source={require("../assets/images/logo.png")}
-                />
+                source={logo}
+                style={{
+                  height: 35,
+                  width: 120,
+                  resizeMode: "cover",
+                }}
+              ></Image>
               ),
             })}
           />
@@ -84,9 +88,13 @@ const index = () => {
               ),
               headerRight: () => (
                 <Image
-                  style={{ width: 100, height: 40 }}
-                  source={require("../assets/images/logo.png")}
-                />
+                source={logo}
+                style={{
+                  height: 35,
+                  width: 120,
+                  resizeMode: "cover",
+                }}
+              ></Image>
               ),
             })}
           />
@@ -113,9 +121,13 @@ const index = () => {
               ),
               headerRight: () => (
                 <Image
-                  style={{ width: 100, height: 40 }}
-                  source={require("../assets/images/logo.png")}
-                />
+                source={logo}
+                style={{
+                  height: 35,
+                  width: 120,
+                  resizeMode: "cover",
+                }}
+              ></Image>
               ),
             })}
           />
@@ -139,9 +151,13 @@ const index = () => {
               ),
               headerRight: () => (
                 <Image
-                  style={{ width: 100, height: 40 }}
-                  source={require("../assets/images/logo.png")}
-                />
+                source={logo}
+                style={{
+                  height: 35,
+                  width: 120,
+                  resizeMode: "cover",
+                }}
+              ></Image>
               ),
             })}
           />
@@ -164,9 +180,13 @@ const index = () => {
               ),
               headerRight: () => (
                 <Image
-                  style={{ width: 100, height: 40 }}
-                  source={require("../assets/images/logo.png")}
-                />
+                source={logo}
+                style={{
+                  height: 35,
+                  width: 120,
+                  resizeMode: "cover",
+                }}
+              ></Image>
               ),
             })}
           />
@@ -191,9 +211,13 @@ const index = () => {
               ),
               headerRight: () => (
                 <Image
-                  style={{ width: 100, height: 40 }}
-                  source={require("../assets/images/logo.png")}
-                />
+                source={logo}
+                style={{
+                  height: 35,
+                  width: 120,
+                  resizeMode: "cover",
+                }}
+              ></Image>
               ),
             })}
           />
@@ -213,9 +237,13 @@ const index = () => {
               ),
               headerRight: () => (
                 <Image
-                  style={{ width: 100, height: 40 }}
-                  source={require("../assets/images/logo.png")}
-                />
+                source={logo}
+                style={{
+                  height: 35,
+                  width: 120,
+                  resizeMode: "cover",
+                }}
+              ></Image>
               ),
             })}
           />

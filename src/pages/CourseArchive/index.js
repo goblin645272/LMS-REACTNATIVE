@@ -170,12 +170,6 @@ const index = ({ route, navigation }) => {
                         </Text>
                         <Vimeo
                           videoId={data.link.slice(-9)} //Change ID here
-                          onReady={() => console.log("Video is ready")}
-                          onPlay={() => console.log("Video is playing")}
-                          onPlayProgress={(data) =>
-                            console.log("Video progress data:", data)
-                          }
-                          onFinish={() => console.log("Video is finished")}
                           loop={false}
                           autoPlay={false}
                           controls={true}

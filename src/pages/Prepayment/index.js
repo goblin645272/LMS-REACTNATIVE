@@ -34,7 +34,6 @@ const index = ({ route, navigation }) => {
   const { courseID, plan } = route.params;
   const user = useSelector((state) => state.auth.profile);
   const loading = useSelector((state) => state.auth.loader);
-  console.log(user);
   const [gst, setGST] = useState("");
   const [tele, setTele] = useState("");
   const [trading, setTrading] = useState("");
