@@ -29,25 +29,26 @@ const Component = (course, { index, item }, navigation) => {
     !state.isConnected && navigation.navigate("No Internet Auth")
 });
   return (
+    <TouchableOpacity onPress={() =>
+      item.text1 === "Foundation Class on Supply & Demand Trading Strategy"
+        ? Linking.openURL("https://workshop.mktradingschool.com/")
+        : navigation.navigate("Course Internal", {
+          id: "612ccd3c9f192c86faa26f48",
+          course: course,
+        })
+    }>
     <ImageBackground
       key={index}
       source={item.source}
       resizeMode="stretch"
       style={styles.banner}
-      onPress={() =>
-        item.text1 === "Foundation Class on Supply & Demand Trading Strategy"
-          ? Linking.openURL("https://workshop.mktradingschool.com/")
-          : navigation.navigate("Course Internal", {
-            id: "612ccd3c9f192c86faa26f48",
-            course: course,
-          })
-      }
     >
       <VStack style={styles.bannerContent}>
         <Text allowFontScaling={false} style={{ ...styles.bannerText }}>{item.text1}</Text>
         <Text allowFontScaling={false} style={{ ...styles.bannerText }}>{item.text2}</Text>
       </VStack>
     </ImageBackground>
+    </TouchableOpacity>
   );
 };
 const index = ({ navigation }) => {

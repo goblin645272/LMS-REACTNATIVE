@@ -6,6 +6,7 @@ import {
   ImageBackground,
   Text,
   Image,
+  Linking,
 } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { FormControl, Button, Center, Input, VStack } from "native-base";
@@ -195,6 +196,12 @@ const index = ({ navigation }) => {
                 onPress={() => navigation.navigate("Register")}
               >
                 Don't have an account?
+              </Text>
+              <Text
+                style={styles.register}
+                onPress={() => Linking.openURL("https://mktradingschool.com/forgotpass")}
+              >
+                Forgot Password?
               </Text>
             </View>
           </ImageBackground>

@@ -59,6 +59,7 @@ export const signIn = (formData) => async (dispatch) => {
     }
   }
 };
+
 export const signUp = (formData) => async (dispatch) => {
   try {
     await getToken();
