@@ -63,13 +63,13 @@ const index = () => {
               ),
               headerRight: () => (
                 <Image
-                source={logo}
-                style={{
-                  height: 35,
-                  width: 120,
-                  resizeMode: "cover",
-                }}
-              ></Image>
+                  source={logo}
+                  style={{
+                    height: 35,
+                    width: 120,
+                    resizeMode: "cover",
+                  }}
+                ></Image>
               ),
             })}
           />
@@ -88,13 +88,13 @@ const index = () => {
               ),
               headerRight: () => (
                 <Image
-                source={logo}
-                style={{
-                  height: 35,
-                  width: 120,
-                  resizeMode: "cover",
-                }}
-              ></Image>
+                  source={logo}
+                  style={{
+                    height: 35,
+                    width: 120,
+                    resizeMode: "cover",
+                  }}
+                ></Image>
               ),
             })}
           />
@@ -121,13 +121,13 @@ const index = () => {
               ),
               headerRight: () => (
                 <Image
-                source={logo}
-                style={{
-                  height: 35,
-                  width: 120,
-                  resizeMode: "cover",
-                }}
-              ></Image>
+                  source={logo}
+                  style={{
+                    height: 35,
+                    width: 120,
+                    resizeMode: "cover",
+                  }}
+                ></Image>
               ),
             })}
           />
@@ -151,13 +151,13 @@ const index = () => {
               ),
               headerRight: () => (
                 <Image
-                source={logo}
-                style={{
-                  height: 35,
-                  width: 120,
-                  resizeMode: "cover",
-                }}
-              ></Image>
+                  source={logo}
+                  style={{
+                    height: 35,
+                    width: 120,
+                    resizeMode: "cover",
+                  }}
+                ></Image>
               ),
             })}
           />
@@ -180,13 +180,13 @@ const index = () => {
               ),
               headerRight: () => (
                 <Image
-                source={logo}
-                style={{
-                  height: 35,
-                  width: 120,
-                  resizeMode: "cover",
-                }}
-              ></Image>
+                  source={logo}
+                  style={{
+                    height: 35,
+                    width: 120,
+                    resizeMode: "cover",
+                  }}
+                ></Image>
               ),
             })}
           />
@@ -211,13 +211,13 @@ const index = () => {
               ),
               headerRight: () => (
                 <Image
-                source={logo}
-                style={{
-                  height: 35,
-                  width: 120,
-                  resizeMode: "cover",
-                }}
-              ></Image>
+                  source={logo}
+                  style={{
+                    height: 35,
+                    width: 120,
+                    resizeMode: "cover",
+                  }}
+                ></Image>
               ),
             })}
           />
@@ -237,13 +237,13 @@ const index = () => {
               ),
               headerRight: () => (
                 <Image
-                source={logo}
-                style={{
-                  height: 35,
-                  width: 120,
-                  resizeMode: "cover",
-                }}
-              ></Image>
+                  source={logo}
+                  style={{
+                    height: 35,
+                    width: 120,
+                    resizeMode: "cover",
+                  }}
+                ></Image>
               ),
             })}
           />
