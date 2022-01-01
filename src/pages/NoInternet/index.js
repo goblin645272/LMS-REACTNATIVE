@@ -9,13 +9,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {  faRedo } from "@fortawesome/free-solid-svg-icons";
 import { Dimensions } from "react-native";
 import NetInfo from "@react-native-community/netinfo"
+import { useSelector } from "react-redux";
 const deviceWindow = Dimensions.get("window");
 
 const styles = StyleSheet.create(css);
 
 const index = ({ navigation, route }) => {
 
-  
+  const token = useSelector((state) => state.auth.token);
   return (
     <ScrollView>
       <LinearGradient
@@ -33,7 +34,10 @@ const index = ({ navigation, route }) => {
           <TouchableOpacity
             style={styles.touchable}
             onPress={() => NetInfo.fetch().then(state => {
-              state.isConnected ? navigation.navigate("Home") : Toast.show({title : "Please connect to internet"})
+              state.isConnected ? 
+              ((token) ? navigation.navigate("Home") 
+              : navigation.navigate("Login")) 
+              : Toast.show({title : "Please connect to internet"})
           })}
           >
             <HStack style={styles.hstack}>
