@@ -10,7 +10,7 @@ const css = {
     height: deviceWindow.height,
   },
   header: {
-    marginTop: deviceWindow.height * 0.2  ,
+    marginTop: deviceWindow.height * 0.2,
     color: "#022460",
     fontSize: deviceWindow.height * 0.05,
     fontFamily: "Barlow_500Medium",

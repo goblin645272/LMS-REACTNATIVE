@@ -23,7 +23,9 @@ const index = () => {
           alignItems="center"
           style={styles.Vstack}
         >
-          <Text allowFontScaling={false} style={styles.head}>Cancellation & Refund Policy</Text>
+          <Text allowFontScaling={false} style={styles.head}>
+            Cancellation & Refund Policy
+          </Text>
           <Text allowFontScaling={false} style={styles.body}>
             We at MK Trading School follow this simple rule, always give people
             more than what they expect to get. However, there may be instances
@@ -31,7 +33,9 @@ const index = () => {
             someone doesn't like our course or products they should be entitled
             for a refund.
           </Text>
-          <Text allowFontScaling={false} style={styles.point}>For the Courses</Text>
+          <Text allowFontScaling={false} style={styles.point}>
+            For the Courses
+          </Text>
           <Text allowFontScaling={false} style={styles.body}>
             We follow a 7-day refund policy, wherein we offer a 7-day period to
             test out the course. However, if one has watched more than 50% of
@@ -44,7 +48,9 @@ const index = () => {
             along with the course, the very same day we receive the refund
             request.
           </Text>
-          <Text allowFontScaling={false} style={styles.point}>For Skill UP Program</Text>
+          <Text allowFontScaling={false} style={styles.point}>
+            For Skill UP Program
+          </Text>
           <Text allowFontScaling={false} style={styles.body}>
             One can request a refund for the fees paid towards the skill up
             program, within one week of purchase provided he/she has not

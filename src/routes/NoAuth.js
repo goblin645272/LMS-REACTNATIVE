@@ -8,7 +8,7 @@ import TnC from "../pages/TnC";
 import RefundPolicy from "../pages/RefundPolicy";
 import Privacy from "../pages/Privacy";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import NoInternet from "../pages/NoInternet"
+import NoInternet from "../pages/NoInternet";
 
 import AntDesign from "react-native-vector-icons/AntDesign";
 const index = ({ navigation }) => {
@@ -16,7 +16,7 @@ const index = ({ navigation }) => {
   return (
     <SafeAreaProvider>
       <NavigationContainer>
-        <Stack.Navigator>  
+        <Stack.Navigator>
           <Stack.Screen
             name="Login"
             options={{
@@ -26,28 +26,6 @@ const index = ({ navigation }) => {
           />
           <Stack.Screen
             options={({ navigation }) => ({
-                 title: "",
-              headerLeft: () => (
-                <AntDesign
-                  name="left"
-                  size={30}
-                  color="black"
-                  onPress={() => navigation.goBack()}
-                />
-              ),
-              headerRight: () => (
-                <Image
-                  style={{ width: 100, height: 40 }}
-                  source={require("../assets/images/logo.png")}
-                />
-              )
-            })}            name="Privacy Policy"
-            component={Privacy}
-          />
-
-          <Stack.Screen
-            name="RefundPolicy"
-             options={({ navigation }) => ({
               title: "",
               headerLeft: () => (
                 <AntDesign
@@ -62,7 +40,30 @@ const index = ({ navigation }) => {
                   style={{ width: 100, height: 40 }}
                   source={require("../assets/images/logo.png")}
                 />
-              )
+              ),
+            })}
+            name="Privacy Policy"
+            component={Privacy}
+          />
+
+          <Stack.Screen
+            name="RefundPolicy"
+            options={({ navigation }) => ({
+              title: "",
+              headerLeft: () => (
+                <AntDesign
+                  name="left"
+                  size={30}
+                  color="black"
+                  onPress={() => navigation.goBack()}
+                />
+              ),
+              headerRight: () => (
+                <Image
+                  style={{ width: 100, height: 40 }}
+                  source={require("../assets/images/logo.png")}
+                />
+              ),
             })}
             component={RefundPolicy}
           />
@@ -91,7 +92,7 @@ const index = ({ navigation }) => {
                   style={{ width: 100, height: 40 }}
                   source={require("../assets/images/logo.png")}
                 />
-              )
+              ),
             })}
             component={TnC}
           />

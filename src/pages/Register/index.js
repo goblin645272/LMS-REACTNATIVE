@@ -9,7 +9,15 @@ import {
   Keyboard,
   KeyboardAvoidingView,
 } from "react-native";
-import { Toast, FormControl, VStack, Input, Button, Select, HStack } from "native-base";
+import {
+  Toast,
+  FormControl,
+  VStack,
+  Input,
+  Button,
+  Select,
+  HStack,
+} from "native-base";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -65,8 +73,8 @@ const statesIndia = [
 ];
 
 const index = ({ navigation }) => {
-  NetInfo.fetch().then(state => {
-    !state.isConnected && navigation.navigate("No Internet")
+  NetInfo.fetch().then((state) => {
+    !state.isConnected && navigation.navigate("No Internet");
   });
   const dispatch = useDispatch();
   const [keyboard, setKeyboard] = useState(false);
@@ -430,7 +438,9 @@ const index = ({ navigation }) => {
                       handleSubmit();
                     }}
                   >
-                    <Text allowFontScaling={false} style={styles.button_text}>Generate OTP</Text>
+                    <Text allowFontScaling={false} style={styles.button_text}>
+                      Generate OTP
+                    </Text>
                   </Button>
                 ) : (
                   <Button
@@ -439,7 +449,9 @@ const index = ({ navigation }) => {
                       handleOTPSubmit();
                     }}
                   >
-                    <Text allowFontScaling={false} style={styles.button_text}>Verify OTP</Text>
+                    <Text allowFontScaling={false} style={styles.button_text}>
+                      Verify OTP
+                    </Text>
                   </Button>
                 )}
               </VStack>
@@ -450,24 +462,24 @@ const index = ({ navigation }) => {
                 Already have an account?
               </Text>
               <HStack>
-              <Text
-                style={styles.tnc}
-                onPress={() => navigation.navigate("TnC")}
-              >
-                Terms & Conditions
-              </Text>
-              <Text
-                style={styles.tnc}
-                onPress={() => navigation.navigate("Privacy Policy")}
-              >
-                Privacy Policy
-              </Text>
-              <Text
-                style={styles.tnc}
-                onPress={() => navigation.navigate("RefundPolicy")}
-              >
-                Refund & Cancellation Policy
-              </Text>
+                <Text
+                  style={styles.tnc}
+                  onPress={() => navigation.navigate("TnC")}
+                >
+                  Terms & Conditions
+                </Text>
+                <Text
+                  style={styles.tnc}
+                  onPress={() => navigation.navigate("Privacy Policy")}
+                >
+                  Privacy Policy
+                </Text>
+                <Text
+                  style={styles.tnc}
+                  onPress={() => navigation.navigate("RefundPolicy")}
+                >
+                  Refund & Cancellation Policy
+                </Text>
               </HStack>
             </View>
           </ImageBackground>

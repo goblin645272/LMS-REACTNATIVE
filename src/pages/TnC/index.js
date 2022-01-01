@@ -23,7 +23,9 @@ const index = () => {
           alignItems="center"
           style={styles.Vstack}
         >
-          <Text allowFontScaling={false} style={styles.head}>Terms & Conditions</Text>
+          <Text allowFontScaling={false} style={styles.head}>
+            Terms & Conditions
+          </Text>
           <Text allowFontScaling={false} style={styles.body}>
             By visiting & registering on our website 
             <Text

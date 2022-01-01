@@ -8,14 +8,14 @@ import LinearGradient from "react-native-linear-gradient";
 import { getEvents } from "../../action/events";
 import { useDispatch, useSelector } from "react-redux";
 import css from "./styles";
-import NetInfo from "@react-native-community/netinfo"
+import NetInfo from "@react-native-community/netinfo";
 const styles = StyleSheet.create(css);
 const deviceWindow = Dimensions.get("window");
 
 const index = ({ route, navigation }) => {
-  NetInfo.fetch().then(state => {
-    !state.isConnected && navigation.navigate("No Internet Auth")
-});
+  NetInfo.fetch().then((state) => {
+    !state.isConnected && navigation.navigate("No Internet Auth");
+  });
   const [past, setPast] = useState(false);
   const events = useSelector((state) => state.events);
   const params = route.params;
@@ -72,15 +72,14 @@ const index = ({ route, navigation }) => {
                         new Date().getTime() -
                         19800000;
                       if (diff < 900000) {
-                        if(data.zoomLink){
-                        Linking.openURL(data.zoomLink);
-                      }else{
-                        Toast.show({
-                          title:
-                            "Please Wait for link/Contact Support",
-                          isClosable: true,
-                        })
-                      }
+                        if (data.zoomLink) {
+                          Linking.openURL(data.zoomLink);
+                        } else {
+                          Toast.show({
+                            title: "Please Wait for link/Contact Support",
+                            isClosable: true,
+                          });
+                        }
                       } else {
                         return Toast.show({
                           title:
@@ -96,21 +95,35 @@ const index = ({ route, navigation }) => {
                       end={{ x: 0.5, y: 1.5 }}
                       style={styles.content}
                     >
-                      <Text allowFontScaling={false} style={styles.contentTextDate}>
+                      <Text
+                        allowFontScaling={false}
+                        style={styles.contentTextDate}
+                      >
                         {`${moment(data.from.slice(0, 10))
                           .format("dddd")
                           .slice(0, 3)}, ${moment(
                           data.from.slice(0, 10)
                         ).format("Do MMMM")}`}
                       </Text>
-                      <Text allowFontScaling={false} style={styles.contentTextCourse}>
+                      <Text
+                        allowFontScaling={false}
+                        style={styles.contentTextCourse}
+                      >
                         {`${data.from.slice(11, 16)} - ${data.to.slice(
                           11,
                           16
                         )}`}
                       </Text>
-                      <Text allowFontScaling={false} style={styles.contentTextCourse}>{data.title}</Text>
-                      <Text allowFontScaling={false} style={styles.contentTextLink}>
+                      <Text
+                        allowFontScaling={false}
+                        style={styles.contentTextCourse}
+                      >
+                        {data.title}
+                      </Text>
+                      <Text
+                        allowFontScaling={false}
+                        style={styles.contentTextLink}
+                      >
                         Click here to join
                       </Text>
                     </LinearGradient>

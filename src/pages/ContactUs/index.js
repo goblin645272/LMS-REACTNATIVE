@@ -20,13 +20,13 @@ import { ScrollView } from "react-native-gesture-handler";
 import axios from "axios";
 import baseurl from "../../api/url";
 import { useDispatch } from "react-redux";
-import NetInfo from "@react-native-community/netinfo"
+import NetInfo from "@react-native-community/netinfo";
 const styles = StyleSheet.create(css);
 
 const index = () => {
-  NetInfo.fetch().then(state => {
-    !state.isConnected && navigation.navigate("No Internet Auth")
-});
+  NetInfo.fetch().then((state) => {
+    !state.isConnected && navigation.navigate("No Internet Auth");
+  });
   const dispatch = useDispatch();
   const emailRegex =
     /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -124,7 +124,9 @@ const index = () => {
             style={styles.background}
           >
             <VStack space={6} justifyContent="center" alignItems="center">
-              <Text allowFontScaling={false} style={styles.header}>Contact Us</Text>
+              <Text allowFontScaling={false} style={styles.header}>
+                Contact Us
+              </Text>
               <Input
                 placeholder="Name"
                 placeholderTextColor="#022460"
@@ -191,7 +193,9 @@ const index = () => {
                 }}
               />
               <Button style={styles.button} onPress={submit}>
-                <Text allowFontScaling={false} style={styles.button_text}>Submit</Text>
+                <Text allowFontScaling={false} style={styles.button_text}>
+                  Submit
+                </Text>
               </Button>
             </VStack>
           </LinearGradient>

@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, KeyboardAvoidingView, View } from "react-native";
 import { useDispatch } from "react-redux";
 import { VStack, Center, Input, Button, FormControl } from "native-base";
@@ -6,14 +6,14 @@ import LinearGradient from "react-native-linear-gradient";
 import css from "./styles";
 import { changePassword } from "../../action/auth";
 import { useIsFocused } from "@react-navigation/native";
-import NetInfo from "@react-native-community/netinfo"
+import NetInfo from "@react-native-community/netinfo";
 
 const styles = StyleSheet.create(css);
 
 const index = () => {
-  NetInfo.fetch().then(state => {
-    !state.isConnected && navigation.navigate("No Internet Auth")
-});
+  NetInfo.fetch().then((state) => {
+    !state.isConnected && navigation.navigate("No Internet Auth");
+  });
   const dispatch = useDispatch();
   const [data, setData] = useState({
     old_password: "",
@@ -94,7 +94,9 @@ const index = () => {
       >
         <Center>
           <VStack>
-            <Text allowFontScaling={false} style={styles.header}>Change Password</Text>
+            <Text allowFontScaling={false} style={styles.header}>
+              Change Password
+            </Text>
             <FormControl isInvalid={"old_password" in errors}>
               <Input
                 type="password"
@@ -167,7 +169,9 @@ const index = () => {
           </VStack>
           <View style={{ alignItems: "center" }}>
             <Button onPress={() => submit()} style={styles.button}>
-              <Text allowFontScaling={false} style={styles.buttonText}>Change Password</Text>
+              <Text allowFontScaling={false} style={styles.buttonText}>
+                Change Password
+              </Text>
             </Button>
           </View>
         </Center>

@@ -22,32 +22,38 @@ const styles = StyleSheet.create(css);
 import Carousel from "react-native-snap-carousel";
 import { getBoughtCourses } from "../../action/auth";
 import { useIsFocused } from "@react-navigation/native";
-import NetInfo from "@react-native-community/netinfo"
+import NetInfo from "@react-native-community/netinfo";
 
 const Component = (course, { index, item }, navigation) => {
-  NetInfo.fetch().then(state => {
-    !state.isConnected && navigation.navigate("No Internet Auth")
-});
+  NetInfo.fetch().then((state) => {
+    !state.isConnected && navigation.navigate("No Internet Auth");
+  });
   return (
-    <TouchableOpacity onPress={() =>
-      item.text1 === "Foundation Class on Supply & Demand Trading Strategy"
-        ? Linking.openURL("https://workshop.mktradingschool.com/")
-        : navigation.navigate("Course Internal", {
-          id: "612ccd3c9f192c86faa26f48",
-          course: course,
-        })
-    }>
-    <ImageBackground
-      key={index}
-      source={item.source}
-      resizeMode="stretch"
-      style={styles.banner}
+    <TouchableOpacity
+      onPress={() =>
+        item.text1 === "Foundation Class on Supply & Demand Trading Strategy"
+          ? Linking.openURL("https://workshop.mktradingschool.com/")
+          : navigation.navigate("Course Internal", {
+              id: "612ccd3c9f192c86faa26f48",
+              course: course,
+            })
+      }
     >
-      <VStack style={styles.bannerContent}>
-        <Text allowFontScaling={false} style={{ ...styles.bannerText }}>{item.text1}</Text>
-        <Text allowFontScaling={false} style={{ ...styles.bannerText }}>{item.text2}</Text>
-      </VStack>
-    </ImageBackground>
+      <ImageBackground
+        key={index}
+        source={item.source}
+        resizeMode="stretch"
+        style={styles.banner}
+      >
+        <VStack style={styles.bannerContent}>
+          <Text allowFontScaling={false} style={{ ...styles.bannerText }}>
+            {item.text1}
+          </Text>
+          <Text allowFontScaling={false} style={{ ...styles.bannerText }}>
+            {item.text2}
+          </Text>
+        </VStack>
+      </ImageBackground>
     </TouchableOpacity>
   );
 };
@@ -101,9 +107,19 @@ const index = ({ navigation }) => {
             autoplayDelay={3000}
             sliderWidth={deviceWindow.width}
             itemWidth={deviceWindow.width}
-            renderItem={(obj) => Component(courses?.find((item)=>item._id === "612ccd3c9f192c86faa26f48") ,obj, navigation)}
+            renderItem={(obj) =>
+              Component(
+                courses?.find(
+                  (item) => item._id === "612ccd3c9f192c86faa26f48"
+                ),
+                obj,
+                navigation
+              )
+            }
           />
-          <Text allowFontScaling={false} style={styles.header}>Course & Offerings</Text>
+          <Text allowFontScaling={false} style={styles.header}>
+            Course & Offerings
+          </Text>
           <ScrollView horizontal={true} style={styles.horizontal}>
             {courses.map((obj) => {
               return (
@@ -119,7 +135,9 @@ const index = ({ navigation }) => {
                 >
                   <Image style={styles.courseImage} source={images[obj._id]} />
                   <View style={styles.courseContainer}>
-                    <Text allowFontScaling={false} style={styles.courseName}>{obj.name} </Text>
+                    <Text allowFontScaling={false} style={styles.courseName}>
+                      {obj.name}{" "}
+                    </Text>
                   </View>
                   <View
                     style={{
@@ -141,14 +159,21 @@ const index = ({ navigation }) => {
                         })
                       }
                     >
-                      <Text allowFontScaling={false} style={styles.courseButtonText}>Enroll</Text>
+                      <Text
+                        allowFontScaling={false}
+                        style={styles.courseButtonText}
+                      >
+                        Enroll
+                      </Text>
                     </Button>
                   </View>
                 </TouchableOpacity>
               );
             })}
           </ScrollView>
-          <Text allowFontScaling={false} style={styles.header}>Your Courses</Text>
+          <Text allowFontScaling={false} style={styles.header}>
+            Your Courses
+          </Text>
           <ScrollView horizontal={true} style={styles.horizontal}>
             {bought?.map((obj) => {
               return (
@@ -161,7 +186,9 @@ const index = ({ navigation }) => {
                 >
                   <Image style={styles.courseImage} source={images[obj._id]} />
                   <View style={styles.courseContainerRound}>
-                    <Text allowFontScaling={false} style={styles.courseName}>{obj.name}</Text>
+                    <Text allowFontScaling={false} style={styles.courseName}>
+                      {obj.name}
+                    </Text>
                   </View>
                 </TouchableOpacity>
               );

@@ -10,15 +10,15 @@ import {
 } from "../api/auth";
 import { Toast } from "native-base";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import messaging from "@react-native-firebase/messaging"
-import axios from 'axios';
+import messaging from "@react-native-firebase/messaging";
+import axios from "axios";
 
 async function getToken() {
-  let fcmToken = await AsyncStorage.getItem('fcmToken');
+  let fcmToken = await AsyncStorage.getItem("fcmToken");
   if (!fcmToken) {
     fcmToken = await messaging().getToken();
     if (fcmToken) {
-      await AsyncStorage.setItem('fcmToken', fcmToken);
+      await AsyncStorage.setItem("fcmToken", fcmToken);
     }
   }
 }
@@ -232,15 +232,16 @@ export const logout = async (dispatch) => {
   }
 };
 
-
-export const check = async ()=>{
-  try{
-    const { data } = await axios.get("https://api.mktradingschool.com/check-app-version");
-    return data.result
-  }catch(error){
+export const check = async () => {
+  try {
+    const { data } = await axios.get(
+      "https://api.mktradingschool.com/check-app-version"
+    );
+    return data.result;
+  } catch (error) {
     Toast.show({
       title: "Please Check your internet connection",
       isClosable: true,
     });
   }
-}
+};

@@ -1,9 +1,7 @@
 import { Dimensions } from "react-native";
 const deviceWindow = Dimensions.get("window");
 const css = {
-  scroll:{
-      
-  }
+  scroll: {},
 };
 
 export default css;

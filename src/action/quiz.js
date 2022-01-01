@@ -1,5 +1,5 @@
 import { Toast } from "native-base";
-import { getquizbyid } from '../api/quiz';
+import { getquizbyid } from "../api/quiz";
 
 export const getQuizById = (id) => async (dispatch) => {
   try {

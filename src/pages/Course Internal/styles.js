@@ -154,7 +154,7 @@ const css = {
     fontFamily: "Barlow_400Regular",
     textAlign: "justify",
     fontSize: deviceWindow.height * 0.019,
-  }
+  },
 };
 
 export default css;

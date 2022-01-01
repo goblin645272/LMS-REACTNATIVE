@@ -9,7 +9,10 @@ const css = {
     flex: 1,
   },
   banner: {
-    minHeight:  deviceWindow.width > 400 ? deviceWindow.height * 0.4 : deviceWindow.height * 0.25,
+    minHeight:
+      deviceWindow.width > 400
+        ? deviceWindow.height * 0.4
+        : deviceWindow.height * 0.25,
     minWidth: deviceWindow.width,
   },
   bannerContent: {
@@ -48,7 +51,10 @@ const css = {
   },
   courseCard: {
     height: deviceWindow.height * 0.35,
-    width: deviceWindow.width > 400 ? deviceWindow.width * 0.35 : deviceWindow.width * 0.5,
+    width:
+      deviceWindow.width > 400
+        ? deviceWindow.width * 0.35
+        : deviceWindow.width * 0.5,
     borderRadius: 15,
     marginLeft: 10,
     marginRight: 10,
@@ -58,21 +64,30 @@ const css = {
     resizeMode: "cover",
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    width: deviceWindow.width > 400 ? deviceWindow.width * 0.35 : deviceWindow.width * 0.5,
+    width:
+      deviceWindow.width > 400
+        ? deviceWindow.width * 0.35
+        : deviceWindow.width * 0.5,
   },
   courseContainer: {
     height: deviceWindow.height * 0.1,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#022460",
-    width: deviceWindow.width > 400 ? deviceWindow.width * 0.35 : deviceWindow.width * 0.5,
+    width:
+      deviceWindow.width > 400
+        ? deviceWindow.width * 0.35
+        : deviceWindow.width * 0.5,
   },
   courseContainerRound: {
     height: deviceWindow.height * 0.1,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#022460",
-    width: deviceWindow.width > 400 ? deviceWindow.width * 0.35 : deviceWindow.width * 0.5,
+    width:
+      deviceWindow.width > 400
+        ? deviceWindow.width * 0.35
+        : deviceWindow.width * 0.5,
     // borderRadius: 15,
     borderBottomLeftRadius: 15,
     borderBottomRightRadius: 15,

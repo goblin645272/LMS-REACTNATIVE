@@ -67,52 +67,58 @@ const index = ({ route, navigation }) => {
 
   const [dataSourceCords, setDataSourceCords] = useState([]);
   const handleRef = (ref_name) => {
-    if(ref_name === "about"){
+    if (ref_name === "about") {
       ref.scrollTo({
         x: 0,
-        y: dataSourceCords[1]
-      })
-    } else if(ref_name === "instructor"){
+        y: dataSourceCords[1],
+      });
+    } else if (ref_name === "instructor") {
       ref.scrollTo({
         x: 0,
-        y: dataSourceCords[2]
-      })
-    } else if(ref_name === "testimonial"){
+        y: dataSourceCords[2],
+      });
+    } else if (ref_name === "testimonial") {
       ref.scrollTo({
         x: 0,
-        y: dataSourceCords[4]
-      })
-    } else if(ref_name === "enroll"){
+        y: dataSourceCords[4],
+      });
+    } else if (ref_name === "enroll") {
       ref.scrollTo({
         x: 0,
-        y: dataSourceCords[0]
-      })
-    } else if(ref_name === "syllabus"){
+        y: dataSourceCords[0],
+      });
+    } else if (ref_name === "syllabus") {
       ref.scrollTo({
         x: 0,
-        y: dataSourceCords[3]
-      })
-    } else if(ref_name === "faq"){
+        y: dataSourceCords[3],
+      });
+    } else if (ref_name === "faq") {
       ref.scrollTo({
         x: 0,
-        y: dataSourceCords[5]
-      })
-    }else{
-      console.log('not found')
+        y: dataSourceCords[5],
+      });
+    } else {
+      console.log("not found");
     }
-  }
-  
+  };
+
   // const scrollHandler = () => {
   //     ref.scrollTo({
   //       x: 0,
   //       y: ,
   //       animated: true,
   //     });
-    
+
   // };
 
   return (
-    <ScrollView style={styles.screen} ref={(ref)=>{setRef(ref)}} stickyHeaderIndices={[1]}>
+    <ScrollView
+      style={styles.screen}
+      ref={(ref) => {
+        setRef(ref);
+      }}
+      stickyHeaderIndices={[1]}
+    >
       <LinearGradient
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 2 }}
@@ -172,39 +178,59 @@ const index = ({ route, navigation }) => {
         </View>
       </LinearGradient>
       <ScrollView horizontal={true} style={styles.tabContainer}>
-        <TouchableOpacity onPress={()=>{handleRef("enroll")}}>
-          <Text allowFontScaling={false} style={styles.tabs} 
-          >
+        <TouchableOpacity
+          onPress={() => {
+            handleRef("enroll");
+          }}
+        >
+          <Text allowFontScaling={false} style={styles.tabs}>
             BUY NOW{" "}
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={()=>{handleRef("about")}}>
-          <Text allowFontScaling={false} style={styles.tabs}
-          >
+        <TouchableOpacity
+          onPress={() => {
+            handleRef("about");
+          }}
+        >
+          <Text allowFontScaling={false} style={styles.tabs}>
             ABOUT
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={()=>{handleRef("instructor")}}>
-          <Text allowFontScaling={false} style={styles.tabs}
-          >
+        <TouchableOpacity
+          onPress={() => {
+            handleRef("instructor");
+          }}
+        >
+          <Text allowFontScaling={false} style={styles.tabs}>
             INSTUCTOR{" "}
           </Text>
         </TouchableOpacity>
-        {data?.modules?.length > 0 && (<TouchableOpacity onPress={()=>{handleRef("syllabus")}}>
-          <Text allowFontScaling={false} style={styles.tabs}
+        {data?.modules?.length > 0 && (
+          <TouchableOpacity
+            onPress={() => {
+              handleRef("syllabus");
+            }}
           >
-            SYLLABUS
-          </Text>
-        </TouchableOpacity>)}
-        <TouchableOpacity onPress={()=>{handleRef("testimonial")}}>
-          <Text allowFontScaling={false} style={styles.tabs}
-          >
+            <Text allowFontScaling={false} style={styles.tabs}>
+              SYLLABUS
+            </Text>
+          </TouchableOpacity>
+        )}
+        <TouchableOpacity
+          onPress={() => {
+            handleRef("testimonial");
+          }}
+        >
+          <Text allowFontScaling={false} style={styles.tabs}>
             TESTIMONIALS{" "}
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={()=>{handleRef("faq")}}>
-          <Text allowFontScaling={false} style={styles.tabs}
-          >
+        <TouchableOpacity
+          onPress={() => {
+            handleRef("faq");
+          }}
+        >
+          <Text allowFontScaling={false} style={styles.tabs}>
             FAQ
           </Text>
         </TouchableOpacity>
@@ -217,14 +243,16 @@ const index = ({ route, navigation }) => {
           marginLeft: deviceWindow.width * 0.03,
         }}
       >
-      
         <VStack space={3}>
-          <Text allowFontScaling={false} style={styles.pricing}
-          onLayout={(event)=> {
-            const layout = event.nativeEvent.layout;
-            dataSourceCords[0] = layout.y;
-            setDataSourceCords(dataSourceCords);
-          }}>
+          <Text
+            allowFontScaling={false}
+            style={styles.pricing}
+            onLayout={(event) => {
+              const layout = event.nativeEvent.layout;
+              dataSourceCords[0] = layout.y;
+              setDataSourceCords(dataSourceCords);
+            }}
+          >
             Pricing
           </Text>
           {data?.price?.map((item, index4) => {
@@ -288,15 +316,15 @@ const index = ({ route, navigation }) => {
             );
           })}
         </VStack>
-        
+
         <View
-        onLayout={(event)=> {
-          const layout = event.nativeEvent.layout;
-          dataSourceCords[1] = layout.y;
-          setDataSourceCords(dataSourceCords);
-        }}>
-          <Text allowFontScaling={false} style={styles.aboutHeader}
-          >
+          onLayout={(event) => {
+            const layout = event.nativeEvent.layout;
+            dataSourceCords[1] = layout.y;
+            setDataSourceCords(dataSourceCords);
+          }}
+        >
+          <Text allowFontScaling={false} style={styles.aboutHeader}>
             About This Program
           </Text>
           <HTMLView
@@ -343,12 +371,14 @@ const index = ({ route, navigation }) => {
             );
           })}
         </View>
-        <View style={styles.instructor}
-        onLayout={(event)=> {
-          const layout = event.nativeEvent.layout;
-          dataSourceCords[2] = layout.y;
-          setDataSourceCords(dataSourceCords);
-        }}>
+        <View
+          style={styles.instructor}
+          onLayout={(event) => {
+            const layout = event.nativeEvent.layout;
+            dataSourceCords[2] = layout.y;
+            setDataSourceCords(dataSourceCords);
+          }}
+        >
           <Avatar size={32} source={AvatarImage}>
             MK
           </Avatar>
@@ -386,7 +416,7 @@ const index = ({ route, navigation }) => {
         {data?.modules?.length > 0 && (
           <View
             style={{ marginTop: deviceWindow.width * 0.03 }}
-            onLayout={(event)=> {
+            onLayout={(event) => {
               const layout = event.nativeEvent.layout;
               dataSourceCords[3] = layout.y;
               setDataSourceCords(dataSourceCords);
@@ -530,7 +560,7 @@ const index = ({ route, navigation }) => {
           style={{
             marginTop: deviceWindow.width * 0.03,
           }}
-          onLayout={(event)=> {
+          onLayout={(event) => {
             const layout = event.nativeEvent.layout;
             dataSourceCords[4] = layout.y;
             setDataSourceCords(dataSourceCords);
@@ -586,18 +616,16 @@ const index = ({ route, navigation }) => {
             );
           })}
         </View>
-        <View 
-          onLayout={(event)=> {
-          const layout = event.nativeEvent.layout;
-          dataSourceCords[5] = layout.y;
-          setDataSourceCords(dataSourceCords);
-        }}>
+        <View
+          onLayout={(event) => {
+            const layout = event.nativeEvent.layout;
+            dataSourceCords[5] = layout.y;
+            setDataSourceCords(dataSourceCords);
+          }}
+        >
           <Divider my="1" style={{ backgroundColor: "rgba(2, 36, 96, 1)" }} />
         </View>
-        <VStack
-          space={2}
-          style={{ marginTop: deviceWindow.height * 0.015 }}
-        >
+        <VStack space={2} style={{ marginTop: deviceWindow.height * 0.015 }}>
           <View
             style={{
               alignItems: "center",
@@ -609,7 +637,6 @@ const index = ({ route, navigation }) => {
                 fontFamily: "Barlow_600SemiBold",
                 fontSize: deviceWindow.width * 0.06,
               }}
-              
             >
               FAQs
             </Text>

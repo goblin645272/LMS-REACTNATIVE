@@ -22,7 +22,9 @@ const Privacy = () => {
           alignItems="center"
           style={styles.Vstack}
         >
-          <Text allowFontScaling={false} style={styles.head}>Privacy Policy</Text>
+          <Text allowFontScaling={false} style={styles.head}>
+            Privacy Policy
+          </Text>
           <Text allowFontScaling={false} style={styles.point}>
             MKTS stands for MK Trading School here onwards
           </Text>
@@ -59,7 +61,9 @@ const Privacy = () => {
             any changes. Continued use of this website and/or our services shall
             constitute consent to this policy and any changes made hereto.
           </Text>
-          <Text allowFontScaling={false} style={styles.point}>How We Use Information</Text>
+          <Text allowFontScaling={false} style={styles.point}>
+            How We Use Information
+          </Text>
           <Text allowFontScaling={false} style={styles.body}>
             MK Trading School may use the information that you provide through
             our site to market our services. Our goal is to utilize the
@@ -77,7 +81,9 @@ const Privacy = () => {
             wish to receive calls from us in the future, you can let us know by
             emailing us at support@mktradingschool.com
           </Text>
-          <Text allowFontScaling={false} style={styles.point}>Sharing Information</Text>
+          <Text allowFontScaling={false} style={styles.point}>
+            Sharing Information
+          </Text>
           <Text allowFontScaling={false} style={styles.body}>
             Privacy matters are very important to us, and all available
             resources and processes are implemented to make sure your
@@ -107,7 +113,9 @@ const Privacy = () => {
             non-personal information and personal information, to one or more
             affiliated or unaffiliated third parties.
           </Text>
-          <Text allowFontScaling={false} style={styles.point}>Control of Your Password</Text>
+          <Text allowFontScaling={false} style={styles.point}>
+            Control of Your Password
+          </Text>
           <Text allowFontScaling={false} style={styles.body}>
             When you sign up to become a member, you will also be asked to
             choose a password. You are entirely responsible for maintaining the
@@ -128,7 +136,9 @@ const Privacy = () => {
             suspect any consistent unauthorized use of your account or access to
             your password even after changing it.
           </Text>
-          <Text allowFontScaling={false} style={styles.point}>Public Forums</Text>
+          <Text allowFontScaling={false} style={styles.point}>
+            Public Forums
+          </Text>
           <Text allowFontScaling={false} style={styles.body}>
             This site may make chat rooms, forums, message boards, and/or news
             groups available to its users. Please remember that any information
@@ -136,7 +146,9 @@ const Privacy = () => {
             should exercise caution when deciding to disclose your personal
             information.
           </Text>
-          <Text allowFontScaling={false} style={styles.point}>Social Media</Text>
+          <Text allowFontScaling={false} style={styles.point}>
+            Social Media
+          </Text>
           <Text allowFontScaling={false} style={styles.body}>
             We may use hyperlinks on the Website which will redirect you to a
             social network if you click on the respective link. However, when
@@ -164,7 +176,9 @@ const Privacy = () => {
             harm resulting from their voluntary disclosure of personally
             identifying information.
           </Text>
-          <Text allowFontScaling={false} style={styles.point}>Confidentiality</Text>
+          <Text allowFontScaling={false} style={styles.point}>
+            Confidentiality
+          </Text>
           <Text allowFontScaling={false} style={styles.body}>
             This site has security measures in place to protect the loss,
             misuse, and alteration of the information under our control. You
@@ -191,7 +205,9 @@ const Privacy = () => {
             cannot be controlled by us and as such, information and data
             transmitted may be viewed by unauthorized third parties.
           </Text>
-          <Text allowFontScaling={false} style={styles.point}>Cookies</Text>
+          <Text allowFontScaling={false} style={styles.point}>
+            Cookies
+          </Text>
           <Text allowFontScaling={false} style={styles.body}>
             We use cookie technology to help members move faster through the
             site. We also use cookies to deliver content specific to your
@@ -217,7 +233,9 @@ const Privacy = () => {
             investigation into a violation of the terms of use or alleged
             misconduct.
           </Text>
-          <Text allowFontScaling={false} style={styles.point}>Links to Other Websites</Text>
+          <Text allowFontScaling={false} style={styles.point}>
+            Links to Other Websites
+          </Text>
           <Text allowFontScaling={false} style={styles.body}>
             This site may contain links to third parties’ websites. Please note
             that we are not responsible for the collection, use, maintenance,
@@ -236,14 +254,18 @@ const Privacy = () => {
             For that reason, we do not collect or maintain information at our
             website from those we know are under the age of thirteen (13).
           </Text>
-          <Text allowFontScaling={false} style={styles.point}>Opt-Out</Text>
+          <Text allowFontScaling={false} style={styles.point}>
+            Opt-Out
+          </Text>
           <Text allowFontScaling={false} style={styles.body}>
             If you do not wish to have your personal information disclosed to
             our affiliates, third parties or to be used by MK Trading School as
             described in this Policy please contact us via email:
             - support@mktradingschool.com
           </Text>
-          <Text allowFontScaling={false} style={styles.point}>Contact Us</Text>
+          <Text allowFontScaling={false} style={styles.point}>
+            Contact Us
+          </Text>
           <Text allowFontScaling={false} style={styles.body}>
             If you further have any questions about this agreement, the
             practices of MK Trading School or your experience with our service,

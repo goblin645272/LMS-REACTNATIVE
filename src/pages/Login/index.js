@@ -17,13 +17,13 @@ import { useDispatch } from "react-redux";
 import { signIn } from "../../action/auth";
 import css from "./styles";
 import { Dimensions } from "react-native";
-import NetInfo from "@react-native-community/netinfo"
+import NetInfo from "@react-native-community/netinfo";
 const deviceWindow = Dimensions.get("window");
 
 const styles = StyleSheet.create(css);
 const index = ({ navigation }) => {
-  NetInfo.fetch().then(state => {
-    !state.isConnected && navigation.navigate("No Internet")
+  NetInfo.fetch().then((state) => {
+    !state.isConnected && navigation.navigate("No Internet");
   });
   const dispatch = useDispatch();
   const [data, setData] = useState({
@@ -49,7 +49,7 @@ const index = ({ navigation }) => {
   const emailRegex =
     /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   const validate = () => {
-    if ( 
+    if (
       data.email === "" ||
       data.password === "" ||
       !emailRegex.test(data.email)
@@ -72,7 +72,7 @@ const index = ({ navigation }) => {
     }
   };
   const submit = async () => {
-    setErrors({});   
+    setErrors({});
     const valid = validate();
     if (valid) {
       return;
@@ -94,7 +94,9 @@ const index = ({ navigation }) => {
               style={styles.logo}
             />
             <View style={styles.login_box}>
-              <Text allowFontScaling={false} style={styles.header}>Login</Text>
+              <Text allowFontScaling={false} style={styles.header}>
+                Login
+              </Text>
               <Center flex={1} px="3">
                 <VStack space={6} justifyContent="center" alignItems="center">
                   <FormControl isInvalid={"email" in errors}>
@@ -187,7 +189,9 @@ const index = ({ navigation }) => {
                     ref={refs.button}
                     style={styles.button}
                   >
-                    <Text allowFontScaling={false} style={styles.button_text}>Login</Text>
+                    <Text allowFontScaling={false} style={styles.button_text}>
+                      Login
+                    </Text>
                   </Button>
                 </VStack>
               </Center>
@@ -199,7 +203,9 @@ const index = ({ navigation }) => {
               </Text>
               <Text
                 style={styles.register}
-                onPress={() => Linking.openURL("https://mktradingschool.com/forgotpass")}
+                onPress={() =>
+                  Linking.openURL("https://mktradingschool.com/forgotpass")
+                }
               >
                 Forgot Password?
               </Text>

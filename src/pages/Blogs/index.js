@@ -9,16 +9,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { getBlogs } from "../../action/blogs";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useIsFocused } from "@react-navigation/native";
-import NetInfo from "@react-native-community/netinfo"
+import NetInfo from "@react-native-community/netinfo";
 const index = ({ navigation }) => {
-  NetInfo.fetch().then(state => {
-    !state.isConnected && navigation.navigate("No Internet Auth")
-});
-const blogs = useSelector((state) => state.blogs);
+  NetInfo.fetch().then((state) => {
+    !state.isConnected && navigation.navigate("No Internet Auth");
+  });
+  const blogs = useSelector((state) => state.blogs);
   const isFocused = useIsFocused();
   const deviceWindow = Dimensions.get("window");
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
     if (isFocused) {
       const getdata = async () => {
@@ -44,7 +44,9 @@ const blogs = useSelector((state) => state.blogs);
               }
             >
               <VStack>
-                <Text allowFontScaling={false} style={styles.head}>{data.title.replace(/-/g, " ")}</Text>
+                <Text allowFontScaling={false} style={styles.head}>
+                  {data.title.replace(/-/g, " ")}
+                </Text>
                 <Text allowFontScaling={false} style={styles.body}>
                   {`${moment(data.date.slice(0, 10))
                     .format("dddd")
@@ -53,7 +55,9 @@ const blogs = useSelector((state) => state.blogs);
                   )}`}
                 </Text>
 
-                <Text allowFontScaling={false} style={styles.body}>Click to Read More...</Text>
+                <Text allowFontScaling={false} style={styles.body}>
+                  Click to Read More...
+                </Text>
               </VStack>
             </TouchableOpacity>
           );

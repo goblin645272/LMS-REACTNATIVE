@@ -24,12 +24,12 @@ import moment from "moment";
 import axios from "axios";
 import url from "../../api/url";
 import { getProfile, logout } from "../../action/auth";
-import NetInfo from "@react-native-community/netinfo"
+import NetInfo from "@react-native-community/netinfo";
 
 const index = ({ route, navigation }) => {
-  NetInfo.fetch().then(state => {
-    !state.isConnected && navigation.navigate("No Internet Auth")
-});
+  NetInfo.fetch().then((state) => {
+    !state.isConnected && navigation.navigate("No Internet Auth");
+  });
   const isFocused = useIsFocused();
   const { courseID, plan } = route.params;
   const user = useSelector((state) => state.auth.profile);
@@ -105,9 +105,9 @@ const index = ({ route, navigation }) => {
     }
   }, [setCoupon, setTele, setOpen, setTrading, isFocused]);
 
-const _displayRazorpay = async() => {
-  dispatch({ type: "LOAD" });
-  axios
+  const _displayRazorpay = async () => {
+    dispatch({ type: "LOAD" });
+    axios
       .post(
         `${url}/razorpay/payment`,
         {
@@ -126,36 +126,39 @@ const _displayRazorpay = async() => {
           prefill: {
             email: user.email,
           },
-          
         };
-        RazorpayCheckout.open(options).then(async (resp)=>{
-          dispatch({ type: "UNLOAD" });
-          setCoupon({
-            valid: false,
-            code: "",
-            discount_percent: "",
-            discount_amount: "",
-            CGST: "",
-            SGST: "",
-            IGST: "",
-            final_amount: "",
-          });
-          Toast.show({title: "Please wait for confirmation"});
+        RazorpayCheckout.open(options)
+          .then(async (resp) => {
+            dispatch({ type: "UNLOAD" });
+            setCoupon({
+              valid: false,
+              code: "",
+              discount_percent: "",
+              discount_amount: "",
+              CGST: "",
+              SGST: "",
+              IGST: "",
+              final_amount: "",
+            });
+            Toast.show({ title: "Please wait for confirmation" });
             if (resp.status?.status === 202) {
-              Toast.show(
-                {title: "You have successfully enrolled for the course for free"}
-              );
+              Toast.show({
+                title: "You have successfully enrolled for the course for free",
+              });
               await getProfile(dispatch);
             } else {
-              setTimeout( async function() {
+              setTimeout(async function () {
                 axios
                   .get(
-                    `${url}/razorpay/downloadInvoice/${await AsyncStorage.getItem("token")}/${resp.razorpay_order_id}`
+                    `${url}/razorpay/downloadInvoice/${await AsyncStorage.getItem(
+                      "token"
+                    )}/${resp.razorpay_order_id}`
                   )
                   .then(async (response) => {
-                    Toast.show(
-                      {title: "You have successfully enrolled for the course. Please check email for invoice"}
-                    );
+                    Toast.show({
+                      title:
+                        "You have successfully enrolled for the course. Please check email for invoice",
+                    });
                     await getProfile(dispatch);
                   })
                   .catch((error) => {
@@ -163,26 +166,32 @@ const _displayRazorpay = async() => {
                       `Please wait. If you do not recieve your course within 10 minutes please contact support. Your order Id is ${resp.razorpay_order_id}`
                     );
                   });
-              } ,6500)
-                
+              }, 6500);
             }
-        }).catch((err)=> {dispatch({ type: "UNLOAD" });alert("Payment failed. Please try again")})
+          })
+          .catch((err) => {
+            dispatch({ type: "UNLOAD" });
+            alert("Payment failed. Please try again");
+          });
       })
       .catch(async function (error) {
         dispatch({ type: "UNLOAD" });
-        alert(error)
+        alert(error);
         if (error.response?.status === 401) {
           logout(dispatch);
-          Toast.show(
-            {title: "You have been logged out.Your MK Trading account is in use on another device"}
-          );
+          Toast.show({
+            title:
+              "You have been logged out.Your MK Trading account is in use on another device",
+          });
         } else if (error.response?.status === 409) {
-          Toast.show({title:"You have successfully enrolled for the course"});
+          Toast.show({
+            title: "You have successfully enrolled for the course",
+          });
         } else {
-          Toast.show({title: "Something went wrong.Please try again"});
+          Toast.show({ title: "Something went wrong.Please try again" });
         }
       });
-}
+  };
 
   return (
     <ScrollView style={styles.body}>
@@ -237,11 +246,15 @@ const _displayRazorpay = async() => {
       </AlertDialog>
       <VStack space={5}>
         <VStack space={3}>
-          <Text allowFontScaling={false} style={styles.headerText}>Purchase Information</Text>
+          <Text allowFontScaling={false} style={styles.headerText}>
+            Purchase Information
+          </Text>
           <Text allowFontScaling={false} style={styles.smallText}>
             Course : {`${courseDict[courseID]} `}
           </Text>
-          <Text allowFontScaling={false} style={styles.smallText}>Plan: {plan.tier}</Text>
+          <Text allowFontScaling={false} style={styles.smallText}>
+            Plan: {plan.tier}
+          </Text>
           {!coupon.valid ? (
             <>
               {user.state === "Maharashtra" || user.state === "Other" ? (
@@ -276,21 +289,27 @@ const _displayRazorpay = async() => {
               {coupon.final_amount}
             </Text>
           )}
-          <Text allowFontScaling={false} style={styles.smallText}>{`Date of Purchase: ${moment(new Date())
-                    .format("dddd")
-                    .slice(0, 3)}, ${moment(new Date()).format(
-                    "Do MMMM YYYY"
-                  )}`}</Text>
+          <Text
+            allowFontScaling={false}
+            style={styles.smallText}
+          >{`Date of Purchase: ${moment(new Date())
+            .format("dddd")
+            .slice(0, 3)}, ${moment(new Date()).format("Do MMMM YYYY")}`}</Text>
         </VStack>
         <View>
           <Divider my="1" style={{ backgroundColor: "rgba(2, 36, 96, 1)" }} />
         </View>
         <VStack space={3}>
-          <Text allowFontScaling={false} style={styles.headerText}>User Information</Text>
+          <Text allowFontScaling={false} style={styles.headerText}>
+            User Information
+          </Text>
           <Text
             style={styles.smallText}
           >{`User : ${user.firstName} ${user.lastName}`}</Text>
-          <Text allowFontScaling={false} style={styles.smallText}>{`User Email: ${user.email}`}</Text>
+          <Text
+            allowFontScaling={false}
+            style={styles.smallText}
+          >{`User Email: ${user.email}`}</Text>
 
           {!user?.gst_number ? (
             <>
