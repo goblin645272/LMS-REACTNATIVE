@@ -53,6 +53,16 @@ const css = {
     color: "white",
     fontFamily: "Barlow_600SemiBold",
   },
+  noArchive: {
+    fontSize: height * 0.02,
+    color: "#1D3D76",
+    fontFamily: "Barlow_500Medium",
+    marginTop: height * 0,
+    marginLeft: width * 0.04,
+    marginBottom: height * 0.035,
+    alignItems: "center",
+    justifyContent: "center",
+  },
 };
 
 export default css;

@@ -44,6 +44,14 @@ const css = {
     marginLeft: deviceWindow.width * 0.04,
     marginBottom: deviceWindow.height * 0.035,
   },
+  noCourse: {
+    fontSize: deviceWindow.height * 0.02,
+    color: "#1D3D76",
+    fontFamily: "Barlow_500Medium",
+    marginTop: deviceWindow.height * 0,
+    marginLeft: deviceWindow.width * 0.04,
+    marginBottom: deviceWindow.height * 0.035,
+  },
   horizontal: {
     width: deviceWindow.width,
     height: deviceWindow.height * 0.33,

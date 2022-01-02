@@ -174,26 +174,35 @@ const index = ({ navigation }) => {
           <Text allowFontScaling={false} style={styles.header}>
             Your Courses
           </Text>
-          <ScrollView horizontal={true} style={styles.horizontal}>
-            {bought?.map((obj) => {
-              return (
-                <TouchableOpacity
-                  style={styles.courseCard}
-                  key={obj._id}
-                  onPress={() => {
-                    navigation.navigate("Course Details", { id: obj._id });
-                  }}
-                >
-                  <Image style={styles.courseImage} source={images[obj._id]} />
-                  <View style={styles.courseContainerRound}>
-                    <Text allowFontScaling={false} style={styles.courseName}>
-                      {obj.name}
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-              );
-            })}
-          </ScrollView>
+          {bought?.length > 0 ? (
+            <ScrollView horizontal={true} style={styles.horizontal}>
+              {bought?.map((obj) => {
+                return (
+                  <TouchableOpacity
+                    style={styles.courseCard}
+                    key={obj._id}
+                    onPress={() => {
+                      navigation.navigate("Course Details", { id: obj._id });
+                    }}
+                  >
+                    <Image
+                      style={styles.courseImage}
+                      source={images[obj._id]}
+                    />
+                    <View style={styles.courseContainerRound}>
+                      <Text allowFontScaling={false} style={styles.courseName}>
+                        {obj.name}
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                );
+              })}
+            </ScrollView>
+          ) : (
+            <Text allowFontScaling={false} style={styles.noCourse}>
+              No courses purchased
+            </Text>
+          )}
         </LinearGradient>
       </KeyboardAvoidingView>
     </ScrollView>
