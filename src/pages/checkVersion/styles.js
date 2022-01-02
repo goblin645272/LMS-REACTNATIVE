@@ -20,6 +20,9 @@ const css = {
     color: "#000260",
     marginBottom: height * 0.04,
   },
+  background: {
+    height: height,
+  },
 };
 
 export default css;
