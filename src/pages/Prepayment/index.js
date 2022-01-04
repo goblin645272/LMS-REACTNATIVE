@@ -119,7 +119,7 @@ const index = ({ route, navigation }) => {
       )
       .then(function (response) {
         const options = {
-          key: "rzp_live_KQpXbT4SaO0E6f",
+          key: "rzp_test_4LrpORafEOFNKL",
           order_id: response.data.id,
           name: "MK Trading School",
           description: courseDict[courseID],
@@ -146,6 +146,7 @@ const index = ({ route, navigation }) => {
                 title: "You have successfully enrolled for the course for free",
               });
               await getProfile(dispatch);
+              navigation.navigate("Home");
             } else {
               setTimeout(async function () {
                 axios
@@ -160,6 +161,7 @@ const index = ({ route, navigation }) => {
                         "You have successfully enrolled for the course. Please check email for invoice",
                     });
                     await getProfile(dispatch);
+                    navigation.navigate("Home");
                   })
                   .catch((error) => {
                     alert(

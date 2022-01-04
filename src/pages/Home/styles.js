@@ -11,7 +11,7 @@ const css = {
   banner: {
     minHeight:
       deviceWindow.width > 400
-        ? deviceWindow.height * 0.4
+        ? deviceWindow.height * 0.3
         : deviceWindow.height * 0.25,
     minWidth: deviceWindow.width,
   },
@@ -61,7 +61,7 @@ const css = {
     height: deviceWindow.height * 0.35,
     width:
       deviceWindow.width > 400
-        ? deviceWindow.width * 0.35
+        ? deviceWindow.width * 0.4
         : deviceWindow.width * 0.5,
     borderRadius: 15,
     marginLeft: 10,
@@ -74,7 +74,7 @@ const css = {
     borderTopRightRadius: 20,
     width:
       deviceWindow.width > 400
-        ? deviceWindow.width * 0.35
+        ? deviceWindow.width * 0.4
         : deviceWindow.width * 0.5,
   },
   courseContainer: {
@@ -84,7 +84,7 @@ const css = {
     backgroundColor: "#022460",
     width:
       deviceWindow.width > 400
-        ? deviceWindow.width * 0.35
+        ? deviceWindow.width * 0.4
         : deviceWindow.width * 0.5,
   },
   courseContainerRound: {
@@ -94,7 +94,7 @@ const css = {
     backgroundColor: "#022460",
     width:
       deviceWindow.width > 400
-        ? deviceWindow.width * 0.35
+        ? deviceWindow.width * 0.4
         : deviceWindow.width * 0.5,
     // borderRadius: 15,
     borderBottomLeftRadius: 15,

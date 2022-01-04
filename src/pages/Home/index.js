@@ -88,123 +88,116 @@ const index = ({ navigation }) => {
   ];
   return (
     <ScrollView style={styles.scroll}>
-      <KeyboardAvoidingView behavior="padding" style={styles.scroll}>
-        <LinearGradient
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 2 }}
-          c
-          colors={["#ffffff", "#6fbef9"]}
-          style={styles.background}
-          resizeMode="cover"
-        >
-          <Carousel
-            style={styles.banner}
-            layout={"default"}
-            data={carouselitems}
-            autoplay={true}
-            enableSnap={true}
-            loop={true}
-            autoplayDelay={3000}
-            sliderWidth={deviceWindow.width}
-            itemWidth={deviceWindow.width}
-            renderItem={(obj) =>
-              Component(
-                courses?.find(
-                  (item) => item._id === "612ccd3c9f192c86faa26f48"
-                ),
-                obj,
-                navigation
-              )
-            }
-          />
-          <Text allowFontScaling={false} style={styles.header}>
-            Course & Offerings
-          </Text>
+      <LinearGradient
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 2 }}
+        c
+        colors={["#ffffff", "#6fbef9"]}
+        style={styles.background}
+        resizeMode="cover"
+      >
+        <Carousel
+          style={styles.banner}
+          layout={"default"}
+          data={carouselitems}
+          autoplay={true}
+          enableSnap={true}
+          loop={true}
+          autoplayDelay={3000}
+          sliderWidth={deviceWindow.width}
+          itemWidth={deviceWindow.width}
+          renderItem={(obj) =>
+            Component(
+              courses?.find((item) => item._id === "612ccd3c9f192c86faa26f48"),
+              obj,
+              navigation
+            )
+          }
+        />
+        <Text allowFontScaling={false} style={styles.header}>
+          Course & Offerings
+        </Text>
+        <ScrollView horizontal={true} style={styles.horizontal}>
+          {courses.map((obj) => {
+            return (
+              <TouchableOpacity
+                key={obj._id}
+                style={styles.courseCard}
+                onPress={() =>
+                  navigation.navigate("Course Internal", {
+                    id: obj._id,
+                    course: obj,
+                  })
+                }
+              >
+                <Image style={styles.courseImage} source={images[obj._id]} />
+                <View style={styles.courseContainer}>
+                  <Text allowFontScaling={false} style={styles.courseName}>
+                    {obj.name}{" "}
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    alignItems: "center",
+                    backgroundColor: "white",
+                    paddingLeft: 10,
+                    paddingRight: 10,
+                    borderBottomLeftRadius: 20,
+                    borderBottomRightRadius: 20,
+                    height: deviceWindow.height * 0.06,
+                  }}
+                >
+                  <Button
+                    style={styles.courseButton}
+                    onPress={() =>
+                      navigation.navigate("Course Internal", {
+                        id: obj._id,
+                        course: obj,
+                      })
+                    }
+                  >
+                    <Text
+                      allowFontScaling={false}
+                      style={styles.courseButtonText}
+                    >
+                      Enroll
+                    </Text>
+                  </Button>
+                </View>
+              </TouchableOpacity>
+            );
+          })}
+        </ScrollView>
+        <Text allowFontScaling={false} style={styles.header}>
+          Your Courses
+        </Text>
+        {bought?.length > 0 ? (
           <ScrollView horizontal={true} style={styles.horizontal}>
-            {courses.map((obj) => {
+            {bought?.map((obj) => {
               return (
                 <TouchableOpacity
-                  key={obj._id}
                   style={styles.courseCard}
-                  onPress={() =>
-                    navigation.navigate("Course Internal", {
-                      id: obj._id,
-                      course: obj,
-                    })
-                  }
+                  key={obj._id}
+                  onPress={() => {
+                    navigation.navigate("Course Details", { id: obj._id });
+                  }}
                 >
                   <Image style={styles.courseImage} source={images[obj._id]} />
-                  <View style={styles.courseContainer}>
+                  <View style={styles.courseContainerRound}>
                     <Text allowFontScaling={false} style={styles.courseName}>
-                      {obj.name}{" "}
+                      {obj.name}
                     </Text>
-                  </View>
-                  <View
-                    style={{
-                      alignItems: "center",
-                      backgroundColor: "white",
-                      paddingLeft: 10,
-                      paddingRight: 10,
-                      borderBottomLeftRadius: 20,
-                      borderBottomRightRadius: 20,
-                      height: deviceWindow.height * 0.06,
-                    }}
-                  >
-                    <Button
-                      style={styles.courseButton}
-                      onPress={() =>
-                        navigation.navigate("Course Internal", {
-                          id: obj._id,
-                          course: obj,
-                        })
-                      }
-                    >
-                      <Text
-                        allowFontScaling={false}
-                        style={styles.courseButtonText}
-                      >
-                        Enroll
-                      </Text>
-                    </Button>
                   </View>
                 </TouchableOpacity>
               );
             })}
           </ScrollView>
-          <Text allowFontScaling={false} style={styles.header}>
-            Your Courses
+        ) : (
+          <Text allowFontScaling={false} style={styles.noCourse}>
+            No courses purchased
           </Text>
-          {bought?.length > 0 ? (
-            <ScrollView horizontal={true} style={styles.horizontal}>
-              {bought?.map((obj) => {
-                return (
-                  <TouchableOpacity
-                    style={styles.courseCard}
-                    key={obj._id}
-                    onPress={() => {
-                      navigation.navigate("Course Details", { id: obj._id });
-                    }}
-                  >
-                    <Image
-                      style={styles.courseImage}
-                      source={images[obj._id]}
-                    />
-                    <View style={styles.courseContainerRound}>
-                      <Text allowFontScaling={false} style={styles.courseName}>
-                        {obj.name}
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                );
-              })}
-            </ScrollView>
-          ) : (
-            <Text allowFontScaling={false} style={styles.noCourse}>
-              No courses purchased
-            </Text>
-          )}
-        </LinearGradient>
-      </KeyboardAvoidingView>
+        )}
+      </LinearGradient>
     </ScrollView>
   );
 };
