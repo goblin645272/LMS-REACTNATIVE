@@ -4,6 +4,7 @@ import courses from "./courses";
 import blogs from "./blogs";
 import events from "./events";
 import testimonials from "./testimonials";
+import video from "./video";
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 const reducer = combineReducers({
@@ -13,6 +14,7 @@ const reducer = combineReducers({
   testimonials,
   blogs,
   events,
+  video,
 });
 
 const store = createStore(reducer, applyMiddleware(thunk));

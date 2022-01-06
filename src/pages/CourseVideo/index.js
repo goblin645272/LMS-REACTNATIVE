@@ -3,6 +3,7 @@ import { Text, View, Dimensions, TouchableOpacity } from "react-native";
 import { VStack, Accordion, HStack, Toast, Button } from "native-base";
 import { useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { useSelector } from "react-redux";
 import {
   faPlayCircle,
   faBook,
@@ -11,7 +12,11 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { ScrollView } from "react-native-gesture-handler";
 import { useIsFocused } from "@react-navigation/native";
-import { VdoPlayerView, startVideoScreen } from "vdocipher-rn-bridge";
+import {
+  VdoPlayerView,
+  startVideoScreen,
+  VdoDownload,
+} from "vdocipher-rn-bridge";
 const deviceWindow = Dimensions.get("window");
 import { getVideoDetails, changeWatchStatus } from "../../action/courses";
 import NetInfo from "@react-native-community/netinfo";
@@ -28,6 +33,34 @@ const index = ({ route, navigation }) => {
   const [sections, setSection] = useState();
   const [loading, setLoading] = useState(true);
   const [loader, setLoader] = useState(true);
+  const state = useSelector((state) => state.video);
+
+  const getSelection = (availableTracks) => {
+    var selected = [];
+    selected.push(availableTracks.findIndex((track) => track.type === "audio"));
+    selected.push(availableTracks.findIndex((track) => track.type === "video"));
+    return selected;
+  };
+
+  const enqueueDownload = (otp, playbackInfo) => {
+    VdoDownload.getDownloadOptions({ otp, playbackInfo })
+      .then(({ downloadOptions, enqueue }) => {
+        const selections = getSelection(downloadOptions.availableTracks);
+        return enqueue({ selections });
+      })
+      .then(() =>
+        Toast.show({
+          title: "Started Downloading Video",
+          isClosable: true,
+        })
+      )
+      .catch((errorDescription) => {
+        Toast.show({
+          title: "Failed to download a Video",
+          isClosable: true,
+        });
+      });
+  };
 
   useEffect(() => {
     if (!isFocused) {
@@ -216,13 +249,13 @@ const index = ({ route, navigation }) => {
             </View>
           ) : video.valid ? (
             <View style={{ alignItems: "center" }}>
-              <VdoPlayerView
+              {/* <VdoPlayerView
                 style={{
                   height: deviceWindow.height * 0.32,
                   width: deviceWindow.width,
                 }}
                 embedInfo={{ otp: video.otp, playbackInfo: video.playback }}
-              />
+              /> */}
               <HStack space={3}>
                 {!(watched?.module === 0 && watched?.video === 0) ? (
                   <Button
@@ -309,6 +342,38 @@ const index = ({ route, navigation }) => {
                   ></View>
                 )}
               </HStack>
+              {state.downloadStatusArray.find(
+                (e) => e.mediaInfo.mediaId === watched.link
+              ) ? (
+                <Button
+                  style={{ width: deviceWindow.width * 0.6, marginTop: 4 }}
+                  onPress={() => enqueueDownload(video.otp, video.playback)}
+                  disabled={
+                    state.downloadStatusArray.find(
+                      (e) => e.mediaInfo.mediaId === watched.link
+                    ).status == "failed"
+                      ? false
+                      : true
+                  }
+                >
+                  {state.downloadStatusArray.find(
+                    (e) => e.mediaInfo.mediaId === watched.link
+                  ).status == "failed"
+                    ? "Try Downloading Again"
+                    : `${
+                        state.downloadStatusArray.find(
+                          (e) => e.mediaInfo.mediaId === watched.link
+                        ).downloadPercent
+                      }% Downloaded`}
+                </Button>
+              ) : (
+                <Button
+                  style={{ width: deviceWindow.width * 0.6, marginTop: 4 }}
+                  onPress={() => enqueueDownload(video.otp, video.playback)}
+                >
+                  Save Vide0
+                </Button>
+              )}
             </View>
           ) : (
             // {otp: video.otp, playbackInfo: video.playback}
