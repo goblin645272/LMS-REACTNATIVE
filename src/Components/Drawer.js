@@ -55,7 +55,7 @@ const Drawer = (props) => {
           <DrawerItem
             style={styles.item}
             labelStyle={styles.label}
-            label="Events"
+            label="Event Calendar"
             onPress={() => {
               props.navigation.navigate("Event Calendar");
             }}
@@ -75,7 +75,9 @@ const Drawer = (props) => {
               }}
               style={styles.button}
             >
-              <Text allowFontScaling={false} style={styles.buttonText}>Log out</Text>
+              <Text allowFontScaling={false} style={styles.buttonText}>
+                Log out
+              </Text>
             </Button>
           </Center>
         </DrawerContentScrollView>

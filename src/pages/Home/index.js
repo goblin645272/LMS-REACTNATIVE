@@ -73,7 +73,6 @@ const index = ({ navigation }) => {
       getData();
     }
   }, [dispatch, setBought, isFocused]);
-
   const carouselitems = [
     {
       source: home1,
