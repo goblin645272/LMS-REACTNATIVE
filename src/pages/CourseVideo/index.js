@@ -3,7 +3,12 @@ import { Text, View, Dimensions, TouchableOpacity } from "react-native";
 import { VStack, Accordion, HStack, Toast, Button } from "native-base";
 import { useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faPlayCircle, faBook } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPlayCircle,
+  faBook,
+  faArrowLeft,
+  faArrowRight,
+} from "@fortawesome/free-solid-svg-icons";
 import { ScrollView } from "react-native-gesture-handler";
 import { useIsFocused } from "@react-navigation/native";
 import { VdoPlayerView, startVideoScreen } from "vdocipher-rn-bridge";
@@ -218,16 +223,92 @@ const index = ({ route, navigation }) => {
                 }}
                 embedInfo={{ otp: video.otp, playbackInfo: video.playback }}
               />
-              <Button
-                style={{ width: 200, marginTop: 4 }}
-                onPress={() =>
-                  startVideoScreen({
-                    embedInfo: { otp: video.otp, playbackInfo: video.playback },
-                  })
-                }
-              >
-                Start Full Screen
-              </Button>
+              <HStack space={3}>
+                {!(watched?.module === 0 && watched?.video === 0) ? (
+                  <Button
+                    style={{ width: deviceWindow.width * 0.2, marginTop: 4 }}
+                    onPress={() => {
+                      if (!loader) {
+                        let index;
+                        videos.map((item, inx) => {
+                          if (item.id === watched.id) {
+                            index = inx;
+                          }
+                          return item;
+                        });
+                        setId(videos[index - 1].id);
+                      } else {
+                        Toast.show({
+                          title: "Please wait till video loads ! ",
+                          isClosable: true,
+                        });
+                      }
+                    }}
+                  >
+                    <FontAwesomeIcon
+                      icon={faArrowLeft}
+                      style={{
+                        width: deviceWindow.width * 0.1,
+                      }}
+                      size={deviceWindow.width < 560 ? 20 : 28}
+                    />
+                  </Button>
+                ) : (
+                  <View
+                    style={{ width: deviceWindow.width * 0.2, marginTop: 4 }}
+                  ></View>
+                )}
+                <Button
+                  style={{ width: deviceWindow.width * 0.4, marginTop: 4 }}
+                  onPress={() =>
+                    startVideoScreen({
+                      embedInfo: {
+                        otp: video.otp,
+                        playbackInfo: video.playback,
+                      },
+                    })
+                  }
+                >
+                  Start Full Screen
+                </Button>
+                {!(
+                  last.module === watched?.module &&
+                  last.video === watched?.video
+                ) ? (
+                  <Button
+                    style={{ width: deviceWindow.width * 0.2, marginTop: 4 }}
+                    onPress={() => {
+                      if (!loader) {
+                        let index;
+                        videos.map((item, inx) => {
+                          if (item.id === watched.id) {
+                            index = inx;
+                          }
+                          return item;
+                        });
+                        setId(videos[index + 1].id);
+                      } else {
+                        Toast.show({
+                          title: "Please wait till video loads ! ",
+                          isClosable: true,
+                        });
+                      }
+                    }}
+                  >
+                    <FontAwesomeIcon
+                      icon={faArrowRight}
+                      style={{
+                        width: deviceWindow.width * 0.1,
+                      }}
+                      size={deviceWindow.width < 560 ? 20 : 28}
+                    />
+                  </Button>
+                ) : (
+                  <View
+                    style={{ width: deviceWindow.width * 0.2, marginTop: 4 }}
+                  ></View>
+                )}
+              </HStack>
             </View>
           ) : (
             // {otp: video.otp, playbackInfo: video.playback}

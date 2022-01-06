@@ -1,4 +1,4 @@
-import { NativeBaseProvider, Toast } from "native-base";
+import { NativeBaseProvider } from "native-base";
 import React, { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import NoAuthNavigator from "./src/routes/NoAuth";
@@ -63,6 +63,7 @@ export default function App() {
             animation="fade"
             overlayColor="rgba(2,36,96,1)"
           />
+
           {!token ? <NoAuthNavigator /> : <AuthNavigator />}
         </NativeBaseProvider>
       ) : (
