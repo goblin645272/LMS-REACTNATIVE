@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { Text, View, Dimensions, TouchableOpacity } from "react-native";
-import { VStack, Accordion, HStack, Toast, Button } from "native-base";
+import { VStack, Accordion, HStack, Button } from "native-base";
+import Toast from "react-native-toast-message";
 import { useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useSelector } from "react-redux";
@@ -23,12 +24,8 @@ import {
   changeWatchStatus,
   getOfflineVideoDetails,
 } from "../../action/courses";
-import NetInfo from "@react-native-community/netinfo";
 
 const index = ({ route, navigation }) => {
-  NetInfo.fetch().then((state) => {
-    !state.isConnected && navigation.navigate("No Internet Auth");
-  });
   const isFocused = useIsFocused();
   const [id, setId] = useState();
   const [watched, setWatched] = useState();
@@ -54,8 +51,7 @@ const index = ({ route, navigation }) => {
       })
       .then(() =>
         Toast.show({
-          title: "Started Downloading Video",
-          isClosable: true,
+          text1: "Started Downloading Video",
         })
       )
       .catch((errorDescription) => {
@@ -66,21 +62,24 @@ const index = ({ route, navigation }) => {
         console.log(errorDescription);
       });
   };
-
+  const [back, setBack] = useState(false);
   useEffect(() => {
     if (!isFocused) {
       setVideo({ valid: false, otp: "", playback: "" });
       setLoader(true);
+      setBack(true);
     } else {
       if (route.params.video !== null && route.params.video !== undefined) {
-        setVideo(video);
+        setVideo(route.params.video);
         setLoader(false);
+        setBack(false);
       }
     }
   }, [isFocused, route]);
 
   useEffect(() => {
     if (isFocused) {
+      setBack(false);
       const getData = () => {
         const data = route.params.course;
         if (data?.modules.length !== 0) {
@@ -106,11 +105,15 @@ const index = ({ route, navigation }) => {
             setSection(data?.modules);
             setId(data?.modules[0].list[0].id);
             Toast.show({
-              title: "Your last watched video was deleted ! ",
-              isClosable: true,
+              text1: "Your last watched video was deleted ! ",
+              type: "error",
             });
             dispatch(
-              changeWatchStatus(route.params.id, data?.modules[0].list[0].id)
+              changeWatchStatus(
+                route.params.id,
+                data?.modules[0].list[0].id,
+                navigation
+              )
             );
             setLoading(false);
           }
@@ -166,10 +169,12 @@ const index = ({ route, navigation }) => {
   }, [setWatched, sections, id, setVideo, setLast, last, setLoader]);
 
   useEffect(() => {
-    if (!loading && loader) {
+    if (!loading && loader && !back) {
       const getData = async () => {
         try {
-          const data = await dispatch(getVideoDetails(watched.link));
+          const data = await dispatch(
+            getVideoDetails(watched.link, navigation)
+          );
           if (data.valid === true) {
             setVideo((prev) => {
               return {
@@ -187,7 +192,9 @@ const index = ({ route, navigation }) => {
                     watched: true,
                   };
                 });
-                dispatch(changeWatchStatus(route.params.id, watched.id));
+                dispatch(
+                  changeWatchStatus(route.params.id, watched.id, navigation)
+                );
                 let ind;
                 let ind2;
                 sections.map((obj, index) => {
@@ -206,7 +213,9 @@ const index = ({ route, navigation }) => {
                 newList[ind2].watched = true;
                 setSection(newSec);
               } else {
-                dispatch(changeWatchStatus(route.params.id, watched.id));
+                dispatch(
+                  changeWatchStatus(route.params.id, watched.id, navigation)
+                );
               }
             };
             handleWatch();
@@ -237,12 +246,13 @@ const index = ({ route, navigation }) => {
     route.params.id,
     sections,
     loader,
+    back,
   ]);
 
   const handleOffline = () => {
     const getdata = async () => {
       const video = await dispatch(
-        getOfflineVideoDetails(watched.link, route.params.id)
+        getOfflineVideoDetails(watched.link, route.params.id, navigation)
       );
       if (video !== undefined) {
         dispatch({ type: "UNLOAD" });
@@ -255,7 +265,7 @@ const index = ({ route, navigation }) => {
     <ScrollView stickyHeaderIndices={[0]}>
       <VStack style={{ backgroundColor: "#BEE6F7" }}>
         <View>
-          {loader ? (
+          {loader && !back ? (
             <View
               style={{
                 height: deviceWindow.height * 0.32,
@@ -289,8 +299,8 @@ const index = ({ route, navigation }) => {
                         setId(videos[index - 1].id);
                       } else {
                         Toast.show({
-                          title: "Please wait till video loads ! ",
-                          isClosable: true,
+                          text1: "Please wait till video loads ! ",
+                          type: "error",
                         });
                       }
                     }}
@@ -339,8 +349,8 @@ const index = ({ route, navigation }) => {
                         setId(videos[index + 1].id);
                       } else {
                         Toast.show({
-                          title: "Please wait till video loads ! ",
-                          isClosable: true,
+                          text1: "Please wait till video loads ! ",
+                          type: "error",
                         });
                       }
                     }}
@@ -455,8 +465,8 @@ const index = ({ route, navigation }) => {
                                   setId(obj.id);
                                 } else {
                                   Toast.show({
-                                    title: "Please wait till video loads ! ",
-                                    isClosable: true,
+                                    text1: "Please wait till video loads ! ",
+                                    type: "error",
                                   });
                                 }
                               }}

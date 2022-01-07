@@ -25,7 +25,6 @@ import starFilled from "../../assets/images/starFilled.png";
 import starHalf from "../../assets/images/starHalf.png";
 import { useSelector } from "react-redux";
 import Unorderedlist from "react-native-unordered-list";
-import NetInfo from "@react-native-community/netinfo";
 import AvatarImage from "../../assets/images/MK-Portrait.jpg";
 import { Chip } from "react-native-elements";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -47,9 +46,6 @@ function ConvertMinutes(num) {
 }
 
 const index = ({ route, navigation }) => {
-  NetInfo.fetch().then((state) => {
-    !state.isConnected && navigation.navigate("No Internet Auth");
-  });
   const data = route.params.course;
   const cardColor =
     data?.price?.length === 3

@@ -1,6 +1,6 @@
 import { validatecoupons, extensioncoupons } from "../api/coupons";
 import { logout } from "./auth";
-import { Toast } from "native-base";
+import Toast from "react-native-toast-message";
 
 export const validateCoupons =
   (couponCode, courseId, plan, update, Error) => async (dispatch) => {
@@ -15,35 +15,39 @@ export const validateCoupons =
         dispatch({ type: "UNLOAD" });
         update(data?.result);
         Toast.show({
-          title: "Coupon applied successfully",
-          isClosable: true,
+          text1: "Coupon applied successfully",
         });
       }
     } catch (error) {
       dispatch({ type: "UNLOAD" });
       if (error.response.status === 400) {
         Toast.show({
-          title: "Coupon is not Valid",
-          isClosable: true,
+          text1: "Coupon is not Valid",
+          type: "error",
         });
         Error();
+      } else if (error.message === "Network Error") {
+        Toast.show({
+          type: "error",
+          text1: "No internet connection found",
+        });
       } else if (error.response?.status === 401) {
         logout(dispatch);
-        return Toast.show({
-          title:
+        Toast.show({
+          text1:
             "You have been logged out.Your MK Trading account is in use on another device",
-          isClosable: true,
+          type: "error",
         });
       } else if (error.response.status === 500) {
         Toast.show({
-          title: "Please Try again",
-          isClosable: true,
+          text1: "Please Try again",
+          type: "error",
         });
         Error();
       } else {
         Toast.show({
-          title: "Something went wrong",
-          isClosable: true,
+          type: "error",
+          text1: "Something went wrong",
         });
       }
     }
@@ -53,39 +57,46 @@ export const extensionCoupon = (formdata) => async (dispatch) => {
   try {
     dispatch({ type: "LOAD" });
     const { data } = await extensioncoupons(formdata);
-    if (data?.result) {
+    if (data?.result.valid) {
       dispatch({ type: "UNLOAD" });
       Toast.show({
-        title: "Coupon applied successfully",
-        isClosable: true,
+        text1: "Coupon applied successfully",
       });
+      return data.result;
     }
   } catch (error) {
     dispatch({ type: "UNLOAD" });
     if (error.response.status === 400) {
-      return Toast.show({
-        title: "Coupon Not vaild",
-        isClosable: true,
+      Toast.show({
+        text1: "Coupon Not vaild",
+        type: "error",
       });
-    }
-    if (error.response.status === 404) {
-      return Toast.show({
-        title: "Coupon not found",
-        isClosable: true,
+    } else if (error.response.status === 404) {
+      Toast.show({
+        text1: "Coupon not found",
+        type: "error",
       });
-    }
-    if (error.response?.status === 401) {
+    } else if (error.response?.status === 401) {
       logout(dispatch);
-      return Toast.show({
-        title:
+      Toast.show({
+        text1:
           "You have been logged out.Your MK Trading account is in use on another device",
-        isClosable: true,
+        type: "error",
       });
-    }
-    if (error.response.status === 500) {
-      return Toast.show({
-        title: "please try again",
-        isClosable: true,
+    } else if (error.response.status === 500) {
+      Toast.show({
+        text1: "please try again",
+        type: "error",
+      });
+    } else if (error.message === "Network Error") {
+      Toast.show({
+        type: "error",
+        text1: "No internet connection found",
+      });
+    } else {
+      Toast.show({
+        type: "error",
+        text1: "Something went wrong",
       });
     }
   }

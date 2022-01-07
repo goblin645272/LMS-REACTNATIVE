@@ -1,7 +1,8 @@
 import { gettestimonials, updatetestimonial } from "../api/testimonials";
-import { Toast } from "native-base";
+import Toast from "react-native-toast-message";
+import { logout } from "./auth";
 
-export const getTestimonials = async (dispatch) => {
+export const getTestimonials = (navigation) => async (dispatch) => {
   try {
     dispatch({ type: "LOAD" });
     const { data } = await gettestimonials();
@@ -11,11 +12,23 @@ export const getTestimonials = async (dispatch) => {
     dispatch({ type: "UNLOAD" });
     if (error.response?.status == 401) {
       logout(dispatch);
-
       Toast.show({
-        title:
+        text1:
           "You have been logged out.Your MK Trading account is in use on another device",
-        isClosable: true,
+        type: "error",
+      });
+    } else if (error.message === "Network Error") {
+      navigation.navigate("OfflineVideo", {
+        toast: () =>
+          Toast.show({
+            type: "error",
+            text1: "No internet connection found",
+          }),
+      });
+    } else {
+      Toast.show({
+        type: "error",
+        text1: "Something went wrong",
       });
     }
   }
@@ -26,24 +39,30 @@ export const updateTestimonial =
     try {
       const { data } = await updatetestimonial(formdata);
       Toast.show({
-        title: "Thanks for your valuable feedback",
-        isClosable: true,
+        text1: "Thanks for your valuable feedback",
       });
       unload();
       return data.result;
     } catch (error) {
       if (error.response?.status === 401) {
         logout(dispatch);
-        return Toast.show({
-          title:
+        Toast.show({
+          text1:
             "You have been logged out.Your MK Trading account is in use on another device",
-          isClosable: true,
+          type: "error",
+        });
+      } else if (error.message === "Network Error") {
+        unload();
+        Toast.show({
+          type: "error",
+          text1: "No internet connection found",
+        });
+      } else {
+        Toast.show({
+          text1: "Something went wrong. Please try again",
+          type: "error",
         });
       }
-      Toast.show({
-        title: "Something went wrong. Please try again",
-        isClosable: true,
-      });
       unload_02();
     }
   };

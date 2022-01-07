@@ -8,24 +8,25 @@ import LinearGradient from "react-native-linear-gradient";
 import { getEvents } from "../../action/events";
 import { useDispatch, useSelector } from "react-redux";
 import css from "./styles";
-import NetInfo from "@react-native-community/netinfo";
+import { useIsFocused } from "@react-navigation/native";
 const styles = StyleSheet.create(css);
 const deviceWindow = Dimensions.get("window");
 
 const index = ({ route, navigation }) => {
-  NetInfo.fetch().then((state) => {
-    !state.isConnected && navigation.navigate("No Internet Auth");
-  });
   const [past, setPast] = useState(false);
   const events = useSelector((state) => state.events);
   const params = route.params;
   const dispatch = useDispatch();
+  const isFocused = useIsFocused();
+
   useEffect(() => {
-    const getData = async () => {
-      await getEvents(dispatch);
-    };
-    getData();
-  }, [dispatch]);
+    if (isFocused) {
+      const getData = async () => {
+        await dispatch(getEvents(navigation));
+      };
+      getData();
+    }
+  }, [dispatch, navigation, isFocused]);
 
   return (
     <ScrollView>

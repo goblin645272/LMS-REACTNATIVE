@@ -28,9 +28,6 @@ const index = () => {
             <Text style={styles.text_2}>
               You have to update your app to use.
             </Text>
-            {/* <Text style={styles.text_2}>
-            Update from Play store or Download latest version from website
-          </Text> */}
           </View>
         </VStack>
       </LinearGradient>

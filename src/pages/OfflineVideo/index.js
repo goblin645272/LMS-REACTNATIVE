@@ -12,14 +12,10 @@ import {
   VdoDownload,
 } from "vdocipher-rn-bridge";
 const deviceWindow = Dimensions.get("window");
-import NetInfo from "@react-native-community/netinfo";
 
 const index = ({ route, navigation }) => {
-  const [connected, setConnected] = useState(false);
-  NetInfo.fetch().then((state) => {
-    setConnected(state.isConnected);
-  });
   const profile = useSelector((state) => state.auth.profile);
+  console.log(profile);
   const state = useSelector((state) => state.video);
   const filtered = useMemo(() => {
     return state.downloadStatusArray.filter((item) => item.status !== "failed");
@@ -30,9 +26,12 @@ const index = ({ route, navigation }) => {
   useEffect(() => {
     if (!isFocused) {
       setCurrent({});
+    } else {
+      if (route.params) {
+        route.params.toast();
+      }
     }
-  }, [isFocused]);
-
+  }, [isFocused, route]);
   const removeDownload = (mediaId) => {
     setCurrent({});
     VdoDownload.remove([mediaId]).catch((error) =>
@@ -114,7 +113,7 @@ const index = ({ route, navigation }) => {
           </View>
         )}
       </View>
-      {!connected && (
+      {/* {!connected && (
         <View style={{ alignItems: "center", justifyContent: "center" }}>
           <Text
             style={{
@@ -128,7 +127,7 @@ const index = ({ route, navigation }) => {
             You dont have any internet.
           </Text>
         </View>
-      )}
+      )} */}
       {profile.courses.find(
         (item) => item.course_id === "612ccd3c9f192c86faa26f48"
       ) ? (
@@ -138,65 +137,90 @@ const index = ({ route, navigation }) => {
             marginRight: deviceWindow.width * 0.02,
           }}
         >
-          <Accordion
-            allowMultiple
-            style={{
-              backgroundColor: "#7FE0F3",
-            }}
-          >
-            <Accordion.Item>
-              <Accordion.Summary>
-                <HStack space={3} alignItems="center">
-                  <Text
-                    style={{
-                      width: deviceWindow.width * 0.7,
-                      color: "rgb(2, 36, 96)",
-                      fontFamily: "Barlow_500Medium",
-                      fontSize: deviceWindow.height * 0.02,
-                    }}
-                  >
-                    Master Stock Trading
-                  </Text>
+          {filtered.length !== 0 ? (
+            <Accordion
+              allowMultiple
+              style={{
+                backgroundColor: "#7FE0F3",
+              }}
+            >
+              <Accordion.Item>
+                <Accordion.Summary>
+                  <HStack space={3} alignItems="center">
+                    <Text
+                      style={{
+                        width: deviceWindow.width * 0.7,
+                        color: "rgb(2, 36, 96)",
+                        fontFamily: "Barlow_500Medium",
+                        fontSize: deviceWindow.height * 0.02,
+                      }}
+                    >
+                      Master Stock Trading
+                    </Text>
 
-                  <Accordion.Icon style={{ width: deviceWindow.width * 0.1 }} />
-                </HStack>
-              </Accordion.Summary>
-              {filtered.map((item, index) => {
-                return (
-                  <Accordion.Details>
-                    <VStack padding={1}>
-                      <TouchableOpacity
-                        onPress={() => {
-                          setCurrent(item);
-                        }}
-                      >
-                        <HStack space={3} alignItems="center">
-                          <FontAwesomeIcon
-                            icon={faPlayCircle}
-                            style={{
-                              width: deviceWindow.width * 0.1,
-                              color: "green",
-                            }}
-                            size={deviceWindow.width < 560 ? 20 : 28}
-                          />
-                          <Text
-                            style={{
-                              width: deviceWindow.width * 0.7,
-                              fontFamily: "Barlow_500Medium",
-                              color: "green",
-                              fontSize: deviceWindow.height * 0.02,
-                            }}
-                          >
-                            {item.mediaInfo.title}
-                          </Text>
-                        </HStack>
-                      </TouchableOpacity>
-                    </VStack>
-                  </Accordion.Details>
-                );
-              })}
-            </Accordion.Item>
-          </Accordion>
+                    <Accordion.Icon
+                      style={{ width: deviceWindow.width * 0.1 }}
+                    />
+                  </HStack>
+                </Accordion.Summary>
+                {filtered.map((item, index) => {
+                  return (
+                    <Accordion.Details>
+                      <VStack padding={1}>
+                        <TouchableOpacity
+                          onPress={() => {
+                            setCurrent(item);
+                          }}
+                        >
+                          <HStack space={3} alignItems="center">
+                            <FontAwesomeIcon
+                              icon={faPlayCircle}
+                              style={{
+                                width: deviceWindow.width * 0.1,
+                                color: "green",
+                              }}
+                              size={deviceWindow.width < 560 ? 20 : 28}
+                            />
+                            <Text
+                              style={{
+                                width: deviceWindow.width * 0.7,
+                                fontFamily: "Barlow_500Medium",
+                                color: "green",
+                                fontSize: deviceWindow.height * 0.02,
+                              }}
+                            >
+                              {item.mediaInfo.title}
+                            </Text>
+                          </HStack>
+                        </TouchableOpacity>
+                      </VStack>
+                    </Accordion.Details>
+                  );
+                })}
+              </Accordion.Item>
+            </Accordion>
+          ) : (
+            <View
+              style={{
+                height: deviceWindow.height * 0.32,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Text
+                style={{
+                  width: deviceWindow.width * 0.7,
+                  color: "rgb(2, 36, 96)",
+                  fontFamily: "Barlow_600SemiBold",
+                  fontSize: deviceWindow.height * 0.025,
+                  textAlign: "center",
+                  marginBottom: deviceWindow.height * 0.04,
+                }}
+              >
+                You don't have downloaded videos.
+              </Text>
+            </View>
+          )}
         </View>
       ) : (
         <View

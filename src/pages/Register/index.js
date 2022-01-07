@@ -5,12 +5,11 @@ import {
   Image,
   View,
   ImageBackground,
-  FlatList,
   Keyboard,
   KeyboardAvoidingView,
 } from "react-native";
+import Toast from "react-native-toast-message";
 import {
-  Toast,
   FormControl,
   VStack,
   Input,
@@ -28,7 +27,6 @@ import css from "./styles";
 import { countryCode as countryList } from "../../assets/country";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { generateVerifyOTP, signUp, emailVerifyOTP } from "../../action/auth";
-import NetInfo from "@react-native-community/netinfo";
 
 const styles = StyleSheet.create(css);
 const statesIndia = [
@@ -73,9 +71,6 @@ const statesIndia = [
 ];
 
 const index = ({ navigation }) => {
-  NetInfo.fetch().then((state) => {
-    !state.isConnected && navigation.navigate("No Internet");
-  });
   const dispatch = useDispatch();
   const [keyboard, setKeyboard] = useState(false);
   const [genOTP, setGenOTP] = useState(true);
@@ -112,67 +107,72 @@ const index = ({ navigation }) => {
     };
   }, []);
 
-  const handleOTPSubmit = () => {
+  const handleOTPSubmit = async () => {
     if (otp === "") {
       setErrors((prev) => {
         return { ...prev, otp: true };
       });
-      return Toast.show({ title: "OTP cannot be empty" });
+      return Toast.show({ text1: "OTP cannot be empty", type: "error" });
     } else {
+      await dispatch(
+        emailVerifyOTP({ otp: otp }, () => {
+          dispatch(
+            signUp({
+              first_name: data.first_name,
+              last_name: data.last_name,
+              email_id: data.email_id,
+              password: data.password,
+              phone_number: `${data.countryCode}-${data.phone_number}`,
+              state: data.state,
+            })
+          );
+        })
+      );
     }
-    dispatch(
-      emailVerifyOTP({ otp: otp }, () => {
-        dispatch(
-          signUp({
-            first_name: data.first_name,
-            last_name: data.last_name,
-            email_id: data.email_id,
-            password: data.password,
-            phone_number: `${data.countryCode}-${data.phone_number}`,
-            state: data.state,
-          })
-        );
-      })
-    );
   };
 
   const emailRegex =
     /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (data.first_name === "") {
       setErrors((prev) => {
         return { ...prev, first_name: true };
       });
       return Toast.show({
-        title: "First Name cannot be Empty",
+        text1: "First Name cannot be Empty",
+        type: "error",
       });
     } else if (data.last_name === "") {
       setErrors((prev) => {
         return { ...prev, last_name: true };
       });
       return Toast.show({
-        title: "Last Name cannot be Empty",
+        text1: "Last Name cannot be Empty",
+        type: "error",
       });
     } else if (data.email_id === "") {
       setErrors((prev) => {
         return { ...prev, email_id: true };
       });
       return Toast.show({
-        title: "Email ID cannot be Empty",
+        text1: "Email ID cannot be Empty",
+        type: "error",
       });
     } else if (!emailRegex.test(data.email_id)) {
       setErrors((prev) => {
         return { ...prev, email_id: true };
       });
       return Toast.show({
-        title: "Invalid Email ID. Please Enter a Valid Email ID",
+        text1: "Invalid Email ID. Please Enter a Valid Email ID",
+        type: "error",
       });
     } else if (data.password === "") {
       setErrors((prev) => {
         return { ...prev, password: true };
       });
       return Toast.show({
-        title: "Password Cannot be Empty",
+        text1: "Password Cannot be Empty",
+        type: "error",
       });
     } else if (
       data.phone_number === "" ||
@@ -183,24 +183,28 @@ const index = ({ navigation }) => {
         return { ...prev, phone_number: true };
       });
       return Toast.show({
-        title: "Please Enter a Valid Phone Number",
+        text1: "Please Enter a Valid Phone Number",
+        type: "error",
       });
     } else if (data.state === "") {
       setErrors((prev) => {
         return { ...prev, state: true };
       });
       return Toast.show({
-        title: "Please Choose a State",
+        text1: "Please Choose a State",
+        type: "error",
       });
     } else {
-      dispatch(
-        generateVerifyOTP({ email: data.email_id }, () => {
-          setGenOTP(false);
-        })
-      );
+      await getdata();
     }
   };
-
+  const getdata = async () => {
+    await dispatch(
+      generateVerifyOTP({ email: data.email_id }, () => {
+        setGenOTP(false);
+      })
+    );
+  };
   return (
     <SafeAreaView>
       <ScrollView style={styles.scroll}>
@@ -443,12 +447,7 @@ const index = ({ navigation }) => {
                     </Text>
                   </Button>
                 ) : (
-                  <Button
-                    style={styles.button}
-                    onPress={() => {
-                      handleOTPSubmit();
-                    }}
-                  >
+                  <Button style={styles.button} onPress={handleOTPSubmit}>
                     <Text allowFontScaling={false} style={styles.button_text}>
                       Verify OTP
                     </Text>

@@ -12,15 +12,11 @@ import { useDispatch } from "react-redux";
 import { ScrollView } from "react-native-gesture-handler";
 import { getQuizById } from "../../action/quiz";
 import { useIsFocused } from "@react-navigation/native";
-import NetInfo from "@react-native-community/netinfo";
 
 const styles = StyleSheet.create(css);
 const deviceWindow = Dimensions.get("window");
 
 const index = ({ route, navigation }) => {
-  NetInfo.fetch().then((state) => {
-    !state.isConnected && navigation.navigate("No Internet Auth");
-  });
   const isFocused = useIsFocused();
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -89,7 +85,7 @@ const index = ({ route, navigation }) => {
   }, [state.currentQuestion, setState, questions, loading]);
 
   useEffect(() => {
-    if (isFocused) {
+    if (!isFocused) {
       setLoading(true);
       setQuestions([]);
       setState({
@@ -100,17 +96,18 @@ const index = ({ route, navigation }) => {
       });
     }
   }, [isFocused]);
+
   useEffect(() => {
     const getData = async () => {
-      const data = await dispatch(getQuizById(route.params.id));
+      const data = await dispatch(getQuizById(route.params.id, navigation));
       if (data !== undefined) {
         setQuestions(data[0]?.quiz);
         dispatch({ type: "UNLOAD" });
+        setLoading(false);
       }
-      setLoading(false);
     };
     getData();
-  }, [dispatch, route]);
+  }, [dispatch, route, navigation]);
 
   return (
     <>

@@ -8,7 +8,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import HTMLView from "react-native-htmlview";
 import { Dimensions } from "react-native";
-import NetInfo from "@react-native-community/netinfo";
 
 const deviceWindow = Dimensions.get("window");
 
@@ -16,9 +15,6 @@ const styles = StyleSheet.create(css);
 
 const index = ({ navigation, route }) => {
   const data = route.params.data;
-  NetInfo.fetch().then((state) => {
-    !state.isConnected && navigation.navigate("No Internet Auth");
-  });
   return (
     <ScrollView>
       <LinearGradient

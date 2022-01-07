@@ -3,6 +3,7 @@ const deviceWindow = Dimensions.get("window");
 const css = {
   scroll: {
     width: deviceWindow.width,
+    height: deviceWindow.height,
   },
   background: {
     width: deviceWindow.width,
@@ -55,6 +56,11 @@ const css = {
   horizontal: {
     width: deviceWindow.width,
     height: deviceWindow.height * 0.33,
+    // borderWidth: 1,
+  },
+  horizontal_2: {
+    width: deviceWindow.width,
+    height: deviceWindow.height * 0.2,
     // borderWidth: 1,
   },
   courseCard: {

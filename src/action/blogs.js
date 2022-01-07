@@ -1,13 +1,14 @@
 import { getblogs } from "../api/blogs";
 import { logout } from "./auth";
-export const getBlogs = async (dispatch) => {
+import Toast from "react-native-toast-message";
+
+export const getBlogs = (navigation) => async (dispatch) => {
   try {
     dispatch({ type: "LOAD" });
     const { data } = await getblogs();
     dispatch({ type: "GETBLOGS", data: data.result });
     dispatch({ type: "UNLOAD" });
   } catch (error) {
-    console.log(error);
     dispatch({ type: "UNLOAD" });
     if (error.response?.status == 401) {
       logout(dispatch);
@@ -16,7 +17,19 @@ export const getBlogs = async (dispatch) => {
           "You have been logged out.Your MK Trading account is in use on another device",
         isClosable: true,
       });
+    } else if (error.message === "Network Error") {
+      navigation.navigate("OfflineVideo", {
+        toast: () =>
+          Toast.show({
+            type: "error",
+            text1: "No internet connection found",
+          }),
+      });
+    } else {
+      Toast.show({
+        type: "error",
+        text1: "Something went wrong",
+      });
     }
-    console.log(error);
   }
 };

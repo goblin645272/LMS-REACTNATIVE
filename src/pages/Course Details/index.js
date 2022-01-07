@@ -5,8 +5,8 @@ import {
   AlertDialog,
   Input,
   Button,
-  Toast,
 } from "native-base";
+import Toast from "react-native-toast-message";
 import React, { useEffect, useState, useRef } from "react";
 import { StyleSheet, Text, View, Dimensions } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
@@ -21,14 +21,10 @@ import starEmpty from "../../assets/images/starEmpty.png";
 import starFilled from "../../assets/images/starFilled.png";
 import starHalf from "../../assets/images/starHalf.png";
 import { updateTestimonial } from "../../action/testimonials";
-import NetInfo from "@react-native-community/netinfo";
 const styles = StyleSheet.create(css);
 const deviceWindow = Dimensions.get("window");
 
 const index = ({ route, navigation }) => {
-  NetInfo.fetch().then((state) => {
-    !state.isConnected && navigation.navigate("No Internet Auth");
-  });
   const cancelRef = useRef(null);
   const dispatch = useDispatch();
   const courseID = route.params.id;
@@ -79,11 +75,23 @@ const index = ({ route, navigation }) => {
           dispatch({ type: "UNLOAD" });
           if (error.response?.status == 401) {
             logout(dispatch);
-
             Toast.show({
-              title:
+              text1:
                 "You have been logged out.Your MK Trading account is in use on another device",
-              isClosable: true,
+              type: "error",
+            });
+          } else if (error.message === "Network Error") {
+            navigation.navigate("OfflineVideo", {
+              toast: () =>
+                Toast.show({
+                  type: "error",
+                  text1: "No internet connection found",
+                }),
+            });
+          } else {
+            Toast.show({
+              type: "error",
+              text1: "Something went wrong",
             });
           }
         }
@@ -195,13 +203,13 @@ const index = ({ route, navigation }) => {
                 onPress={() => {
                   if (testimonial.star < 1) {
                     Toast.show({
-                      title: "Please atleast 1 star",
-                      isClosable: true,
+                      text1: "Please give atleast 1 star",
+                      type: "error",
                     });
                   } else if (testimonial.review === "") {
                     Toast.show({
-                      title: "Please enter review",
-                      isClosable: true,
+                      text1: "Please enter review",
+                      type: "error",
                     });
                   } else {
                     setLoading(true);

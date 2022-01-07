@@ -7,8 +7,8 @@ import {
   Divider,
   Button,
   Input,
-  Toast,
 } from "native-base";
+import Toast from "react-native-toast-message";
 import { useSelector, useDispatch } from "react-redux";
 const deviceWindow = Dimensions.get("window");
 import { ScrollView } from "react-native-gesture-handler";
@@ -24,12 +24,8 @@ import moment from "moment";
 import axios from "axios";
 import url from "../../api/url";
 import { getProfile, logout } from "../../action/auth";
-import NetInfo from "@react-native-community/netinfo";
 
 const index = ({ route, navigation }) => {
-  NetInfo.fetch().then((state) => {
-    !state.isConnected && navigation.navigate("No Internet Auth");
-  });
   const isFocused = useIsFocused();
   const { courseID, plan } = route.params;
   const user = useSelector((state) => state.auth.profile);
@@ -43,19 +39,28 @@ const index = ({ route, navigation }) => {
 
   const updateGST = () => {
     if (gst.length !== 15) {
-      return Toast.show({ title: "Please Enter a Valid GST number" });
+      return Toast.show({
+        text1: "Please Enter a Valid GST number",
+        type: "error",
+      });
     }
     setOpen({ open: true, type: "GST Number", confirm: false });
   };
   const updateTele = () => {
     if (tele.length === 0) {
-      return Toast.show({ title: "Please Enter a Valid Telegram ID" });
+      return Toast.show({
+        text1: "Please Enter a Valid Telegram ID",
+        type: "error",
+      });
     }
     setOpen({ open: true, type: "Telegram ID", confirm: false });
   };
   const updateTrading = () => {
     if (trading.length === 0) {
-      return Toast.show({ title: "Please Enter a  Valid TradingView ID" });
+      return Toast.show({
+        text1: "Please Enter a  Valid TradingView ID",
+        type: "error",
+      });
     }
     setOpen({ open: true, type: "Trading View ID", confirm: false });
   };
@@ -140,12 +145,12 @@ const index = ({ route, navigation }) => {
               IGST: "",
               final_amount: "",
             });
-            Toast.show({ title: "Please wait for confirmation" });
+            Toast.show({ text1: "Please wait for confirmation" });
             if (resp.status?.status === 202) {
               Toast.show({
-                title: "You have successfully enrolled for the course for free",
+                text1: "You have successfully enrolled for the course for free",
               });
-              await getProfile(dispatch);
+              await dispatch(getProfile(navigation));
               navigation.navigate("Home");
             } else {
               setTimeout(async function () {
@@ -157,10 +162,10 @@ const index = ({ route, navigation }) => {
                   )
                   .then(async (response) => {
                     Toast.show({
-                      title:
+                      text1:
                         "You have successfully enrolled for the course. Please check email for invoice",
                     });
-                    await getProfile(dispatch);
+                    await dispatch(getProfile(navigation));
                     navigation.navigate("Home");
                   })
                   .catch((error) => {
@@ -182,15 +187,21 @@ const index = ({ route, navigation }) => {
         if (error.response?.status === 401) {
           logout(dispatch);
           Toast.show({
-            title:
+            text1:
               "You have been logged out.Your MK Trading account is in use on another device",
+            type: "error",
           });
         } else if (error.response?.status === 409) {
           Toast.show({
-            title: "You have successfully enrolled for the course",
+            text1: "You have successfully enrolled for the course",
+          });
+        } else if (error.message === "Network Error") {
+          Toast.show({
+            type: "error",
+            text1: "No internet connection found",
           });
         } else {
-          Toast.show({ title: "Something went wrong.Please try again" });
+          Toast.show({ text1: "Something went wrong.Please try again" });
         }
       });
   };
@@ -432,9 +443,9 @@ const index = ({ route, navigation }) => {
           ) : (
             <Button
               style={styles.couponButton}
-              onPress={() => {
+              onPress={async () => {
                 if (coupon.code !== "") {
-                  dispatch(
+                  await dispatch(
                     validateCoupons(
                       coupon.code,
                       courseID,
@@ -500,19 +511,19 @@ const index = ({ route, navigation }) => {
                   (!user.telegramId || !user.tradingviewId)
                 ) {
                   return Toast.show({
-                    title: "This Course Needs a Telegram and TradingView ID",
-                    isClosable: true,
+                    text1: "This Course Needs a Telegram and TradingView ID",
+                    type: "error",
                   });
                 } else {
                   if (coupon.code !== "" && coupon.valid === false) {
                     Toast.show({
-                      title: "Click Apply to validate",
-                      isClosable: true,
+                      text1: "Click Apply to validate",
+                      type: "error",
                     });
                   } else if (gst !== "") {
                     Toast.show({
-                      title: "Click Confirm GST to Update GST",
-                      isClosable: true,
+                      text1: "Click Confirm GST to Update GST",
+                      type: "error",
                     });
                   } else {
                     _displayRazorpay();

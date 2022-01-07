@@ -9,14 +9,7 @@ import {
 } from "native-base";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  KeyboardAvoidingView,
-  Keyboard,
-  StyleSheet,
-  Text,
-  View,
-  Linking,
-} from "react-native";
+import { Keyboard, StyleSheet, Text, View, Linking } from "react-native";
 import css from "./styles";
 import { getProfile, updateProfile } from "../../action/auth";
 import { ScrollView } from "react-native-gesture-handler";
@@ -25,12 +18,8 @@ import { useIsFocused } from "@react-navigation/native";
 import { getCertificate } from "../../action/courses";
 import { courseDict } from "../../api/course constants";
 import { extensionCoupon } from "../../action/coupons";
-import NetInfo from "@react-native-community/netinfo";
 
-const index = () => {
-  NetInfo.fetch().then((state) => {
-    !state.isConnected && navigation.navigate("No Internet Auth");
-  });
+const index = ({ navigation }) => {
   const styles = StyleSheet.create(css);
   const [change, setChange] = useState(false);
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
@@ -49,7 +38,7 @@ const index = () => {
   useEffect(() => {
     if (isFocused) {
       const getData = async () => {
-        const data = await getProfile(dispatch);
+        const data = await dispatch(getProfile(navigation));
         if (data) {
           setCoupons(
             data?.courses?.map((obj) => {

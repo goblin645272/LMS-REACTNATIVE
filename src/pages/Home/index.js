@@ -4,7 +4,6 @@ import {
   StyleSheet,
   Text,
   Dimensions,
-  KeyboardAvoidingView,
   View,
   ImageBackground,
   Linking,
@@ -22,12 +21,8 @@ const styles = StyleSheet.create(css);
 import Carousel from "react-native-snap-carousel";
 import { getBoughtCourses } from "../../action/auth";
 import { useIsFocused } from "@react-navigation/native";
-import NetInfo from "@react-native-community/netinfo";
 
 const Component = (course, { index, item }, navigation) => {
-  NetInfo.fetch().then((state) => {
-    !state.isConnected && navigation.navigate("No Internet Auth");
-  });
   return (
     <TouchableOpacity
       onPress={() =>
@@ -65,10 +60,11 @@ const index = ({ navigation }) => {
   const isFocused = useIsFocused();
   useEffect(() => {
     if (isFocused) {
-      getCourses(dispatch);
       const getData = async () => {
-        const data = await getBoughtCourses(dispatch);
+        const data = await dispatch(getBoughtCourses(navigation));
+        await getCourses(dispatch);
         setBought(data);
+        dispatch({ type: "UNLOAD" });
       };
       getData();
     }
@@ -192,9 +188,11 @@ const index = ({ navigation }) => {
             })}
           </ScrollView>
         ) : (
-          <Text allowFontScaling={false} style={styles.noCourse}>
-            No courses purchased
-          </Text>
+          <View style={styles.horizontal_2}>
+            <Text allowFontScaling={false} style={styles.noCourse}>
+              No courses purchased
+            </Text>
+          </View>
         )}
       </LinearGradient>
     </ScrollView>

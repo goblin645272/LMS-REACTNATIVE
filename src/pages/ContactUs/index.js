@@ -7,8 +7,8 @@ import {
   TextArea,
   Button,
   Select,
-  Toast,
 } from "native-base";
+import Toast from "react-native-toast-message";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -20,13 +20,9 @@ import { ScrollView } from "react-native-gesture-handler";
 import axios from "axios";
 import baseurl from "../../api/url";
 import { useDispatch } from "react-redux";
-import NetInfo from "@react-native-community/netinfo";
 const styles = StyleSheet.create(css);
 
 const index = () => {
-  NetInfo.fetch().then((state) => {
-    !state.isConnected && navigation.navigate("No Internet Auth");
-  });
   const dispatch = useDispatch();
   const emailRegex =
     /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -47,38 +43,38 @@ const index = () => {
   const submit = () => {
     if (data.name === "") {
       Toast.show({
-        title: "Please Enter Your Name",
-        isClosable: true,
+        text1: "Please Enter Your Name",
+        type: "error",
       });
     } else {
       if (data.email === "") {
         Toast.show({
-          title: "Please enter email ",
-          isClosable: true,
+          text1: "Please enter email ",
+          type: "error",
         });
       } else {
         if (!emailRegex.test(data.email)) {
           Toast.show({
-            title: "Please enter valid email",
-            isClosable: true,
+            text1: "Please enter valid email",
+            type: "error",
           });
         } else {
           if (data.number === "") {
             Toast.show({
-              title: "Please enter mobile number",
-              isClosable: true,
+              text1: "Please enter mobile number",
+              type: "error",
             });
           } else {
             if (!numberRegex.test(data.number)) {
               Toast.show({
-                title: "Please enter valid mobile number",
-                isClosable: true,
+                text1: "Please enter valid mobile number",
+                type: "error",
               });
             } else {
               if (data.message.trim() === "") {
                 Toast.show({
-                  title: "Please add some message",
-                  isClosable: true,
+                  text1: "Please add some message",
+                  type: "error",
                 });
               } else {
                 dispatch({ type: "LOAD" });
@@ -93,18 +89,24 @@ const index = () => {
                       message: "",
                     });
                     Toast.show({
-                      title:
+                      text1:
                         "Thank you for contacting us..We shall contact you",
-                      isClosable: true,
                     });
                     dispatch({ type: "UNLOAD" });
                   })
                   .catch((error) => {
                     dispatch({ type: "UNLOAD" });
-                    Toast.show({
-                      title: "Something went wrong...Please try again",
-                      isClosable: true,
-                    });
+                    if (error.message === "Network Error") {
+                      Toast.show({
+                        type: "error",
+                        text1: "No internet connection found",
+                      });
+                    } else {
+                      Toast.show({
+                        text1: "Something went wrong...Please try again",
+                        type: "error",
+                      });
+                    }
                   });
               }
             }

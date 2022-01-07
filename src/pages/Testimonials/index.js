@@ -16,17 +16,13 @@ import Stars from "react-native-stars";
 import starEmpty from "../../assets/images/starEmpty.png";
 import starFilled from "../../assets/images/starFilled.png";
 import starHalf from "../../assets/images/starHalf.png";
-import NetInfo from "@react-native-community/netinfo";
 
-const index = () => {
-  NetInfo.fetch().then((state) => {
-    !state.isConnected && navigation.navigate("No Internet Auth");
-  });
+const index = ({ navigation }) => {
   const testimonials = useSelector((state) => state.testimonials);
   const dispatch = useDispatch();
   useEffect(() => {
-    getTestimonials(dispatch);
-  }, [dispatch]);
+    dispatch(getTestimonials(navigation));
+  }, [dispatch, navigation]);
   const [type, setType] = useState("user");
   return (
     <ScrollView style={styles.scroll}>

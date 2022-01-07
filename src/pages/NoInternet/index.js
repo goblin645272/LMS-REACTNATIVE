@@ -8,7 +8,6 @@ import noInternet from "../../assets/images/NoInternet.png";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faRedo } from "@fortawesome/free-solid-svg-icons";
 import { Dimensions } from "react-native";
-import NetInfo from "@react-native-community/netinfo";
 import { useSelector } from "react-redux";
 const deviceWindow = Dimensions.get("window");
 
@@ -33,13 +32,7 @@ const index = ({ navigation, route }) => {
           <TouchableOpacity
             style={styles.touchable}
             onPress={() =>
-              NetInfo.fetch().then((state) => {
-                state.isConnected
-                  ? token
-                    ? navigation.navigate("Home")
-                    : navigation.navigate("Login")
-                  : Toast.show({ title: "Please connect to internet" });
-              })
+              token ? navigation.navigate("Home") : navigation.navigate("Login")
             }
           >
             <HStack style={styles.hstack}>

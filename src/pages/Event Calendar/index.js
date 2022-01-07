@@ -10,8 +10,8 @@ import LinearGradient from "react-native-linear-gradient";
 import { Agenda, LocaleConfig } from "react-native-calendars";
 import css from "./styles";
 import { getEvents } from "../../action/events";
-import { useDispatch, useSelector } from "react-redux";
-import NetInfo from "@react-native-community/netinfo";
+import { useDispatch } from "react-redux";
+import { useIsFocused } from "@react-navigation/native";
 
 const styles = StyleSheet.create(css);
 
@@ -59,50 +59,49 @@ LocaleConfig.locales["en"] = {
 };
 LocaleConfig.defaultLocale = "en";
 
-const index = () => {
-  NetInfo.fetch().then((state) => {
-    !state.isConnected && navigation.navigate("No Internet Auth");
-  });
+const index = ({ navigation }) => {
   const [eves, setEves] = useState({
     items: {},
     markers: {},
   });
   const dispatch = useDispatch();
-
+  const isFocused = useIsFocused();
   useEffect(() => {
-    const getData = async () => {
-      const events = await getEvents(dispatch);
-      if (events) {
-        events.map((event) => {
-          const diff = new Date(event.from).getTime() - new Date().getTime();
-          const date = event.from.split("T")[0];
-          const title = `${event.from.split("T")[1].slice(0, 5)} - ${event.to
-            .split("T")[1]
-            .slice(0, 5)} ${event.title}`;
-          setEves((prev) => {
-            return {
-              items: {
-                ...prev.items,
-                ...{
-                  [date]: [{ name: title, link: event.zoomLink, time: diff }],
-                },
-              },
-              markers: {
-                ...prev.markers,
-                ...{
-                  [date]: {
-                    marked: true,
-                    dots: [{ key: "item", color: "#000" }],
+    if (isFocused) {
+      const getData = async () => {
+        const events = await dispatch(getEvents(navigation));
+        if (events) {
+          events.map((event) => {
+            const diff = new Date(event.from).getTime() - new Date().getTime();
+            const date = event.from.split("T")[0];
+            const title = `${event.from.split("T")[1].slice(0, 5)} - ${event.to
+              .split("T")[1]
+              .slice(0, 5)} ${event.title}`;
+            setEves((prev) => {
+              return {
+                items: {
+                  ...prev.items,
+                  ...{
+                    [date]: [{ name: title, link: event.zoomLink, time: diff }],
                   },
                 },
-              },
-            };
+                markers: {
+                  ...prev.markers,
+                  ...{
+                    [date]: {
+                      marked: true,
+                      dots: [{ key: "item", color: "#000" }],
+                    },
+                  },
+                },
+              };
+            });
           });
-        });
-      }
-    };
-    getData();
-  }, [dispatch, setEves]);
+        }
+      };
+      getData();
+    }
+  }, [dispatch, setEves, isFocused]);
 
   return (
     <View style={styles.container}>
