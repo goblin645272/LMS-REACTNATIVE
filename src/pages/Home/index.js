@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import { getCourses } from "../../action/courses";
+import Toast from "react-native-toast-message";
 import { useDispatch, useSelector } from "react-redux";
 import LinearGradient from "react-native-linear-gradient";
 import home1 from "../../assets/images/home-banner1.jpg";
@@ -174,11 +175,24 @@ const index = ({ navigation }) => {
                   style={styles.courseCard}
                   key={obj._id}
                   onPress={() => {
-                    navigation.navigate("Course Details", { id: obj._id });
+                    if (obj.expired) {
+                      navigation.navigate("Course Details", { id: obj._id });
+                    } else {
+                      Toast.show({
+                        text1: "Course Expired",
+                        type: "error",
+                      });
+                    }
                   }}
                 >
                   <Image style={styles.courseImage} source={images[obj._id]} />
-                  <View style={styles.courseContainerRound}>
+                  <View
+                    style={
+                      obj.expired
+                        ? styles.courseContainerRound
+                        : styles.courseContainerRoundExpired
+                    }
+                  >
                     <Text allowFontScaling={false} style={styles.courseName}>
                       {obj.name}
                     </Text>

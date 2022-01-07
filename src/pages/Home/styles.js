@@ -106,6 +106,19 @@ const css = {
     borderBottomLeftRadius: 15,
     borderBottomRightRadius: 15,
   },
+  courseContainerRoundExpired: {
+    height: deviceWindow.height * 0.1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#333333",
+    width:
+      deviceWindow.width > 400
+        ? deviceWindow.width * 0.4
+        : deviceWindow.width * 0.5,
+    // borderRadius: 15,
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
+  },
   courseName: {
     color: "white",
     textAlign: "center",
