@@ -22,7 +22,7 @@ import Blogs from "../pages/Blogs";
 import BlogInternal from "../pages/BlogInternal";
 import NoInternet from "../pages/NoInternet";
 import AntDesign from "react-native-vector-icons/AntDesign";
-
+import OfflineVideo from "../pages/OfflineVideo";
 const index = () => {
   const Stack = createDrawerNavigator();
 
@@ -48,6 +48,7 @@ const index = () => {
         >
           <Stack.Screen name="Home" component={Home} />
           <Stack.Screen name="Profile" component={Profile} />
+          <Stack.Screen name="OfflineVideo" component={OfflineVideo} />
           <Stack.Screen
             name="Course Internal"
             component={CourseInternal}

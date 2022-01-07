@@ -18,7 +18,11 @@ import {
   VdoDownload,
 } from "vdocipher-rn-bridge";
 const deviceWindow = Dimensions.get("window");
-import { getVideoDetails, changeWatchStatus } from "../../action/courses";
+import {
+  getVideoDetails,
+  changeWatchStatus,
+  getOfflineVideoDetails,
+} from "../../action/courses";
 import NetInfo from "@react-native-community/netinfo";
 
 const index = ({ route, navigation }) => {
@@ -55,10 +59,11 @@ const index = ({ route, navigation }) => {
         })
       )
       .catch((errorDescription) => {
-        Toast.show({
-          title: "Failed to download a Video",
-          isClosable: true,
-        });
+        // Toast.show({
+        //   title: "Failed to download a Video",
+        //   isClosable: true,
+        // });
+        console.log(errorDescription);
       });
   };
 
@@ -234,6 +239,18 @@ const index = ({ route, navigation }) => {
     loader,
   ]);
 
+  const handleOffline = () => {
+    const getdata = async () => {
+      const video = await dispatch(
+        getOfflineVideoDetails(watched.link, route.params.id)
+      );
+      if (video !== undefined) {
+        dispatch({ type: "UNLOAD" });
+        enqueueDownload(video.otp, video.playbackInfo);
+      }
+    };
+    getdata();
+  };
   return (
     <ScrollView stickyHeaderIndices={[0]}>
       <VStack style={{ backgroundColor: "#BEE6F7" }}>
@@ -347,7 +364,7 @@ const index = ({ route, navigation }) => {
               ) ? (
                 <Button
                   style={{ width: deviceWindow.width * 0.6, marginTop: 4 }}
-                  onPress={() => enqueueDownload(video.otp, video.playback)}
+                  onPress={handleOffline}
                   disabled={
                     state.downloadStatusArray.find(
                       (e) => e.mediaInfo.mediaId === watched.link
@@ -369,9 +386,9 @@ const index = ({ route, navigation }) => {
               ) : (
                 <Button
                   style={{ width: deviceWindow.width * 0.6, marginTop: 4 }}
-                  onPress={() => enqueueDownload(video.otp, video.playback)}
+                  onPress={handleOffline}
                 >
-                  Save Vide0
+                  Save Video
                 </Button>
               )}
             </View>

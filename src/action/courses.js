@@ -5,6 +5,7 @@ import {
   changewatchstatus,
   getvideodetails,
   getcertificate,
+  getofflinevideodetails,
 } from "../api/courses";
 import { logout } from "./auth";
 import { Toast } from "native-base";
@@ -104,6 +105,11 @@ export const getVideoDetails = (id) => async (dispatch) => {
           "You have been logged out.Your MK Trading account is in use on another device",
         isClosable: true,
       });
+    } else {
+      Toast.show({
+        title: "Something went wrong",
+        isClosable: true,
+      });
     }
   }
 };
@@ -129,6 +135,29 @@ export const getCertificate = (id) => async (dispatch) => {
     } else {
       return Toast.show({
         title: "Something went wrong",
+        isClosable: true,
+      });
+    }
+  }
+};
+
+export const getOfflineVideoDetails = (id, courseID) => async (dispatch) => {
+  try {
+    dispatch({ type: "LOAD" });
+    const { data } = await getofflinevideodetails(id, courseID);
+    return data.result;
+  } catch (error) {
+    dispatch({ type: "UNLOAD" });
+    if (error.response?.status == 401) {
+      logout(dispatch);
+      Toast.show({
+        title:
+          "You have been logged out.Your MK Trading account is in use on another device",
+        isClosable: true,
+      });
+    } else {
+      Toast.show({
+        title: "Something went wrong !",
         isClosable: true,
       });
     }

@@ -68,6 +68,14 @@ const Drawer = (props) => {
               props.navigation.navigate("Change Password");
             }}
           />
+          <DrawerItem
+            style={styles.item}
+            labelStyle={styles.label}
+            label="Offline Video"
+            onPress={() => {
+              props.navigation.navigate("OfflineVideo");
+            }}
+          />
           <Center>
             <Button
               onPress={async () => {

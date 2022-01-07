@@ -1,5 +1,5 @@
 import { NativeBaseProvider, Toast } from "native-base";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import NoAuthNavigator from "./src/routes/NoAuth";
 import AuthNavigator from "./src/routes/Auth";
@@ -15,7 +15,17 @@ export default function App() {
   const visible = useSelector((state) => state.loader);
   const token = useSelector((state) => state.auth.token);
   const state = useSelector((state) => state.video);
-  console.log(state);
+  // const processedState = useMemo(() => {
+  //   return state.downloadStatusArray.map((item) => {
+  //     if (item.mediaInfo.description === "null") {
+  //       return { ...item };
+  //     } else {
+  //       console.log(JSON.parse(item.mediaInfo.description));
+  //       return { ...item, ...JSON.parse(item.mediaInfo.description) };
+  //     }
+  //   });
+  // }, [state]);
+
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const [update, setUpdate] = useState(false);
@@ -79,6 +89,10 @@ export default function App() {
   };
 
   const onFailed = (mediaId, downloadStatus) => {
+    Toast.show({
+      title: "Failed to Download Video",
+      isClosable: true,
+    });
     refreshDownloadList();
   };
 
@@ -92,6 +106,9 @@ export default function App() {
 
   useEffect(() => {
     refreshDownloadList();
+  }, []);
+
+  useEffect(() => {
     const enqueue = VdoDownload.addEventListener(
       "onQueued",
       (mediaId, status) => onQueued(mediaId, status)
