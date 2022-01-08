@@ -140,22 +140,7 @@ export const emailVerifyOTP = (formdata, register2) => async (dispatch) => {
     }
   } catch (error) {
     dispatch({ type: "UNLOAD" });
-    if (error.response.status === 401) {
-      Toast.show({
-        type: "error",
-        text1: "Please enter valid otp",
-      });
-    } else if (error.message === "Network Error") {
-      Toast.show({
-        type: "error",
-        text1: "No internet connection found",
-      });
-    } else {
-      Toast.show({
-        type: "error",
-        text1: "Something went wrong",
-      });
-    }
+    throw error;
   }
 };
 export const getBoughtCourses = (navigation) => async (dispatch) => {

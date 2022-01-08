@@ -29,26 +29,6 @@ const index = ({ navigation, route }) => {
           alignItems="center"
           style={styles.Vstack}
         >
-          <TouchableOpacity
-            style={styles.touchable}
-            onPress={() => navigation.navigate("Blogs")}
-          >
-            <HStack style={styles.hstack}>
-              <FontAwesomeIcon
-                icon={faArrowLeft}
-                style={{
-                  width: deviceWindow.width * 0.2,
-                  color: "rgb(2, 36, 96)",
-                  margin: 2,
-                }}
-                size={deviceWindow.width < 560 ? 20 : 28}
-              />
-              <Text
-                allowFontScaling={false}
-                style={styles.body}
-              >{`Go Back`}</Text>
-            </HStack>
-          </TouchableOpacity>
           <Text allowFontScaling={false} style={styles.head}>
             {data.title.replace(/-/g, " ")}
           </Text>

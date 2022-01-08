@@ -6,7 +6,7 @@ import logo from "../assets/images/logo.png";
 import Home from "../pages/Home";
 import ContactUs from "../pages/ContactUs";
 import CourseInternal from "../pages/Course Internal";
-import CourseDetails from "../pages/Course Details";
+import CourseDetails from "./DetailsNavigator";
 import Profile from "../pages/Profile";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -18,8 +18,8 @@ import courseArchive from "../pages/CourseArchive";
 import courseContent from "../pages/CourseContent";
 import EventCalendar from "../pages/Event Calendar";
 import Prepayment from "../pages/Prepayment";
-import Blogs from "../pages/Blogs";
-import BlogInternal from "../pages/BlogInternal";
+import Blogs from "./BlogsNavigator";
+
 import NoInternet from "../pages/NoInternet";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import OfflineVideo from "../pages/OfflineVideo";
@@ -75,7 +75,7 @@ const index = () => {
             })}
           />
           <Stack.Screen
-            name="Course Details"
+            name="CourseDetails"
             component={CourseDetails}
             options={({ navigation }) => ({
               title: "",
@@ -101,9 +101,9 @@ const index = () => {
           />
           <Stack.Screen name="Change Password" component={ChangePassword} />
           <Stack.Screen name="ContactUs" component={ContactUs} />
-          <Stack.Screen name="Blogs" component={Blogs} />
+          <Stack.Screen name="Blog" component={Blogs} />
           <Stack.Screen name="Testimonials" component={Testimonials} />
-          <Stack.Screen
+          {/* <Stack.Screen
             name="Course Video"
             component={courseVideo}
             options={({ route, navigation }) => ({
@@ -131,9 +131,9 @@ const index = () => {
                 ></Image>
               ),
             })}
-          />
-          <Stack.Screen name="Blog Internal" component={BlogInternal} />
-          <Stack.Screen
+          /> */}
+          {/* <Stack.Screen name="Blog Internal" component={BlogInternal} /> */}
+          {/* <Stack.Screen
             name="Course Content"
             component={courseContent}
             options={({ route, navigation }) => ({
@@ -161,8 +161,8 @@ const index = () => {
                 ></Image>
               ),
             })}
-          />
-          <Stack.Screen
+          /> */}
+          {/* <Stack.Screen
             name="Course Archive"
             component={courseArchive}
             options={({ route, navigation }) => ({
@@ -190,8 +190,8 @@ const index = () => {
                 ></Image>
               ),
             })}
-          />
-          <Stack.Screen
+          /> */}
+          {/* <Stack.Screen
             name="Quiz"
             component={Quiz}
             options={({ route, navigation }) => ({
@@ -221,7 +221,7 @@ const index = () => {
                 ></Image>
               ),
             })}
-          />
+          /> */}
           <Stack.Screen name="Event Calendar" component={EventCalendar} />
           <Stack.Screen
             name="Prepayment"

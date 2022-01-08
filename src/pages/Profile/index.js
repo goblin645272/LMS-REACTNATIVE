@@ -5,20 +5,19 @@ import {
   HStack,
   Divider,
   AlertDialog,
-  Toast,
 } from "native-base";
+import Toast from "react-native-toast-message";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Keyboard, StyleSheet, Text, View, Linking } from "react-native";
 import css from "./styles";
-import { getProfile, updateProfile } from "../../action/auth";
+import { getProfile, updateProfile, logout } from "../../action/auth";
 import { ScrollView } from "react-native-gesture-handler";
 import EvilIcons from "react-native-vector-icons/EvilIcons";
 import { useIsFocused } from "@react-navigation/native";
 import { getCertificate } from "../../action/courses";
 import { courseDict } from "../../api/course constants";
 import { extensionCoupon } from "../../action/coupons";
-
 const index = ({ navigation }) => {
   const styles = StyleSheet.create(css);
   const [change, setChange] = useState(false);
@@ -298,21 +297,57 @@ const index = ({ navigation }) => {
                         return [...state];
                       });
                     };
-                    const applyCoupon = () => {
+                    const applyCoupon = async () => {
                       const data = coupons.find(
                         (ite) => ite.courseId === item.course_id
                       );
                       if (data.couponCode.trim() !== "") {
-                        dispatch(
-                          extensionCoupon({
-                            courseId: data.courseId,
-                            couponCode: data.couponCode.trim(),
-                          })
-                        );
+                        try {
+                          await dispatch(
+                            extensionCoupon({
+                              courseId: data.courseId,
+                              couponCode: data.couponCode.trim(),
+                            })
+                          );
+                        } catch (error) {
+                          if (error.response.status === 400) {
+                            Toast.show({
+                              text1: "Coupon Not vaild",
+                              type: "error",
+                            });
+                          } else if (error.response.status === 404) {
+                            Toast.show({
+                              text1: "Coupon not found",
+                              type: "error",
+                            });
+                          } else if (error.response?.status === 401) {
+                            logout(dispatch);
+                            Toast.show({
+                              text1:
+                                "You have been logged out.Your MK Trading account is in use on another device",
+                              type: "error",
+                            });
+                          } else if (error.response.status === 500) {
+                            Toast.show({
+                              text1: "please try again",
+                              type: "error",
+                            });
+                          } else if (error.message === "Network Error") {
+                            Toast.show({
+                              type: "error",
+                              text1: "No internet connection found",
+                            });
+                          } else {
+                            Toast.show({
+                              type: "error",
+                              text1: "Something went wrong",
+                            });
+                          }
+                        }
                       } else {
                         Toast.show({
-                          title: "Please enter coupon ",
-                          isClosable: true,
+                          text1: "Please enter coupon ",
+                          type: "info",
                         });
                       }
                     };

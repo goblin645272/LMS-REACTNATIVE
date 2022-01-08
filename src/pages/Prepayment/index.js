@@ -445,41 +445,82 @@ const index = ({ route, navigation }) => {
               style={styles.couponButton}
               onPress={async () => {
                 if (coupon.code !== "") {
-                  await dispatch(
-                    validateCoupons(
-                      coupon.code,
-                      courseID,
-                      plan.tier,
-                      (discount) => {
-                        setCoupon((prev) => {
-                          return {
-                            ...prev,
-                            valid: true,
-                            discount_percent: discount.discount_percent,
-                            discount_amount: discount.discount_amount,
-                            CGST: discount.CGST,
-                            SGST: discount.SGST,
-                            IGST: discount.IGST,
-                            final_amount: discount.final_amount,
-                          };
-                        });
-                      },
-                      () => {
-                        setCoupon(() => {
-                          return {
-                            valid: false,
-                            discount_percent: "",
-                            discount_amount: "",
-                            CGST: "",
-                            SGST: "",
-                            IGST: "",
-                            final_amount: "",
-                            code: "",
-                          };
-                        });
-                      }
-                    )
-                  );
+                  try {
+                    await dispatch(
+                      validateCoupons(
+                        coupon.code,
+                        courseID,
+                        plan.tier,
+                        (discount) => {
+                          setCoupon((prev) => {
+                            return {
+                              ...prev,
+                              valid: true,
+                              discount_percent: discount.discount_percent,
+                              discount_amount: discount.discount_amount,
+                              CGST: discount.CGST,
+                              SGST: discount.SGST,
+                              IGST: discount.IGST,
+                              final_amount: discount.final_amount,
+                            };
+                          });
+                        }
+                      )
+                    );
+                  } catch (error) {
+                    if (error.response.status === 400) {
+                      Toast.show({
+                        text1: "Coupon is not Valid",
+                        type: "error",
+                      });
+                      setCoupon(() => {
+                        return {
+                          valid: false,
+                          discount_percent: "",
+                          discount_amount: "",
+                          CGST: "",
+                          SGST: "",
+                          IGST: "",
+                          final_amount: "",
+                          code: "",
+                        };
+                      });
+                    } else if (error.message === "Network Error") {
+                      Toast.show({
+                        type: "error",
+                        text1: "No internet connection found",
+                      });
+                    } else if (error.response?.status === 401) {
+                      logout(dispatch);
+                      Toast.show({
+                        text1:
+                          "You have been logged out.Your MK Trading account is in use on another device",
+                        type: "error",
+                      });
+                    } else if (error.response.status === 500) {
+                      Toast.show({
+                        text1: "Please Try again",
+                        type: "error",
+                      });
+                      setCoupon(() => {
+                        return {
+                          valid: false,
+                          discount_percent: "",
+                          discount_amount: "",
+                          CGST: "",
+                          SGST: "",
+                          IGST: "",
+                          final_amount: "",
+                          code: "",
+                        };
+                      });
+                    } else {
+                      Toast.show({
+                        type: "error",
+                        text1: "Something went wrong",
+                      });
+                    }
+                  }
                 }
               }}
             >

@@ -176,7 +176,7 @@ const index = ({ navigation }) => {
                   key={obj._id}
                   onPress={() => {
                     if (obj.expired) {
-                      navigation.navigate("Course Details", { id: obj._id });
+                      navigation.navigate("CourseDetails", { id: obj._id });
                     } else {
                       Toast.show({
                         text1: "Course Expired",

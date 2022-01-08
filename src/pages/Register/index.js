@@ -114,20 +114,39 @@ const index = ({ navigation }) => {
       });
       return Toast.show({ text1: "OTP cannot be empty", type: "error" });
     } else {
-      await dispatch(
-        emailVerifyOTP({ otp: otp }, () => {
-          dispatch(
-            signUp({
-              first_name: data.first_name,
-              last_name: data.last_name,
-              email_id: data.email_id,
-              password: data.password,
-              phone_number: `${data.countryCode}-${data.phone_number}`,
-              state: data.state,
-            })
-          );
-        })
-      );
+      try {
+        await dispatch(
+          emailVerifyOTP({ otp: otp }, () => {
+            dispatch(
+              signUp({
+                first_name: data.first_name,
+                last_name: data.last_name,
+                email_id: data.email_id,
+                password: data.password,
+                phone_number: `${data.countryCode}-${data.phone_number}`,
+                state: data.state,
+              })
+            );
+          })
+        );
+      } catch (error) {
+        if (error.response.status === 401) {
+          Toast.show({
+            type: "error",
+            text1: "Please enter valid otp",
+          });
+        } else if (error.message === "Network Error") {
+          Toast.show({
+            type: "error",
+            text1: "No internet connection found",
+          });
+        } else {
+          Toast.show({
+            type: "error",
+            text1: "Something went wrong",
+          });
+        }
+      }
     }
   };
 
