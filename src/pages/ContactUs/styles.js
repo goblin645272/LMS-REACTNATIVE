@@ -3,7 +3,7 @@ const deviceWindow = Dimensions.get("window");
 const css = {
   scroll: {
     width: deviceWindow.width,
-    height: deviceWindow.height,
+    // height: deviceWindow.height,
   },
   background: {
     width: deviceWindow.width,

@@ -13,9 +13,9 @@ export const getBlogs = (navigation) => async (dispatch) => {
     if (error.response?.status == 401) {
       logout(dispatch);
       Toast.show({
-        title:
+        text1:
           "You have been logged out.Your MK Trading account is in use on another device",
-        isClosable: true,
+        type: error,
       });
     } else if (error.message === "Network Error") {
       navigation.navigate("OfflineVideo", {

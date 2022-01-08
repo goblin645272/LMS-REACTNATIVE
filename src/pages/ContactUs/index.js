@@ -116,9 +116,9 @@ const index = () => {
     }
   };
   return (
-    <View style={styles.scroll}>
+    // <View style={styles.scroll}>
       <ScrollView style={styles.scroll}>
-        <KeyboardAvoidingView behavior="padding" style={styles.background}>
+        {/* <KeyboardAvoidingView behavior="padding" style={styles.background}> */}
           <LinearGradient
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 2 }}
@@ -201,9 +201,9 @@ const index = () => {
               </Button>
             </VStack>
           </LinearGradient>
-        </KeyboardAvoidingView>
+        {/* </KeyboardAvoidingView> */}
       </ScrollView>
-    </View>
+    // </View>
   );
 };
 

@@ -16,6 +16,7 @@ export const validateCoupons =
         update(data?.result);
         Toast.show({
           text1: "Coupon applied successfully",
+          type: 'success'
         });
       }
     } catch (error) {

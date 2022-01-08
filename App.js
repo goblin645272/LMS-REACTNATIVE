@@ -1,4 +1,5 @@
-import { NativeBaseProvider, Toast } from "native-base";
+import { NativeBaseProvider } from "native-base";
+import Toast from "react-native-toast-message";
 import React, { useEffect, useState, useMemo } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import NoAuthNavigator from "./src/routes/NoAuth";
@@ -82,24 +83,24 @@ export default function App() {
 
   const onCompleted = (mediaId, downloadStatus) => {
     Toast.show({
-      title: "Downloaded Video",
-      isClosable: true,
+      text1: "Downloaded Video",
+      type: "success",
     });
     refreshDownloadList();
   };
 
   const onFailed = (mediaId, downloadStatus) => {
     Toast.show({
-      title: "Failed to Download Video",
-      isClosable: true,
+      text1: "Failed to Download Video",
+      type: "error",
     });
     refreshDownloadList();
   };
 
   const onDeleted = (mediaId) => {
     Toast.show({
-      title: "Video Deleted from Downloads",
-      isClosable: true,
+      text1: "Video Deleted from Downloads",
+      type: "success",
     });
     refreshDownloadList();
   };
