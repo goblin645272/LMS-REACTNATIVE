@@ -179,7 +179,12 @@ const index = ({ route, navigation }) => {
             handleRef("enroll");
           }}
         >
-          <Text allowFontScaling={false} style={styles.tabs}>
+          <Text
+            allowFontScaling={false}
+            style={{
+              ...styles.tabs,
+            }}
+          >
             BUY NOW{" "}
           </Text>
         </TouchableOpacity>
@@ -297,6 +302,7 @@ const index = ({ route, navigation }) => {
                       navigation.navigate("Prepayment", {
                         courseID: route.params.id,
                         plan: item,
+                        course: { ...route.params },
                       })
                     }
                   >

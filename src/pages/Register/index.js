@@ -107,7 +107,7 @@ const index = ({ navigation }) => {
     };
   }, []);
 
-  const handleOTPSubmit = async () => {
+  const handleOTPSubmit = () => {
     if (otp === "") {
       setErrors((prev) => {
         return { ...prev, otp: true };
@@ -115,7 +115,7 @@ const index = ({ navigation }) => {
       return Toast.show({ text1: "OTP cannot be empty", type: "error" });
     } else {
       try {
-        await dispatch(
+        dispatch(
           emailVerifyOTP({ otp: otp }, () => {
             dispatch(
               signUp({

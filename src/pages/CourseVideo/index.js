@@ -55,10 +55,10 @@ const index = ({ route, navigation }) => {
         })
       )
       .catch((errorDescription) => {
-        // Toast.show({
-        //   title: "Failed to download a Video",
-        //   isClosable: true,
-        // });
+        Toast.show({
+          text1: "Failed to download a Video",
+          type: "error",
+        });
         console.log(errorDescription);
       });
   };
@@ -276,13 +276,13 @@ const index = ({ route, navigation }) => {
             </View>
           ) : video.valid ? (
             <View style={{ alignItems: "center" }}>
-              {/* <VdoPlayerView
+              <VdoPlayerView
                 style={{
                   height: deviceWindow.height * 0.32,
                   width: deviceWindow.width,
                 }}
                 embedInfo={{ otp: video.otp, playbackInfo: video.playback }}
-              /> */}
+              />
               <HStack space={3}>
                 {!(watched?.module === 0 && watched?.video === 0) ? (
                   <Button

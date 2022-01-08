@@ -69,7 +69,7 @@ const index = ({ navigation }) => {
       };
       getData();
     }
-  }, [dispatch, setBought, isFocused]);
+  }, [setBought, isFocused]);
   const carouselitems = [
     {
       source: home1,

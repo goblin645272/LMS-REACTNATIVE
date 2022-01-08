@@ -145,7 +145,7 @@ const index = ({ route, navigation }) => {
               IGST: "",
               final_amount: "",
             });
-            Toast.show({ text1: "Please wait for confirmation" });
+            Toast.show({ text1: "Please wait for confirmation", type: "info" });
             if (resp.status?.status === 202) {
               Toast.show({
                 text1: "You have successfully enrolled for the course for free",

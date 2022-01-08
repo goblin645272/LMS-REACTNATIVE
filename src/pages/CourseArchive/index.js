@@ -25,8 +25,10 @@ const index = ({ route, navigation }) => {
         await dispatch(getEvents(navigation));
       };
       getData();
+    } else {
+      setPast(false);
     }
-  }, [dispatch, navigation, isFocused]);
+  }, [navigation]);
 
   return (
     <ScrollView>

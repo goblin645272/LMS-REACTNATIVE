@@ -43,8 +43,6 @@ const index = ({ route, navigation }) => {
 
   useEffect(() => {
     if (isFocused) {
-      setCourse({});
-      setLoading(true);
       const getData = async () => {
         try {
           dispatch({ type: "LOAD" });
@@ -99,7 +97,12 @@ const index = ({ route, navigation }) => {
 
       getData();
     }
-  }, [dispatch, setCourse, setProfile, route, isFocused]);
+
+    return () => {
+      setCourse({});
+      setLoading(true);
+    };
+  }, [setCourse, setProfile, route, isFocused]);
 
   return (
     <ScrollView style={styles.background}>

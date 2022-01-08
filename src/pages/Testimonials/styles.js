@@ -24,6 +24,7 @@ const css = {
     textAlign: "center",
     fontSize: height * 0.03,
     fontFamily: "Barlow_600SemiBold",
+    color: "rgb(2, 36, 96)",
   },
   button: {
     width: width / 2,

@@ -3,6 +3,7 @@ import { Image } from "react-native";
 import Drawer from "../Components/Drawer";
 import { NavigationContainer } from "@react-navigation/native";
 import logo from "../assets/images/logo.png";
+import { useRoute } from "@react-navigation/native";
 import Home from "../pages/Home";
 import ContactUs from "../pages/ContactUs";
 import CourseInternal from "../pages/Course Internal";
@@ -12,20 +13,20 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import Testimonials from "../pages/Testimonials";
 import Quiz from "../pages/Quiz";
+import BlogInternal from "../pages/BlogInternal";
 import ChangePassword from "../pages/Change Password";
 import courseVideo from "../pages/CourseVideo";
 import courseArchive from "../pages/CourseArchive";
 import courseContent from "../pages/CourseContent";
 import EventCalendar from "../pages/Event Calendar";
 import Prepayment from "../pages/Prepayment";
-import Blogs from "./BlogsNavigator";
+import Blogs from "../pages/Blogs";
 
 import NoInternet from "../pages/NoInternet";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import OfflineVideo from "../pages/OfflineVideo";
 const index = () => {
   const Stack = createDrawerNavigator();
-
   return (
     <SafeAreaProvider>
       <NavigationContainer>
@@ -77,27 +78,28 @@ const index = () => {
           <Stack.Screen
             name="CourseDetails"
             component={CourseDetails}
-            options={({ navigation }) => ({
-              title: "",
-              headerLeft: () => (
-                <AntDesign
-                  name="left"
-                  size={30}
-                  color="black"
-                  onPress={() => navigation.goBack()}
-                />
-              ),
-              headerRight: () => (
-                <Image
-                  source={logo}
-                  style={{
-                    height: 35,
-                    width: 120,
-                    resizeMode: "cover",
-                  }}
-                ></Image>
-              ),
-            })}
+            options={{ headerShown: false }}
+            // options={({ navigation }) => ({
+            //   title: "",
+            //   headerLeft: () => (
+            //     <AntDesign
+            //       name="left"
+            //       size={30}
+            //       color="black"
+            //       onPress={() => navigation.goBack()}
+            //     />
+            //   ),
+            //   headerRight: () => (
+            //     <Image
+            //       source={logo}
+            //       style={{
+            //         height: 35,
+            //         width: 120,
+            //         resizeMode: "cover",
+            //       }}
+            //     ></Image>
+            //   ),
+            // })}
           />
           <Stack.Screen name="Change Password" component={ChangePassword} />
           <Stack.Screen name="ContactUs" component={ContactUs} />
@@ -132,7 +134,7 @@ const index = () => {
               ),
             })}
           /> */}
-          {/* <Stack.Screen name="Blog Internal" component={BlogInternal} /> */}
+          <Stack.Screen name="Blog Internal" component={BlogInternal} />
           {/* <Stack.Screen
             name="Course Content"
             component={courseContent}
@@ -226,14 +228,18 @@ const index = () => {
           <Stack.Screen
             name="Prepayment"
             component={Prepayment}
-            options={({ navigation }) => ({
+            options={({ route, navigation }) => ({
               title: "",
               headerLeft: () => (
                 <AntDesign
                   name="left"
                   size={30}
                   color="black"
-                  onPress={() => navigation.goBack()}
+                  onPress={() =>
+                    navigation.navigate("Course Internal", {
+                      ...route.params.course,
+                    })
+                  }
                 />
               ),
               headerRight: () => (

@@ -13,9 +13,27 @@ const index = ({ navigation, route }) => {
   const Stack = createNativeStackNavigator();
   return (
     <Stack.Navigator
-      screenOptions={{
-        headerShown: false,
-      }}
+      screenOptions={({ navigation }) => ({
+        title: "",
+        headerLeft: () => (
+          <AntDesign
+            name="left"
+            size={30}
+            color="black"
+            onPress={() => navigation.goBack()}
+          />
+        ),
+        headerRight: () => (
+          <Image
+            source={logo}
+            style={{
+              height: 35,
+              width: 120,
+              resizeMode: "cover",
+            }}
+          ></Image>
+        ),
+      })}
       initialRouteName="CourseDetails"
     >
       <Stack.Screen
@@ -26,37 +44,7 @@ const index = ({ navigation, route }) => {
       <Stack.Screen name="Course Content" component={CourseContent} />
       <Stack.Screen name="Course Video" component={CourseVideo} />
       <Stack.Screen name="Course Archive" component={CourseArchive} />
-      <Stack.Screen
-        name="Quiz"
-        component={Quiz}
-        options={({ route, navigation }) => ({
-          title: "",
-          headerLeft: () => (
-            <AntDesign
-              name="left"
-              size={30}
-              color="black"
-              onPress={() =>
-                navigation.navigate("Course Video", {
-                  course: route.params.course,
-                  video: route.params.video,
-                  id: route.params._id,
-                })
-              }
-            />
-          ),
-          headerRight: () => (
-            <Image
-              source={logo}
-              style={{
-                height: 35,
-                width: 120,
-                resizeMode: "cover",
-              }}
-            ></Image>
-          ),
-        })}
-      />
+      <Stack.Screen name="Quiz" component={Quiz} />
     </Stack.Navigator>
   );
 };
