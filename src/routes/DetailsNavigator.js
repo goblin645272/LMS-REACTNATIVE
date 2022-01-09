@@ -34,13 +34,8 @@ const index = ({ navigation, route }) => {
           ></Image>
         ),
       })}
-      initialRouteName="CourseDetails"
     >
-      <Stack.Screen
-        name="Course Details"
-        component={CourseDetails}
-        initialParams={route.params}
-      />
+      <Stack.Screen name="Course Details" component={CourseDetails} />
       <Stack.Screen name="Course Content" component={CourseContent} />
       <Stack.Screen name="Course Video" component={CourseVideo} />
       <Stack.Screen name="Course Archive" component={CourseArchive} />

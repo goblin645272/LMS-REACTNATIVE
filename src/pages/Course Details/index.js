@@ -21,6 +21,7 @@ import starEmpty from "../../assets/images/starEmpty.png";
 import starFilled from "../../assets/images/starFilled.png";
 import starHalf from "../../assets/images/starHalf.png";
 import { updateTestimonial } from "../../action/testimonials";
+import moment from "moment";
 const styles = StyleSheet.create(css);
 const deviceWindow = Dimensions.get("window");
 
@@ -61,7 +62,7 @@ const index = ({ route, navigation }) => {
             }
           } else if (!res.data.result?.testimonial) {
             const today = new Date();
-            const date = new Date(res.data.result.expiry);
+            const date = new Date(res.data.result.expiry.slice(0, 10));
             date.setDate(date.getDate() - 6);
             if (today > date) {
               setModal(true);
@@ -96,12 +97,10 @@ const index = ({ route, navigation }) => {
       };
 
       getData();
-    }
-
-    return () => {
+    } else {
       setCourse({});
       setLoading(true);
-    };
+    }
   }, [setCourse, setProfile, route, isFocused]);
 
   return (
@@ -207,7 +206,7 @@ const index = ({ route, navigation }) => {
                   if (testimonial.star < 1) {
                     Toast.show({
                       text1: "Please give atleast 1 star",
-                      type: "error",
+                      type: "info",
                     });
                   } else if (testimonial.review === "") {
                     Toast.show({
@@ -256,12 +255,19 @@ const index = ({ route, navigation }) => {
               <Text allowFontScaling={false} style={styles.courseText}>
                 Current Plan: {course.plan}
               </Text>
-              {courseID !== "612ccdb59f192c86faa26f4a" && (
+              {courseID !== "612ccdb59f192c86faa26f4a" ? (
                 <Text allowFontScaling={false} style={styles.courseText}>
                   Expires On:
                   {new Date(course.expiry).getFullYear() > 2110
                     ? "Unlimited Plan"
-                    : new Date(course.expiry).toLocaleDateString("en-gb")}
+                    : moment(course.expiry.slice(0, 10)).format("DD/MM/YYYY")}
+                </Text>
+              ) : (
+                <Text allowFontScaling={false} style={styles.courseText}>
+                  Consolidated Expiry:
+                  {moment(profile?.telegramAlert.slice(0, 10)).format(
+                    "DD/MM/YYYY"
+                  )}
                 </Text>
               )}
               {courseID === "612ccd3c9f192c86faa26f48" && (

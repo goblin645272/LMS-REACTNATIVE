@@ -16,6 +16,7 @@ import Stars from "react-native-stars";
 import starEmpty from "../../assets/images/starEmpty.png";
 import starFilled from "../../assets/images/starFilled.png";
 import starHalf from "../../assets/images/starHalf.png";
+import moment from "moment";
 
 const index = ({ navigation }) => {
   const testimonials = useSelector((state) => state.testimonials);
@@ -102,7 +103,8 @@ const index = ({ navigation }) => {
                     color: "rgb(2, 36, 96)",
                   }}
                 >
-                  {new Date(data.createdAt).toLocaleDateString("en-GB")}
+                  {/* {new Date(data.createdAt).toLocaleDateString("en-GB")} */}
+                  {moment(data.createdAt.slice(0, 10)).format("DD/MM/YYYY")}
                 </Text>
                 <Stars
                   display={data.star}

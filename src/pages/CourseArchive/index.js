@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, Dimensions, Linking } from "react-native";
-import { Accordion, VStack, HStack, Toast } from "native-base";
+import { VStack, HStack, Toast } from "native-base";
 import moment from "moment";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import { Vimeo } from "react-native-vimeo-iframe";
@@ -9,6 +9,8 @@ import { getEvents } from "../../action/events";
 import { useDispatch, useSelector } from "react-redux";
 import css from "./styles";
 import { useIsFocused } from "@react-navigation/native";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faPlayCircle } from "@fortawesome/free-solid-svg-icons";
 const styles = StyleSheet.create(css);
 const deviceWindow = Dimensions.get("window");
 
@@ -18,7 +20,7 @@ const index = ({ route, navigation }) => {
   const params = route.params;
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
-
+  const [current, setCurrent] = useState(params.archives[0]);
   useEffect(() => {
     if (isFocused) {
       const getData = async () => {
@@ -29,7 +31,6 @@ const index = ({ route, navigation }) => {
       setPast(false);
     }
   }, [navigation]);
-
   return (
     <ScrollView>
       <View>
@@ -55,7 +56,154 @@ const index = ({ route, navigation }) => {
           </HStack>
         </VStack>
       </View>
-      {!past ? (
+      {past ? (
+        <View
+          style={{
+            padding: deviceWindow.width * 0.04,
+            minWidth: deviceWindow.width * 0.8,
+            minHeight: deviceWindow.height * 0.25,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          {params?.archives.length > 0 ? (
+            <VStack
+              style={{
+                padding: deviceWindow.width * 0.04,
+                flex: 1,
+                alignItems: "center",
+              }}
+              space={3}
+            >
+              {/* {params.archives.map((data, index2) => {
+                  return (
+                    <Accordion key={index2}>
+                      <Accordion.Item>
+                        <Accordion.Summary>
+                          <Text
+                            style={{
+                              width: deviceWindow.width * 0.7,
+                              color: "#000260",
+                              fontFamily: "Barlow_600SemiBold",
+                            }}
+                          >
+                            {data.title}
+                          </Text>
+                          <Accordion.Icon
+                            style={{
+                              width: deviceWindow.width * 0.2,
+                              color: "#000260",
+                              fontFamily: "Barlow_400Regular",
+                            }}
+                          />
+                        </Accordion.Summary>
+                        <Accordion.Details style={{ padding: 0 }}>
+                          <VStack
+                            style={{
+                              maxHeight: deviceWindow.height * 0.28,
+                              flex: 1,
+                              alignItems: "center",
+                              padding: 0,
+                            }}
+                          >
+                            <Text
+                              style={{
+                                fontSize: deviceWindow.height * 0.02,
+                                marginBottom: deviceWindow.height * 0.03,
+                                color: "#000260",
+                                fontFamily: "Barlow_500Medium",
+                              }}
+                            >
+                              {data.desc}
+                            </Text>
+                            <Vimeo
+                              videoId={data.link.slice(-9)} //Change ID here
+                              loop={false}
+                              autoPlay={false}
+                              controls={true}
+                              speed={false}
+                              time={"0m0s"}
+                              style={{
+                                minWidth: deviceWindow.width * 0.9,
+                                minHeight: deviceWindow.height * 0.2,
+                              }}
+                            />
+                          </VStack>
+                        </Accordion.Details>
+                      </Accordion.Item>
+                    </Accordion>
+                  );
+                })} */}
+
+              <Vimeo
+                videoId={current.link.slice(-9)}
+                loop={false}
+                autoPlay={false}
+                controls={true}
+                speed={false}
+                time={"0m0s"}
+                style={{
+                  minWidth: deviceWindow.width * 0.9,
+                  minHeight: deviceWindow.height * 0.2,
+                  marginBottom: deviceWindow.height * 0.02,
+                }}
+              />
+              <View
+                style={{
+                  width: deviceWindow.width * 0.9,
+                  flex: 1,
+                  justifyContent: "flex-start",
+                  marginLeft: 10,
+                }}
+              >
+                <VStack space={3}>
+                  {params.archives.map((data, index2) => {
+                    return (
+                      <TouchableOpacity
+                        onPress={() => {
+                          setCurrent(data);
+                        }}
+                        key={index2}
+                      >
+                        <HStack space={3} alignItems="center">
+                          <FontAwesomeIcon
+                            icon={faPlayCircle}
+                            style={{
+                              width: deviceWindow.width * 0.2,
+                              color:
+                                data.link === current.link
+                                  ? "green"
+                                  : "rgb(2, 36, 96)",
+                            }}
+                            size={deviceWindow.width < 560 ? 20 : 28}
+                          />
+                          <Text
+                            style={{
+                              width: deviceWindow.width * 0.8,
+                              color:
+                                data.link === current.link
+                                  ? "green"
+                                  : "rgb(2, 36, 96)",
+                              fontFamily: "Barlow_500Medium",
+                              fontSize: deviceWindow.height * 0.02,
+                            }}
+                          >
+                            {data.title}
+                          </Text>
+                        </HStack>
+                      </TouchableOpacity>
+                    );
+                  })}
+                </VStack>
+              </View>
+            </VStack>
+          ) : (
+            <Text allowFontScaling={false} style={styles.noArchive}>
+              No archives.
+            </Text>
+          )}
+        </View>
+      ) : (
         <View style={{ justifyContent: "center", alignItems: "center" }}>
           {events.filter((item) => item.courseId === route.params.id).length >
           0 ? (
@@ -139,91 +287,6 @@ const index = ({ route, navigation }) => {
           ) : (
             <Text allowFontScaling={false} style={styles.noArchive}>
               No upcoming sessions available yet.
-            </Text>
-          )}
-        </View>
-      ) : (
-        <View
-          style={{
-            padding: deviceWindow.width * 0.04,
-            minWidth: deviceWindow.width * 0.8,
-            minHeight: deviceWindow.height * 0.25,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          {params?.archives.length > 0 ? (
-            <VStack
-              style={{
-                padding: deviceWindow.width * 0.04,
-                flex: 1,
-                alignItems: "center",
-              }}
-              space={3}
-            >
-              {params?.archives.map((data, index2) => {
-                return (
-                  <Accordion key={index2}>
-                    <Accordion.Item>
-                      <Accordion.Summary>
-                        <Text
-                          style={{
-                            width: deviceWindow.width * 0.7,
-                            color: "#000260",
-                            fontFamily: "Barlow_600SemiBold",
-                          }}
-                        >
-                          {data.title}
-                        </Text>
-                        <Accordion.Icon
-                          style={{
-                            width: deviceWindow.width * 0.2,
-                            color: "#000260",
-                            fontFamily: "Barlow_400Regular",
-                          }}
-                        />
-                      </Accordion.Summary>
-                      <Accordion.Details style={{ padding: 0 }}>
-                        <VStack
-                          style={{
-                            maxHeight: deviceWindow.height * 0.28,
-                            flex: 1,
-                            alignItems: "center",
-                            padding: 0,
-                          }}
-                        >
-                          <Text
-                            style={{
-                              fontSize: deviceWindow.height * 0.02,
-                              marginBottom: deviceWindow.height * 0.03,
-                              color: "#000260",
-                              fontFamily: "Barlow_500Medium",
-                            }}
-                          >
-                            {data.desc}
-                          </Text>
-                          <Vimeo
-                            videoId={data.link.slice(-9)} //Change ID here
-                            loop={false}
-                            autoPlay={false}
-                            controls={true}
-                            speed={false}
-                            time={"0m0s"}
-                            style={{
-                              minWidth: deviceWindow.width * 0.9,
-                              minHeight: deviceWindow.height * 0.2,
-                            }}
-                          />
-                        </VStack>
-                      </Accordion.Details>
-                    </Accordion.Item>
-                  </Accordion>
-                );
-              })}
-            </VStack>
-          ) : (
-            <Text allowFontScaling={false} style={styles.noArchive}>
-              No archives.
             </Text>
           )}
         </View>
