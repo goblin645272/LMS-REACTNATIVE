@@ -124,7 +124,7 @@ const index = ({ route, navigation }) => {
       )
       .then(function (response) {
         const options = {
-          key: "rzp_test_4LrpORafEOFNKL",
+          key: "rzp_live_KQpXbT4SaO0E6f",
           order_id: response.data.id,
           name: "MK Trading School",
           description: courseDict[courseID],

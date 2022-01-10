@@ -1,3 +1,3 @@
-const url = "https://2831-103-57-255-192.ngrok.io";
+const url = "https://api.mktradingschool.com";
 
 export default url;
