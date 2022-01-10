@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -46,6 +46,16 @@ function ConvertMinutes(num) {
 }
 
 const index = ({ route, navigation }) => {
+  const [showText, setShowText] = useState(true);
+
+  useEffect(() => {
+    // Change the state every second or the time given by User.
+    const interval = setInterval(() => {
+      setShowText((showText) => !showText);
+    }, 100);
+    return () => clearInterval(interval);
+  }, []);
+
   const data = route.params.course;
   const cardColor =
     data?.price?.length === 3
@@ -97,7 +107,6 @@ const index = ({ route, navigation }) => {
       console.log("not found");
     }
   };
-
   // const scrollHandler = () => {
   //     ref.scrollTo({
   //       x: 0,
@@ -181,9 +190,11 @@ const index = ({ route, navigation }) => {
         >
           <Text
             allowFontScaling={false}
-            style={{
-              ...styles.tabs,
-            }}
+            style={
+              showText
+                ? { ...styles.tabsBuyNow }
+                : { ...styles.tabsBuyNowHidden }
+            }
           >
             BUY NOW{" "}
           </Text>
