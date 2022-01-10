@@ -59,11 +59,12 @@ const index = ({ navigation, route }) => {
             alt="Blog Image"
           />
           <View>
-            <HTMLView
+            {/* <HTMLView
               value={data.content}
               stylesheet={styles}
               onLinkPress={(url) => Linking.openURL(url)}
-            />
+            /> */}
+            <Text style={styles.span}>{data.content}</Text>
           </View>
           <Text
             allowFontScaling={false}
