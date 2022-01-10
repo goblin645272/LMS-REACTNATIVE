@@ -103,7 +103,7 @@ const index = () => {
           />
           <Stack.Screen name="Change Password" component={ChangePassword} />
           <Stack.Screen name="ContactUs" component={ContactUs} />
-          <Stack.Screen name="Blog" component={Blogs} />
+          <Stack.Screen name="Blogs" component={Blogs} />
           <Stack.Screen name="Testimonials" component={Testimonials} />
           {/* <Stack.Screen
             name="Course Video"

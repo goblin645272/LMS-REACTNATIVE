@@ -52,9 +52,9 @@ const index = ({ route, navigation }) => {
     // Change the state every second or the time given by User.
     const interval = setInterval(() => {
       setShowText((showText) => !showText);
-    }, 100);
+    }, 1000);
     return () => clearInterval(interval);
-  }, []);
+  }, [showText]);
 
   const data = route.params.course;
   const cardColor =

@@ -33,9 +33,9 @@ const Drawer = (props) => {
           <DrawerItem
             style={styles.item}
             labelStyle={styles.label}
-            label="Blog"
+            label="Blogs"
             onPress={() => {
-              props.navigation.navigate("Blog");
+              props.navigation.navigate("Blogs");
             }}
           />
           <DrawerItem
