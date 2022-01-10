@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, Dimensions, Linking } from "react-native";
-import { VStack, HStack, Toast } from "native-base";
+import { VStack, HStack } from "native-base";
 import moment from "moment";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import { Vimeo } from "react-native-vimeo-iframe";
@@ -11,6 +11,7 @@ import css from "./styles";
 import { useIsFocused } from "@react-navigation/native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faPlayCircle } from "@fortawesome/free-solid-svg-icons";
+import Toast from "react-native-toast-message";
 const styles = StyleSheet.create(css);
 const deviceWindow = Dimensions.get("window");
 
@@ -229,15 +230,15 @@ const index = ({ route, navigation }) => {
                             Linking.openURL(data.zoomLink);
                           } else {
                             Toast.show({
-                              title: "Please Wait for link/Contact Support",
-                              isClosable: true,
+                              type: "info",
+                              text1: "Please Wait for link/Contact Support",
                             });
                           }
                         } else {
                           return Toast.show({
-                            title:
+                            type: "info",
+                            text1:
                               "You can join this session 15 minutes before the session starts .",
-                            isClosable: true,
                           });
                         }
                       }}
