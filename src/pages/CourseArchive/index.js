@@ -157,11 +157,13 @@ const index = ({ route, navigation }) => {
                   marginLeft: 10,
                 }}
               >
-                <View>
-                  <Text
-                    style={styles.content}
-                  >{`Description - ${current.desc}`}</Text>
-                </View>
+                {current.desc && (
+                  <View>
+                    <Text
+                      style={styles.content}
+                    >{`Description - ${current.desc}`}</Text>
+                  </View>
+                )}
                 <VStack space={3}>
                   {params.archives.map((data, index2) => {
                     return (
