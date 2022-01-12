@@ -146,7 +146,7 @@ const index = ({ route, navigation }) => {
                 style={{
                   minWidth: deviceWindow.width * 0.9,
                   minHeight: deviceWindow.height * 0.2,
-                  marginBottom: deviceWindow.height * 0.02,
+                  marginBottom: deviceWindow.height * 0.01,
                 }}
               />
               <View
@@ -157,42 +157,48 @@ const index = ({ route, navigation }) => {
                   marginLeft: 10,
                 }}
               >
+                <View>
+                  <Text
+                    style={styles.content}
+                  >{`Description - ${current.desc}`}</Text>
+                </View>
                 <VStack space={3}>
                   {params.archives.map((data, index2) => {
                     return (
-                      <TouchableOpacity
-                        onPress={() => {
-                          setCurrent(data);
-                        }}
-                        key={index2}
-                      >
-                        <HStack space={3} alignItems="center">
-                          <FontAwesomeIcon
-                            icon={faPlayCircle}
-                            style={{
-                              width: deviceWindow.width * 0.2,
-                              color:
-                                data.link === current.link
-                                  ? "green"
-                                  : "rgb(2, 36, 96)",
-                            }}
-                            size={deviceWindow.width < 560 ? 20 : 28}
-                          />
-                          <Text
-                            style={{
-                              width: deviceWindow.width * 0.8,
-                              color:
-                                data.link === current.link
-                                  ? "green"
-                                  : "rgb(2, 36, 96)",
-                              fontFamily: "Barlow_500Medium",
-                              fontSize: deviceWindow.height * 0.02,
-                            }}
-                          >
-                            {data.title}
-                          </Text>
-                        </HStack>
-                      </TouchableOpacity>
+                      <VStack key={index2}>
+                        <TouchableOpacity
+                          onPress={() => {
+                            setCurrent(data);
+                          }}
+                        >
+                          <HStack space={3} alignItems="center">
+                            <FontAwesomeIcon
+                              icon={faPlayCircle}
+                              style={{
+                                width: deviceWindow.width * 0.2,
+                                color:
+                                  data.link === current.link
+                                    ? "green"
+                                    : "rgb(2, 36, 96)",
+                              }}
+                              size={deviceWindow.width < 560 ? 20 : 28}
+                            />
+                            <Text
+                              style={{
+                                width: deviceWindow.width * 0.8,
+                                color:
+                                  data.link === current.link
+                                    ? "green"
+                                    : "rgb(2, 36, 96)",
+                                fontFamily: "Barlow_500Medium",
+                                fontSize: deviceWindow.height * 0.02,
+                              }}
+                            >
+                              {data.title}
+                            </Text>
+                          </HStack>
+                        </TouchableOpacity>
+                      </VStack>
                     );
                   })}
                 </VStack>

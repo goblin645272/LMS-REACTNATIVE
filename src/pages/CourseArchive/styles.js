@@ -31,11 +31,14 @@ const css = {
   },
   content: {
     width: width * 0.92,
-    height: height * 0.17,
     borderRadius: 20,
     alignItems: "center",
-    paddingTop: height * 0.01,
-    paddingBottom: height * 0.02,
+    color: "black",
+    textAlign: "center",
+    justifyContent: "center",
+    fontFamily: "Barlow_500Medium",
+    fontSize: width * 0.04,
+    marginBottom: height * 0.02,
   },
   contentTextDate: {
     fontSize: height * 0.035,
